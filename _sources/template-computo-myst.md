@@ -1,7 +1,7 @@
 ---
-title: "Voronoi project"
+title: "Point process discrimination according to repulsion"
 # subtitle: "Example based on the myst system"
-author: "ADRAT and DECREUSEFOND"
+author: "Hamza ADRAT and Laurent DECREUSEFOND"
 jupytext:
   text_representation:
     extension: .md
@@ -12,14 +12,29 @@ kernelspec:
   name: python3
 ---
 
-# Template for contribution to computo using myst
+# Point process discrimination according to repulsion
 
 ## Abstract
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
 
 ## Introduction
+In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see {cite}`BaccelliStochasticGeometryWireless2008`). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see {cite}`ANFR`, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see {numref}`paris-fig`. However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see {numref}`paris-fig`).
 
-### About this document
+```{figure} ../paris.pdf
+---
+height: 450px
+name: paris-fig
+---
+Antennas in Paris
+```
+
+```{figure} ../orange.pdf
+---
+height: 450px
+name: orange-fig
+---
+Antennas in one frequency  band only
+```
 
 This document provides a Myst template for contributions to the **Computo**
 Journal {cite}`computo`. We show how `Python` {cite}`perez2011python`, `R`, or `Julia` code can be included.
