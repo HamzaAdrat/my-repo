@@ -301,15 +301,10 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#methods">
-   Methods
+  <a class="reference internal nav-link" href="#preliminaries">
+   Preliminaries
   </a>
   <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#this-is-a-subheading">
-     This is a subheading
-    </a>
-   </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#this-is-another-subheading">
      This is another subheading
@@ -357,15 +352,10 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#methods">
-   Methods
+  <a class="reference internal nav-link" href="#preliminaries">
+   Preliminaries
   </a>
   <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#this-is-a-subheading">
-     This is a subheading
-    </a>
-   </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#this-is-another-subheading">
      This is another subheading
@@ -401,21 +391,15 @@ title="Print to PDF"
 </section>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
-<p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id13" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id12" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-fig"><span class="std std-numref">Fig. 1</span></a>. However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#orange-fig"><span class="std std-numref">Fig. 2</span></a>).</p>
-<figure class="align-default" id="paris-fig">
-<img alt="my-repo/paris.pdf" src="my-repo/paris.pdf" />
+<p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id13" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id12" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>(left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>, right picture).</p>
+<figure class="align-default" id="paris-orange-fig">
+<img alt="_images/paris-orange.png" src="_images/paris-orange.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Antennas in Paris</span><a class="headerlink" href="#paris-fig" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<figure class="align-default" id="orange-fig">
-<img alt="my-repo/orange.pdf" src="my-repo/orange.pdf" />
-<figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Antennas in one frequency  band only</span><a class="headerlink" href="#orange-fig" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Left: Antennas in Paris. Right: Antennas in one frequency  band only</span><a class="headerlink" href="#paris-orange-fig" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>In previous papers, point processes with repulsion have been used to model such systems . The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a <em>neutral</em> point process, i.e. where the locations are independent. As we only have a single realization, we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and we must take care from the side effects.</p>
-<p>In previous papers, point processes with repulsion have been used to model such systems <span id="id3">[<a class="reference internal" href="#id14">3</a>]</span>, <span id="id4">[<a class="reference internal" href="#id18" title="Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. IEICE Transactions on Communications, E99.B(11):2247–2255, 2016. doi:10.1587/transcom.2016nei0001.">4</a>]</span>, <span id="id5">[]</span> for no reason but a mere resemblance between the pictures like <a class="reference internal" href="#orange-fig"><span class="std std-numref">Fig. 2</span></a> and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a <em>neutral</em> point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.</p>
+<p>In previous papers, point processes with repulsion have been used to model such systems <span id="id3">[<a class="reference internal" href="#id14" title="Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. Need to be added, 2014. arXiv:1401.3677v1.">3</a>]</span>, <span id="id4">[<a class="reference internal" href="#id18" title="Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. IEICE Transactions on Communications, E99.B(11):2247–2255, 2016. doi:10.1587/transcom.2016nei0001.">4</a>]</span>, <span id="id5">[]</span> for no reason but a mere resemblance between the pictures like <code class="xref std std-numref docutils literal notranslate"><span class="pre">orange-fig</span></code> and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a <em>neutral</em> point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.</p>
 <p>The rationale behind our work comes from <span id="id6">[<a class="reference internal" href="#id15" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">5</a>]</span>. It is shown there  that the Voronoi cells of the Ginibre point process (a particular point process with repulsion, see below for the exact definition) are in some sense more regular (closer to a circle) than those of a Poisson process (see Theorem later!). By simulation, this feature seem to persist for other point processes with repulsion, like Gibbs processes. It is this aspect that we use to construct our classification algorithm.
 We will simulate several configurations (repulsive and non-repulsive) with the same given  number of points <span class="math notranslate nohighlight">\(N\)</span>. For each configuration, we will compute the Voronoi diagrams and construct two vectors which will represent the input of our algorithm; an area vector containing the areas of the <span class="math notranslate nohighlight">\(10\)</span> innermost Voronoi cells in order to avoid edge effects, plus <span class="math notranslate nohighlight">\(4\)</span> other average areas from <span class="math notranslate nohighlight">\(20\)</span> cells to have more information on the configuration. And a second perimeter vector which is constructed in the same way, containing the squared perimeters of the corresponding Voronoi cells.
 The choice of areas and square perimeters as aspects to our classification task is based on the *isoperimetric inequality in <span class="math notranslate nohighlight">\(\mathbf{R}^2\)</span> that states, for the length <span class="math notranslate nohighlight">\(P\)</span> of a closed curve and the area <span class="math notranslate nohighlight">\(A\)</span> of the planar region that it encloses, that</p>
@@ -435,22 +419,9 @@ Note that you can also add equations easily:</p>
 <span class="eqno">(2)<a class="headerlink" href="#equation-math" title="Permalink to this equation">#</a></span>\[w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}\]</div>
 <p>See equation <a class="reference internal" href="#equation-math">(2)</a> for details.</p>
 </section>
-<section id="methods">
-<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">#</a></h2>
-<section id="this-is-a-subheading">
-<span id="subsec-this-is-a-subheading"></span><h3>This is a subheading<a class="headerlink" href="#this-is-a-subheading" title="Permalink to this headline">#</a></h3>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget ipsum
-est. Mauris purus urna, aliquet non interdum quis, tincidunt in tortor.
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
-turpis egestas. Vestibulum efficitur eu mi ac consequat. Sed id velit porta
-libero facilisis auctor malesuada ut erat. Sed at orci sem. Nunc eget nisi
-lobortis, ultrices justo vel, porttitor dolor. Proin ullamcorper dui purus, eu
-maximus lorem pharetra non. Etiam ante purus, tempus eget rhoncus eu, rutrum
-id ante. Nulla suscipit, risus vel dapibus finibus, metus diam euismod felis,
-sit amet consequat quam lectus quis lacus. Sed tristique, urna sit amet
-viverra facilisis, est augue auctor lorem, sed varius lectus nibh eget urna.
-Aenean a luctus ligula, vitae elementum metus. Etiam varius, leo in iaculis
-rutrum, mauris ex fringilla enim, vitae iaculis justo massa id purus.</p>
+<section id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">#</a></h2>
+<p>A configuration on <span class="math notranslate nohighlight">\(E=\mathbf R^2\)</span> is a locally finite (respectively finite) subset of <span class="math notranslate nohighlight">\(E\)</span>. The space of configurations (respectively finite configurations) is denoted <span class="math notranslate nohighlight">\(\NN\)</span> (respectively <span class="math notranslate nohighlight">\(\NN_{f}\)</span>). We equip <span class="math notranslate nohighlight">\(\NN\)</span> with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by <span class="math notranslate nohighlight">\(\mathcal B(\NN)\)</span> the Borelean <span class="math notranslate nohighlight">\(\sigma\)</span>-field on <span class="math notranslate nohighlight">\(\NN\)</span>. A locally finite (respectively finite) point process is a random variable with values in <span class="math notranslate nohighlight">\(\NN\)</span> (respectively <span class="math notranslate nohighlight">\(\NN_{f}\)</span>).</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -462,17 +433,16 @@ rutrum, mauris ex fringilla enim, vitae iaculis justo massa id purus.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f81347aad90&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fa3f052eeb0&gt;]
 </pre></div>
 </div>
 <img alt="_images/template-computo-myst_1_1.png" src="_images/template-computo-myst_1_1.png" />
 </div>
 </div>
 <p>FIXME: Can we reference figures?</p>
-</section>
 <section id="this-is-another-subheading">
 <span id="subsec-subheading"></span><h3>This is another subheading<a class="headerlink" href="#this-is-another-subheading" title="Permalink to this headline">#</a></h3>
-<p>As seen in <a class="reference internal" href="#subsec-this-is-a-subheading"><span class="std std-ref">section</span></a>, lorem ipsum dolor sit amet,
+<p>As seen in <span class="xref myst">section</span>, lorem ipsum dolor sit amet,
 consectetur adipiscing elit. Cras nec ornare urna. Nullam consectetur
 vestibulum lacinia. Aenean sed augue elit. Aenean venenatis orci ut felis
 condimentum, sit amet feugiat eros tincidunt. Vestibulum ante ipsum primis in
@@ -548,7 +518,7 @@ mattis magna non felis aliquet sagittis.</p>
 <dd><p>ANFR. Https://www.cartoradio.fr. URL: <a class="reference external" href="https://www.cartoradio.fr">https://www.cartoradio.fr</a>.</p>
 </dd>
 <dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
-<dd><p><strong>missing journal in Deng2014</strong></p>
+<dd><p>Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. <em>Need to be added</em>, 2014. <a class="reference external" href="https://arxiv.org/abs/1401.3677v1">arXiv:1401.3677v1</a>.</p>
 </dd>
 <dt class="label" id="id18"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
 <dd><p>Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. <em>IEICE Transactions on Communications</em>, E99.B(11):2247–2255, 2016. <a class="reference external" href="https://doi.org/10.1587/transcom.2016nei0001">doi:10.1587/transcom.2016nei0001</a>.</p>
