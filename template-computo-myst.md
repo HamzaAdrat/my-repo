@@ -1,7 +1,7 @@
 ---
-title: "Template for contribution to Computo"
-subtitle: "Example based on the myst system"
-author: "The Computo team"
+title: "Voronoi project"
+# subtitle: "Example based on the myst system"
+author: "ADRAT and DECREUSEFOND"
 jupytext:
   text_representation:
     extension: .md
@@ -15,13 +15,7 @@ kernelspec:
 # Template for contribution to computo using myst
 
 ## Abstract
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere
-vestibulum facilisis. Aenean pretium orci augue, quis lobortis libero accumsan
-eu. Nam mollis lorem sit amet pellentesque ullamcorper. Curabitur lobortis
-libero eget malesuada vestibulum. Nam nec nibh massa. Pellentesque porttitor
-cursus tellus. Mauris urna erat, rhoncus sed faucibus sit amet, venenatis eu
-ipsum. 
+In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
 
 ## Introduction
 
