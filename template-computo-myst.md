@@ -18,21 +18,15 @@ kernelspec:
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
 
 ## Introduction
-In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see {cite}`BaccelliStochasticGeometryWireless2008`). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see {cite}`ANFR`, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see {numref}`paris-fig`. However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see {numref}`orange-fig`).
+In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see {cite}`BaccelliStochasticGeometryWireless2008`). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see {cite}`ANFR`, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see {numref}`paris-orange-fig`(left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see {numref}`paris-orange-fig`, right picture).
 
-```{figure} my-repo/paris.pdf
+```{figure} /paris-orange.png
 ---
-name: paris-fig
+name: paris-orange-fig
 ---
-Antennas in Paris
+Left: Antennas in Paris. Right: Antennas in one frequency  band only
 ```
 
-```{figure} my-repo/orange.pdf
----
-name: orange-fig
----
-Antennas in one frequency  band only
-```
 In previous papers, point processes with repulsion have been used to model such systems . The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations are independent. As we only have a single realization, we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and we must take care from the side effects.
 
 In previous papers, point processes with repulsion have been used to model such systems {cite}`Deng2014`, {cite}`Miyoshi2016`, {cite}`gomez_case_2015` for no reason but a mere resemblance between the pictures like {numref}`orange-fig` and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.
@@ -65,24 +59,9 @@ w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}
 
 See equation {eq}`math` for details.
 
-## Methods
+## Preliminaries
 
-
-(subsec:this-is-a-subheading)=
-### This is a subheading
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget ipsum
-est. Mauris purus urna, aliquet non interdum quis, tincidunt in tortor.
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
-turpis egestas. Vestibulum efficitur eu mi ac consequat. Sed id velit porta
-libero facilisis auctor malesuada ut erat. Sed at orci sem. Nunc eget nisi
-lobortis, ultrices justo vel, porttitor dolor. Proin ullamcorper dui purus, eu
-maximus lorem pharetra non. Etiam ante purus, tempus eget rhoncus eu, rutrum
-id ante. Nulla suscipit, risus vel dapibus finibus, metus diam euismod felis,
-sit amet consequat quam lectus quis lacus. Sed tristique, urna sit amet
-viverra facilisis, est augue auctor lorem, sed varius lectus nibh eget urna.
-Aenean a luctus ligula, vitae elementum metus. Etiam varius, leo in iaculis
-rutrum, mauris ex fringilla enim, vitae iaculis justo massa id purus. 
+ A configuration on $E=\mathbf R^2$ is a locally finite (respectively finite) subset of $E$. The space of configurations (respectively finite configurations) is denoted $\NN$ (respectively $\NN_{f}$). We equip $\NN$ with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by $\mathcal B(\NN)$ the Borelean $\sigma$-field on $\NN$. A locally finite (respectively finite) point process is a random variable with values in $\NN$ (respectively $\NN_{f}$).
 
 ```{code-cell} python3
 ---
