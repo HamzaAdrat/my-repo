@@ -63,7 +63,8 @@ See equation {eq}`math` for details.
 
  A configuration on $E=\mathbf R^2$ is a locally finite (respectively finite) subset of $E$. The space of configurations (respectively finite configurations) is denoted $\mathfrak N$ (respectively $\mathfrak N_{f}$). We equip $\mathfrak N$ with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by $\mathcal B(\mathfrak N)$ the Borelean $\sigma$-field on $\mathfrak N$. A locally finite (respectively finite) point process is a random variable with values in $\mathfrak N$ (respectively $\mathfrak N_{f}$).
 
- ** Definition 1**
+ **Definition 1**
+ 
  Let $\Phi$ be a locally finite point process on $E$. Its {correlation functions} $\rho^{(k)} \colon \mathfrak N_{f} \to \R_+$ are given for any measurable function $f \colon \mathfrak N_{f} \to \R_+$ by:
 $$ \mathbb{E}\left[ \sum_{\substack{\alpha \in \mathfrak N_{f} \\ \alpha \subset \Phi}} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{(E)^k} f(\{x_1, \dots, x_k\}) \rho^{(k)}(\{x_1, \dots, x_k\}) \, \dif x_1 \ldots \dif x_k . $$
 
