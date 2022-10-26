@@ -27,11 +27,9 @@ name: paris-orange-fig
 Left: Antennas in Paris. Right: Antennas in one frequency  band only
 ```
 
-In previous papers, point processes with repulsion have been used to model such systems . The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations are independent. As we only have a single realization, we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and we must take care from the side effects.
-
 In previous papers, point processes with repulsion have been used to model such systems {cite}`Deng2014`, {cite}`Miyoshi2016`, {cite}`Gomez2015` for no reason but a mere resemblance between the pictures like the right picture in {numref}`paris-orange-fig` and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.
 
-The rationale behind our work comes from {cite}`goldman_palm_2010`. It is shown there  that the Voronoi cells of the Ginibre point process (a particular point process with repulsion, see below for the exact definition) are in some sense more regular (closer to a circle) than those of a Poisson process (see Theorem later!). By simulation, this feature seem to persist for other point processes with repulsion, like Gibbs processes. It is this aspect that we use to construct our classification algorithm.
+The rationale behind our work comes from {cite}`goldman_palm_2010`. It is shown there  that the Voronoi cells of the Ginibre point process (a particular point process with repulsion, see below for the exact definition) are in some sense more regular (closer to a circle) than those of a Poisson process (see {eq}`theorem_goldman` in Theorem 1.). By simulation, this feature seem to persist for other point processes with repulsion, like Gibbs processes. It is this aspect that we use to construct our classification algorithm.
 We will simulate several configurations (repulsive and non-repulsive) with the same given  number of points $N$. For each configuration, we will compute the Voronoi diagrams and construct two vectors which will represent the input of our algorithm; an area vector containing the areas of the $10$ innermost Voronoi cells in order to avoid edge effects, plus $4$ other average areas from $20$ cells to have more information on the configuration. And a second perimeter vector which is constructed in the same way, containing the squared perimeters of the corresponding Voronoi cells.
 The choice of areas and square perimeters as aspects to our classification task is based on the *isoperimetric inequality in $\mathbf{R}^2$ that states, for the length $P$ of a closed curve and the area $A$ of the planar region that it encloses, that
 ```{math}
@@ -126,7 +124,7 @@ When restricted to the $B(0,R)$, the Ginibre point process admits correlation fu
 
 ```{math}
 :label: eq_main:1
-K_R(x,y)=\sum_{j=1}^+\infty \frac{\gamma(j+1,R^2)}{j!} \phi_j(x)\phi_j(\bar y)
+K_R(x,y)=\sum_{j=1}^{+\infty} \frac{\gamma(j+1,R^2)}{j!} \phi_j(x)\phi_j(\bar y)
 ```
 with
 
@@ -135,6 +133,27 @@ $$
 $$
 
 and $\gamma(n,x)$ is the lower incomplete Gamma function.
+
+The simulation of such a point process is a delicate matter, first solved in {cite}`HoughDeterminantalprocessesindependence2006`. It remains costly because the algorithm contains complex calculations and some rejections. In order to fasten the procedure, an approximate algorithm has been given in {cite}`MR4279876` (see the bibliography therein to get the URL of the Python code).
+
+For an at most denumerable set of points $\{x_{n}, \, n\ge 1\}$, the Voronoi cells are defined as the convex sets
+
+$$
+\mathcal{C}(x_{i})=\{z\in \mathbb C,\ |z-x_{i}|\le |z-x_{j}|  \text{ for all }j\neq i\}.
+$$
+
+When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of $\mathbb R^{2}$ when the point process is taken under its Palm distribution {cite}`goldman_palm_2010`, {cite}`BaccelliStochasticGeometryWireless2009`. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form {eq}`correlation_functions_determinantal` with $K$ being $K_{R}$ with the first term removed).
+We denote by $\mathcal{C}_p$ (respectively $C_{G}$) the typical cell of the Voronoi tessellation associated to a stationary Poisson process in $\mathbb C$ with intensity $\lambda$ (respectively to the Ginibre point process of intensity $\rho$). One of the main theorems of {cite}`goldman_palm_2010` is the following.
+
+**Theorem 1.**
+When $r \to 0,$
+```{math}
+:label: theorem_goldman
+\mathbb{E} \left[ V(\mathcal{C}_{G} \cap B(0,r)) \right] = \mathbb{E} \left[ V(\mathcal{C}_p \cap B(0,r)) \right] (1 + r^2 W + \circ(r^2))
+```
+where $W$ is a positive random variable.
+
+This theorem shows that near the germs of the cells a more important part of the area is captured in the Ginibre–Voronoi tessellation than in the Poisson–Voronoi tessellation. This is an indication that the Voronoi cells of the Ginibre point process are more circular than those given by the Poisson process. This can be corroborated by simulation as shows the
 
 ```{code-cell} python3
 ---
