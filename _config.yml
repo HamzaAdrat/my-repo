@@ -28,3 +28,9 @@ repository:
 html:
   use_issues_button: false
   use_repository_button: false
+
+
+sphinx:
+  extra_extensions:
+    - sphinx_proof
+    - sphinx_jupyterbook_latex
