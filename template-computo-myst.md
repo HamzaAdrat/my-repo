@@ -79,7 +79,7 @@ $$
 \mathbb{P}(\Phi \in A) = \sum_{k=1}^{+ \infty} \frac{1}{k!} J(A^{(k)}),
 $$
 
-where, for any $k \in \N^*, \; A^{(k)} = \{ \phi \in A,\; \phi(E) = k \}$.
+where, for any $k \in \mathbb N^*, \; A^{(k)} = \{ \phi \in A,\; \phi(E) = k \}$.
 
 **Definition 3.**
 Let $\Phi$ be a finite point process on $E$. It is said to be regular if there exist *Janossy functions* $(j^{(k)}, k\ge 0)$ such that for any measurable $f \, \colon \, \mathfrak N_{f}\to \mathbb R^{+}$, we have
@@ -88,6 +88,53 @@ Let $\Phi$ be a finite point process on $E$. It is said to be regular if there e
 :label: janossy_functions
 E[ f(\Phi) ] =  \sum_{n\ge 0} \frac{1}{n!} \int_{E^n} f(\{x_1,\dots,x_n\}) \, j^{(n)}(\{x_1,\dots,x_n\}) d x_1 \ldots d x_n.
 ```
+
+With this definition in hand, we can define the concept of repulsion , following {cite}`Georgii2005`.
+
+**Definition 4.**
+For $\Phi$  a finite point regular process on $E$ with Janossy functions $(j^{(k)},\, k \ge 0)$, its Papangelou intensity $c$ is given for any $x \in E$ and $\phi \in \mathfrak N_{f}$ by:
+
+$$
+c(x, \phi) = \frac{j^{(k+1)}(\{x\}\cup \phi)}{j^{(k)}(\phi)} \, \mathbf{1}_{\{j^{(k)}(\phi) \ne 0\} } \text{ if } \phi(E)=k.
+$$
+
+The quantity $c(x,\phi)$ can be intuitively thought as the probability to have a particle at $x$ given the observation $\phi$. Intuitively a point process shows repulsion when $\phi \mapsto c(x,\phi)$ is, in some sense, decreasing:
+
+**Definition 5.**
+A point process $\Phi$ on $E$ with a version $c$ of its Papangelou intensity is said to be *repulsive* if, for any $\omega, \phi \in \mathfrak N_{f}$ such that $\omega \subset \phi$ and any $x \in E$,
+
+$$
+c(x,\phi) \le c(x, \omega).
+$$
+
+With this definition, it is not hard to see that Gibbs point processes, determinantal point processes are repulsive (see {cite}`Georgii2005`, {cite}`HoughDeterminantalprocessesindependence2006`). We will not dwell into the vast literature about determinantal point processes, we only focus on the so-called Ginibre point process. It has the interesting feature that we know its distribution when restricted to a compact ball in $E$. For reasons which will be self-evident, we identify hereafter $\mathbb R^{2}$ and $\mathbb C$.
+
+**Definition 6.**
+The *Ginibre point process* with intensity $\rho = \frac{\lambda}{\pi}$ (with $\lambda > 0$) is a locally finite point process on $\mathbb C$ that can be defined by its correlation functions:
+
+```{math}
+:label: correlation_functions_determinantal
+\rho^{(k)}(x_1, \dots, x_k) = \det(K(x_i, x_j), \; 1\le i,j \le k)
+```
+where $K$ is given by:
+
+$$
+K(x,y) = \rho \, e^{-\frac{\lambda}{2}(|x|^2 + |y|^2)}e^{\lambda x \bar{y}},\ \forall \, (x,y) \in \mathbb C^2.
+$$
+
+When restricted to the $B(0,R)$, the Ginibre point process admits correlation functions of the form {eq}`correlation_functions_determinantal` with $K=K_R$ given by:
+
+```{math}
+:label: eq_main:1
+K_R(x,y)=\sum_{j=1}^+\infty \frac{\gamma(j+1,R^2)}{j!} \phi_j(x)\phi_j(\bar y)
+```
+with
+
+$$
+\phi_j(x)=\sqrt{\frac{\rho}{\gamma(j+1,R^2)}} \left(\sqrt{\lambda}x\right)^j\, e^{-\frac{\lambda}{2} |x|^2},
+$$
+
+and $\gamma(n,x)$ is the lower incomplete Gamma function.
 
 ```{code-cell} python3
 ---
