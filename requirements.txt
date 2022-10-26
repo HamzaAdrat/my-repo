@@ -5,7 +5,6 @@ pandas
 scipy
 seaborn
 numba
-itertools
 collections
 sklearn
 tempfile
