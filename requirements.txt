@@ -4,8 +4,5 @@ numpy
 pandas
 scipy
 seaborn
-numba
-itertools
-collections
 sklearn
-tempfile
+numba
