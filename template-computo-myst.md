@@ -63,22 +63,25 @@ See equation {eq}`math` for details.
 
  A configuration on $E=\mathbf R^2$ is a locally finite (respectively finite) subset of $E$. The space of configurations (respectively finite configurations) is denoted $\mathfrak N$ (respectively $\mathfrak N_{f}$). We equip $\mathfrak N$ with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by $\mathcal B(\mathfrak N)$ the Borelean $\sigma$-field on $\mathfrak N$. A locally finite (respectively finite) point process is a random variable with values in $\mathfrak N$ (respectively $\mathfrak N_{f}$).
 
- **Definition 1**
-
+ **Definition 1.**
  Let $\Phi$ be a locally finite point process on $E$. Its *correlation functions* $\rho^{(k)} \colon \mathfrak N_{f} \to \mathbb R_+$ are given for any measurable function $f \colon \mathfrak N_{f} \to \mathbb R_+ $ by:
+
 $$
 \mathbb{E}\left[ \sum_{\substack{\alpha \in \mathfrak N_{f} \\ \alpha \subset \Phi}} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{(E)^k} f(\{x_1, \dots, x_k\}) \rho^{(k)}(\{x_1, \dots, x_k\}) \, d x_1 \ldots d x_k .
 $$
+
 It is however easier to work with the so-called Janossy measures, whose links with correlation functions are given in {cite}`Daley2003`.
 
-**Definition 2**
+**Definition 2.**
 Let $\Phi$ be a finite point process on $E$. Its *Janossy measure* $J$ is given for any $A \in \mathcal B(\mathfrak N_f)$ by:
+
 $$
 \mathbb{P}(\Phi \in A) = \sum_{k=1}^{+ \infty} \frac{1}{k!} J(A^{(k)}),
 $$
+
 where, for any $k \in \N^*, \; A^{(k)} = \{ \phi \in A,\; \phi(E) = k \}$.
 
-**Definition 3**
+**Definition 3.**
 Let $\Phi$ be a finite point process on $E$. It is said to be regular if there exist *Janossy functions* $(j^{(k)}, k\ge 0)$ such that for any measurable $f \, \colon \, \mathfrak N_{f}\to \mathbb R^{+}$, we have
 
 ```{math}
