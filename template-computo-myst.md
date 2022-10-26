@@ -341,20 +341,33 @@ def transform_df(odf):
 %run -i Moroz_dpp.py
 ```
 
-FIXME: Can we reference figures?
+Here is an example of the data created. We generate a data of $3000$ observations of configurations ($1500$ repulsive and $1500$ non repulsive) of $N = 24$ points.
+
+```{code-cell} python3
+---
+tags: [show-output, show-input]
+---
+ddf = create_dataframe(24, 1500)
+ddf_transformed = transform_df(ddf)
+ddf_transformed.head()
+```
+
+## Classifictaion models
+
+In this section, we will train and test some Machine Learning models using the data we've created in the previous section. For a start we will select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). And also we will only use baseline models, i.e. all the hyperparameters' values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).
+
+The models we use in this paper are:
+- Logistic regression, which is a classification algorithm, used when the value of the target variable is categorical in nature. Logistic regression is most commonly used when the data in question has binary output, so when it belongs to one class or another, or is either a $0$ or $1$.
+- Random forest, a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the accuracy and control over-fitting.
+
+Two other classification models (Support Vector Machine and XGBoost) have been tested but not introduced in this paper since they gave similar results to the models prensent in this paper.
+
 
 (subsec:subheading)=
 ### This is another subheading
 
 As seen in [section](subsec:subheading), lorem ipsum dolor sit amet,
 consectetur adipiscing elit. Cras nec ornare urna. Nullam consectetur
-vestibulum lacinia. Aenean sed augue elit. Aenean venenatis orci ut felis
-condimentum, sit amet feugiat eros tincidunt. Vestibulum ante ipsum primis in
-faucibus orci luctus et ultrices posuere cubilia curae; Integer varius metus
-nunc, at molestie metus eleifend et. Maecenas ullamcorper metus at nisl
-molestie, ac commodo arcu mollis. Donec felis odio, fermentum lacinia
-vestibulum non, elementum eu metus. Donec suscipit aliquam malesuada. Praesent
-justo turpis, dignissim ac nulla non, malesuada rutrum nisi.
 
 ```{table} My table title
 :name: my-table-ref
@@ -371,13 +384,6 @@ Now we can reference the table in the text (See {ref}`my-table-ref`).
 
 ## Discussion
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent aliquam
-porttitor rutrum. Donec in sollicitudin risus, ultrices ultricies nisi.
-Vestibulum vel turpis eros. Suspendisse pellentesque nunc augue, eget laoreet
-dui dictum ut. Mauris pretium lectus ut elit pulvinar, nec accumsan purus
-hendrerit. Phasellus hendrerit orci a vestibulum euismod. Nunc vel massa
-facilisis, cursus justo nec, suscipit est. 
-
 - This is a list
 - With more elements
 - It isn't numbered.
@@ -388,18 +394,7 @@ But we can also do a numbered list
 2. This is my second item
 3. This is my third item
 
-## Conclusion
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie mollis
-urna, vitae convallis turpis placerat vel. Orci varius natoque penatibus et
-magnis dis parturient montes, nascetur ridiculus mus. Vestibulum elit nulla,
-laoreet a sagittis non, pharetra ac velit. Aliquam volutpat nisl augue, eget
-maximus erat cursus eget. Maecenas sed nisi bibendum, sagittis tellus et,
-lacinia augue. In lobortis, libero at auctor aliquam, mi leo egestas orci, a
-pulvinar mauris magna in nisi. Morbi cursus dictum dignissim. Fusce at ex sit
-amet felis vehicula gravida non in sem. Morbi ut condimentum diam. Aliquam
-erat volutpat. Fusce id pharetra ante, tincidunt dapibus eros. Curabitur
-mattis magna non felis aliquet sagittis. 
+## Conclusion 
 
 ```{bibliography}
 :style: unsrt
