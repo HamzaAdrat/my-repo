@@ -24,7 +24,7 @@ In the performance analysis of cellular systems, the locations of antennas (or b
 ---
 name: paris-orange-fig
 ---
-Left: Antennas in Paris. Right: Antennas in one frequency  band only
+Left: Antennas in Paris. Right: Antennas in one frequency  band only.
 ```
 
 In previous papers, point processes with repulsion have been used to model such systems {cite}`Deng2014`, {cite}`Miyoshi2016`, {cite}`Gomez2015` for no reason but a mere resemblance between the pictures like the right picture in {numref}`paris-orange-fig` and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.
@@ -153,7 +153,16 @@ When $r \to 0,$
 ```
 where $W$ is a positive random variable.
 
-This theorem shows that near the germs of the cells a more important part of the area is captured in the Ginibre–Voronoi tessellation than in the Poisson–Voronoi tessellation. This is an indication that the Voronoi cells of the Ginibre point process are more circular than those given by the Poisson process. This can be corroborated by simulation as shows the
+This theorem shows that near the germs of the cells a more important part of the area is captured in the Ginibre–Voronoi tessellation than in the Poisson–Voronoi tessellation. This is an indication that the Voronoi cells of the Ginibre point process are more circular than those given by the Poisson process. This can be corroborated by simulation as shows the {numref}`voronoi-fig`
+
+```{figure} /Voronoi.png
+---
+name: voronoi-fig
+---
+On the left, Voronoi associated to a realization of a Poisson process. On the right, Voronoi cells associated to a realization of a Ginibre point process.
+```
+
+As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.
 
 ```{code-cell} python3
 ---

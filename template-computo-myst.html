@@ -395,7 +395,7 @@ title="Print to PDF"
 <figure class="align-default" id="paris-orange-fig">
 <img alt="_images/paris-orange.png" src="_images/paris-orange.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Left: Antennas in Paris. Right: Antennas in one frequency  band only</span><a class="headerlink" href="#paris-orange-fig" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Left: Antennas in Paris. Right: Antennas in one frequency  band only.</span><a class="headerlink" href="#paris-orange-fig" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>In previous papers, point processes with repulsion have been used to model such systems <span id="id3">[<a class="reference internal" href="#id24" title="Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. IEEE Transactions on Wireless Communications, 2015. arXiv:1401.3677v1.">3</a>]</span>, <span id="id4">[<a class="reference internal" href="#id28" title="Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. IEICE Transactions on Communications, E99.B(11):2247–2255, 2016. doi:10.1587/transcom.2016nei0001.">4</a>]</span>, <span id="id5">[<a class="reference internal" href="#id26" title="Jean-Sébastien Gomez, Aurélien Vasseur, Anaïs Vergne, Philippe Martins, Laurent Decreusefond, and Wei Chen. A case study on regularity in cellular network deployment. IEEE Wireless Communications Letters, IEEE, 2015, pp.4, 2015. arXiv:1505.06073v1.">5</a>]</span> for no reason but a mere resemblance between the pictures like the right picture in <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a> and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a <em>neutral</em> point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.</p>
@@ -485,7 +485,14 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <div class="math notranslate nohighlight" id="equation-theorem-goldman">
 <span class="eqno">(6)<a class="headerlink" href="#equation-theorem-goldman" title="Permalink to this equation">#</a></span>\[\mathbb{E} \left[ V(\mathcal{C}_{G} \cap B(0,r)) \right] = \mathbb{E} \left[ V(\mathcal{C}_p \cap B(0,r)) \right] (1 + r^2 W + \circ(r^2))\]</div>
 <p>where <span class="math notranslate nohighlight">\(W\)</span> is a positive random variable.</p>
-<p>This theorem shows that near the germs of the cells a more important part of the area is captured in the Ginibre–Voronoi tessellation than in the Poisson–Voronoi tessellation. This is an indication that the Voronoi cells of the Ginibre point process are more circular than those given by the Poisson process. This can be corroborated by simulation as shows the</p>
+<p>This theorem shows that near the germs of the cells a more important part of the area is captured in the Ginibre–Voronoi tessellation than in the Poisson–Voronoi tessellation. This is an indication that the Voronoi cells of the Ginibre point process are more circular than those given by the Poisson process. This can be corroborated by simulation as shows the <a class="reference internal" href="#voronoi-fig"><span class="std std-numref">Fig. 2</span></a></p>
+<figure class="align-default" id="voronoi-fig">
+<img alt="_images/Voronoi.png" src="_images/Voronoi.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">On the left, Voronoi associated to a realization of a Poisson process. On the right, Voronoi cells associated to a realization of a Ginibre point process.</span><a class="headerlink" href="#voronoi-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -497,7 +504,7 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f5d984c6ca0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f2d8014ed90&gt;]
 </pre></div>
 </div>
 <img alt="_images/template-computo-myst_1_1.png" src="_images/template-computo-myst_1_1.png" />
