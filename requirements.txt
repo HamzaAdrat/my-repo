@@ -4,3 +4,8 @@ numpy
 pandas
 scipy
 seaborn
+numba
+tempfile
+itertools
+collections
+sklearn
