@@ -6,6 +6,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.14.1
 kernelspec:
   display_name: Python 3
   language: python
@@ -190,10 +192,7 @@ The final data will be a set of observations where each one contains $29$ column
 
 The final column will be the target variable for our classification models.
 
-```{code-cell} python3
----
-tags: [show-output, show-input]
----
+```{code-cell} ipython3
 import matplotlib.pyplot as plt
 import numpy as np
 
