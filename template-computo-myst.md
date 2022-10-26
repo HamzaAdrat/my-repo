@@ -61,7 +61,7 @@ See equation {eq}`math` for details.
 
 ## Preliminaries
 
- A configuration on $E=\mathbf R^2$ is a locally finite (respectively finite) subset of $E$. The space of configurations (respectively finite configurations) is denoted $\NN$ (respectively $\NN_{f}$). We equip $\NN$ with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by $\mathcal B(\NN)$ the Borelean $\sigma$-field on $\NN$. A locally finite (respectively finite) point process is a random variable with values in $\NN$ (respectively $\NN_{f}$).
+ A configuration on $E=\mathbf R^2$ is a locally finite (respectively finite) subset of $E$. The space of configurations (respectively finite configurations) is denoted $\mathfrak N$ (respectively $\mathfrak N_{f}$). We equip $\mathfrak N$ with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by $\mathcal B(\mathfrak N)$ the Borelean $\sigma$-field on $\mathfrak N$. A locally finite (respectively finite) point process is a random variable with values in $\mathfrak N$ (respectively $\mathfrak N_{f}$).
 
 ```{code-cell} python3
 ---
