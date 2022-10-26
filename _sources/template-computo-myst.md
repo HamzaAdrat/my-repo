@@ -164,6 +164,32 @@ On the left, Voronoi associated to a realization of a Poisson process. On the ri
 
 As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.
 
+## Classification on CARTORADIO data
+In this section, we will see how from a given configuration we can decide about its repulsiveness using some classification models, and then test them on a real dataset (CARTORADIO) which is a set of configurations of some mobile phone base stations in Paris.
+
+Since this type of raw data needed for our task is not already available somewhere, we will need to create the data ourselves, which is some different configurations that are either repulsive or not. Then we make transformations on this raw data in order to extract the information and feed it to the models. The same information will be extracted from the CARTORADIO data so we can test it on our models.
+
+### Data construction
+
+The goal of this section is to create the raw data needed for our classification task, and to which we will apply some transformations in order to extract the final data that will be used to train our models.
+
+The idea is for a given number $N$, we will create many finite configurations of $N$ points each that are either repulsive (Ginibre configuration for example) or not (Poisson configuration). So we will start by calling the ginibre sampling algorithm mentionned earlier in {cite}`MR4279876` in order to generate Ginibre configurations.
+For the other type of configurations, i.e. non repulsive ones, we will simulate an homogeneous Poisson point process on the circle $\mathcal{C}(0,r)$, where the radius $r = \sqrt{N}$.
+
+*Remark:* In the Ginibre simulation, we will use a radius $r = E(\sqrt{N})$, where $E(x)$ is the integer of $x$, in order to avoid the problems (and therefore the misleadings) in the edge of the circles.
+
+For each of the previous samples, we compute the Voronoi diagrams and we first extract the areas of these cells. But since we will have different configurations with different cardinals $N$, we will order the cells by proximity of their barycenters to the origin, and then extract the areas of the first ten cells, the idea of having this small number of areas is that we consider that these $10$ cells contain the main information needed for our classification. In addition to that, we will compute the mean of the first $5$, $10$, $15$ and $20$ cells' areas in order to have more information that can be significant for our models.
+
+Then in the same time, we extract the square perimeters of the same cells already used so that, hopefuly, the models could exploit the isoperimetric inequality and separate the two type of configurations.
+
+The final data will be a set of observations where each one contains $29$ columns described as follow:
+- For $1 \le i \le 10, \; \mathrm{V}_i$ is the area of the $i^{\mathrm{th}}$ Voronoi cell.
+- For $1 \le j \le 10, \; \mathrm{P}_j$ is the square perimeter of the $j^{\mathrm{th}}$ Voronoi cell.
+- For $k \in \{5, 10, 15, 20\}, \; \mathrm{MV}_{k}$ (respectively $\mathrm{MP}_{k}$) is the average area (respectively square perimeter) of the first $k$ Voronoi cells.
+- A binary column that represent the type of the initial configuration ($1$ for repulsive/Ginibre - $0$ for non-repulsive/Poisson).
+
+The final column will be the target variable for our classification models.
+
 ```{code-cell} python3
 ---
 tags: [show-output, show-input]
@@ -175,12 +201,155 @@ fig, ax = plt.subplots()
 ax.plot(np.arange(10))
 ```
 
+```{code-cell} python3
+---
+tags: [show-output, show-input]
+---
+import numpy as np
+import pandas as pd
+import scipy.stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.spatial import Delaunay, Voronoi, ConvexHull
+
+font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 11,}
+
+# Useful functions for creating the data:
+
+def convert_complex_points(l):
+    return l.real, l.imag
+
+def convert_lists_to_points(l1, l2):
+    return np.array([l1, l2]).T
+
+def extract_Voronoi_areas(vor):  
+    areas, perim = [], []
+    for i in range(len(vor.filtered_regions)):
+        areas.append(round(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).volume, 3))
+        perim.append(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).area)
+    return areas, list(np.around((np.array(perim))**2, 3))
+
+def in_box(towers, bounding_box):
+    return np.logical_and(np.logical_and(bounding_box[0] <= towers[:, 0], towers[:, 0] <= bounding_box[1]),
+                          np.logical_and(bounding_box[2] <= towers[:, 1], towers[:, 1] <= bounding_box[3]))
+
+
+def voronoi(towers, bounding_box, N):
+    # Select towers inside the bounding box
+    i = in_box(towers, bounding_box)
+    # Mirror points
+    points_center = towers[i, :]
+    points_left = np.copy(points_center)
+    points_left[:, 0] = bounding_box[0] - (points_left[:, 0] - bounding_box[0])
+    points_right = np.copy(points_center)
+    points_right[:, 0] = bounding_box[1] + (bounding_box[1] - points_right[:, 0])
+    points_down = np.copy(points_center)
+    points_down[:, 1] = bounding_box[2] - (points_down[:, 1] - bounding_box[2])
+    points_up = np.copy(points_center)
+    points_up[:, 1] = bounding_box[3] + (bounding_box[3] - points_up[:, 1])
+    points = np.append(points_center,
+                       np.append(np.append(points_left, points_right, axis=0),
+                                 np.append(points_down, points_up, axis=0),
+                                 axis=0),
+                       axis=0)
+    # Compute Voronoi
+    vor = Voronoi(points)
+    # Filter regions
+    regions = []
+    [vor.point_region[i] for i in range(N)]
+
+    vor.filtered_points = points_center
+    vor.filtered_regions = [vor.regions[vor.point_region[i]] for i in range(len(points_center))]
+    return vor
+
+def dpp_Moroz(N):
+    radius = int(np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
+    args = [radius, N, kernels['ginibre'], precision, error, quiet, output]
+    
+    X_dpp_Mz, Y_dpp_Mz = convert_complex_points(sample(*args))
+    X_dpp_Mz = X_dpp_Mz*((np.sqrt(N))/radius) ; Y_dpp_Mz = Y_dpp_Mz*((np.sqrt(N))/radius)
+    dpp_Mz_points = convert_lists_to_points(X_dpp_Mz, Y_dpp_Mz)
+    
+    indices = np.argsort((dpp_Mz_points[:,0])**2 + ((dpp_Mz_points[:,1])**2))
+    dpp_Mz_points = dpp_Mz_points[indices]
+    
+    dpp_Mz_vor = voronoi(dpp_Mz_points, (-np.sqrt(N)-.1, np.sqrt(N)+.1, -np.sqrt(N)-.1, np.sqrt(N)+.1), len(dpp_Mz_points))
+    Voronoi_areas, Voronoi_perim = extract_Voronoi_areas(dpp_Mz_vor)
+    
+    return [Voronoi_areas, Voronoi_perim, 1]
+
+def random_process(N):
+    radius = np.sqrt(N)
+    alpha = 2 * np.pi * scipy.stats.uniform.rvs(0,1,N)
+    r = radius * np.sqrt(scipy.stats.uniform.rvs(0,1,N))
+    
+    X_rand, Y_rand = r*np.cos(alpha), r*np.sin(alpha)
+    rand_points = convert_lists_to_points(X_rand, Y_rand)
+    
+    indices = np.argsort((rand_points[:,0])**2 + ((rand_points[:,1])**2))
+    rand_points = rand_points[indices]
+    
+    rand_vor = voronoi(rand_points, (-radius -.1, radius +.1, -radius -.1, radius +.1), len(rand_points))
+    Voronoi_areas, Voronoi_perim = extract_Voronoi_areas(rand_vor)
+    
+    return [Voronoi_areas, Voronoi_perim, 0]
+
+def create_dataframe(N, observations):
+    list_df = []
+    for i in range(observations):
+        list_df.append(dpp_Moroz(N))
+        list_df.append(random_process(N))
+    df = pd.DataFrame(list_df, columns =['Voronoi_areas', 'Voronoi_perim', 'Type'])
+    return df
+
+def normalize(vec):
+    vec = np.array(vec)
+    m, e = np.mean(vec), np.sqrt(np.var(vec))
+    return (vec - m)/e
+
+def compute_mean(l, n):
+    if n <= len(l):
+        new_l = np.array(list(list(zip(*l))[:n])).T
+    else:
+        new_l = np.array(list(list(zip(*l))[:len(l)])).T
+
+    return np.mean(new_l, axis=1)
+
+def single_area(l, k):
+    l = np.array(l)
+    return l[:,k]
+
+def transform_df(odf):
+    
+    list_V = odf['Voronoi_areas'].tolist()
+    list_P = odf['Voronoi_perim'].tolist()
+    
+    [MV5, MV10, MV15, MV20] = [compute_mean(list_V, n) for n in [5, 10, 15, 20]]
+    [MP5, MP10, MP15, MP20] = [compute_mean(list_P, n) for n in [5, 10, 15, 20]]
+    
+    normalized_V10 = [normalize(list_V[i][:10]) for i in range(odf.shape[0])]
+    normalized_P10 = [normalize(list_P[i][:10]) for i in range(odf.shape[0])]
+    
+    [V1, V2, V3, V4, V5, V6, V7, V8, V9, V10] = [single_area(normalized_V10, k) for k in range(10)]
+    [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10] = [single_area(normalized_P10, k) for k in range(10)]
+    
+    dict_df = {'V1':V1, 'V2':V2, 'V3':V3, 'V4':V4, 'V5':V5, 'V6':V6, 'V7':V7, 'V8':V8, 'V9':V9, 'V10':V10,
+               'MV5':MV5, 'MV10':MV10, 'MV15':MV15, 'MV20':MV20,
+               'P1':P1, 'P2':P2, 'P3':P3, 'P4':P4, 'P5':P5, 'P6':P6, 'P7':P7, 'P8':P8, 'P9':P9, 'P10':P10,
+               'MP5':MP5, 'MP10':MP10, 'MP15':MP15, 'MP20':MP20,
+               'type': odf['Type']}
+    
+    return pd.DataFrame(dict_df)
+
+%run -i Moroz_dpp.py
+```
+
 FIXME: Can we reference figures?
 
 (subsec:subheading)=
 ### This is another subheading
 
-As seen in [section](subsec:this-is-a-subheading), lorem ipsum dolor sit amet,
+As seen in [section](subsec:subheading), lorem ipsum dolor sit amet,
 consectetur adipiscing elit. Cras nec ornare urna. Nullam consectetur
 vestibulum lacinia. Aenean sed augue elit. Aenean venenatis orci ut felis
 condimentum, sit amet feugiat eros tincidunt. Vestibulum ante ipsum primis in
