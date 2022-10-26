@@ -422,19 +422,21 @@ Note that you can also add equations easily:</p>
 <section id="preliminaries">
 <h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">#</a></h2>
 <p>A configuration on <span class="math notranslate nohighlight">\(E=\mathbf R^2\)</span> is a locally finite (respectively finite) subset of <span class="math notranslate nohighlight">\(E\)</span>. The space of configurations (respectively finite configurations) is denoted <span class="math notranslate nohighlight">\(\mathfrak N\)</span> (respectively <span class="math notranslate nohighlight">\(\mathfrak N_{f}\)</span>). We equip <span class="math notranslate nohighlight">\(\mathfrak N\)</span> with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by <span class="math notranslate nohighlight">\(\mathcal B(\mathfrak N)\)</span> the Borelean <span class="math notranslate nohighlight">\(\sigma\)</span>-field on <span class="math notranslate nohighlight">\(\mathfrak N\)</span>. A locally finite (respectively finite) point process is a random variable with values in <span class="math notranslate nohighlight">\(\mathfrak N\)</span> (respectively <span class="math notranslate nohighlight">\(\mathfrak N_{f}\)</span>).</p>
-<p><strong>Definition 1</strong></p>
-<p>Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a locally finite point process on <span class="math notranslate nohighlight">\(E\)</span>. Its <em>correlation functions</em> <span class="math notranslate nohighlight">\(\rho^{(k)} \colon \mathfrak N_{f} \to \mathbb R_+\)</span> are given for any measurable function <span class="math notranslate nohighlight">\(f \colon \mathfrak N_{f} \to \mathbb R_+ \)</span> by:
-$<span class="math notranslate nohighlight">\(
+<p><strong>Definition 1.</strong>
+Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a locally finite point process on <span class="math notranslate nohighlight">\(E\)</span>. Its <em>correlation functions</em> <span class="math notranslate nohighlight">\(\rho^{(k)} \colon \mathfrak N_{f} \to \mathbb R_+\)</span> are given for any measurable function <span class="math notranslate nohighlight">\(f \colon \mathfrak N_{f} \to \mathbb R_+ \)</span> by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \mathbb{E}\left[ \sum_{\substack{\alpha \in \mathfrak N_{f} \\ \alpha \subset \Phi}} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{(E)^k} f(\{x_1, \dots, x_k\}) \rho^{(k)}(\{x_1, \dots, x_k\}) \, d x_1 \ldots d x_k .
-\)</span>$
-It is however easier to work with the so-called Janossy measures, whose links with correlation functions are given in <span id="id9">[<a class="reference internal" href="#id22" title="D. J. Daley and D. Vere-Jones. An introduction to the theory of point processes. Vol. I. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.">9</a>]</span>.</p>
-<p><strong>Definition 2</strong>
-Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a finite point process on <span class="math notranslate nohighlight">\(E\)</span>. Its <em>Janossy measure</em> <span class="math notranslate nohighlight">\(J\)</span> is given for any <span class="math notranslate nohighlight">\(A \in \mathcal B(\mathfrak N_f)\)</span> by:
-$<span class="math notranslate nohighlight">\(
+\end{split}\]</div>
+<p>It is however easier to work with the so-called Janossy measures, whose links with correlation functions are given in <span id="id9">[<a class="reference internal" href="#id22" title="D. J. Daley and D. Vere-Jones. An introduction to the theory of point processes. Vol. I. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.">9</a>]</span>.</p>
+<p><strong>Definition 2.</strong>
+Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a finite point process on <span class="math notranslate nohighlight">\(E\)</span>. Its <em>Janossy measure</em> <span class="math notranslate nohighlight">\(J\)</span> is given for any <span class="math notranslate nohighlight">\(A \in \mathcal B(\mathfrak N_f)\)</span> by:</p>
+<div class="math notranslate nohighlight">
+\[
 \mathbb{P}(\Phi \in A) = \sum_{k=1}^{+ \infty} \frac{1}{k!} J(A^{(k)}),
-\)</span><span class="math notranslate nohighlight">\(
-where, for any \)</span>k \in \N^*, ; A^{(k)} = { \phi \in A,; \phi(E) = k }$.</p>
-<p><strong>Definition 3</strong>
+\]</div>
+<p>where, for any <span class="math notranslate nohighlight">\(k \in \N^*, \; A^{(k)} = \{ \phi \in A,\; \phi(E) = k \}\)</span>.</p>
+<p><strong>Definition 3.</strong>
 Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a finite point process on <span class="math notranslate nohighlight">\(E\)</span>. It is said to be regular if there exist <em>Janossy functions</em> <span class="math notranslate nohighlight">\((j^{(k)}, k\ge 0)\)</span> such that for any measurable <span class="math notranslate nohighlight">\(f \, \colon \, \mathfrak N_{f}\to \mathbb R^{+}\)</span>, we have</p>
 <div class="math notranslate nohighlight" id="equation-janossy-functions">
 <span class="eqno">(3)<a class="headerlink" href="#equation-janossy-functions" title="Permalink to this equation">#</a></span>\[E[ f(\Phi) ] =  \sum_{n\ge 0} \frac{1}{n!} \int_{E^n} f(\{x_1,\dots,x_n\}) \, j^{(n)}(\{x_1,\dots,x_n\}) d x_1 \ldots d x_n.\]</div>
@@ -449,7 +451,7 @@ Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a finite point
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f31f5f7bdc0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fd150406dc0&gt;]
 </pre></div>
 </div>
 <img alt="_images/template-computo-myst_1_1.png" src="_images/template-computo-myst_1_1.png" />
