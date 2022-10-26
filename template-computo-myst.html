@@ -315,6 +315,13 @@ title="Print to PDF"
      Data construction
     </a>
    </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classifictaion-models">
+   Classifictaion models
+  </a>
+  <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#this-is-another-subheading">
      This is another subheading
@@ -376,6 +383,13 @@ title="Print to PDF"
      Data construction
     </a>
    </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classifictaion-models">
+   Classifictaion models
+  </a>
+  <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#this-is-another-subheading">
      This is another subheading
@@ -545,7 +559,7 @@ For the other type of configurations, i.e. non repulsive ones, we will simulate 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f3e0411b280&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fcf9c392280&gt;]
 </pre></div>
 </div>
 <img alt="_images/template-computo-myst_1_1.png" src="_images/template-computo-myst_1_1.png" />
@@ -700,19 +714,85 @@ Compiling functions ...
 </div>
 </div>
 </div>
-<p>FIXME: Can we reference figures?</p>
+<p>Here is an example of the data created. We generate a data of <span class="math notranslate nohighlight">\(3000\)</span> observations of configurations (<span class="math notranslate nohighlight">\(1500\)</span> repulsive and <span class="math notranslate nohighlight">\(1500\)</span> non repulsive) of <span class="math notranslate nohighlight">\(N = 24\)</span> points.</p>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
+<span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
+<span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="nn">Cell In [2], line 93,</span> in <span class="ni">create_dataframe</span><span class="nt">(N, observations)</span>
+<span class="g g-Whitespace">     </span><span class="mi">91</span> <span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">     </span><span class="mi">92</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">93</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
+
+<span class="nn">Cell In [2], line 62,</span> in <span class="ni">dpp_Moroz</span><span class="nt">(N)</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span> <span class="n">radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="p">;</span> <span class="n">precision</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**-</span><span class="mi">53</span> <span class="p">;</span> <span class="n">error</span> <span class="o">=</span> <span class="kc">False</span> <span class="p">;</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span> <span class="p">;</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span> 
+<span class="g g-Whitespace">     </span><span class="mi">60</span> <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">kernels</span><span class="p">[</span><span class="s1">&#39;ginibre&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">output</span><span class="p">]</span>
+<span class="ne">---&gt; </span><span class="mi">62</span> <span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">convert_complex_points</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">63</span> <span class="n">X_dpp_Mz</span> <span class="o">=</span> <span class="n">X_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span> <span class="p">;</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">Y_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="n">dpp_Mz_points</span> <span class="o">=</span> <span class="n">convert_lists_to_points</span><span class="p">(</span><span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span><span class="p">)</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:324,</span> in <span class="ni">sample</span><span class="nt">(R, N, kernel, precision, error, quiet, output)</span>
+<span class="g g-Whitespace">    </span><span class="mi">322</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">323</span>     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sampling the points ...&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">324</span> <span class="n">V</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">sample_points</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">print_point_txt</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">326</span>     <span class="nb">print</span><span class="p">()</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:71,</span> in <span class="ni">sample_points</span><span class="nt">(kernel, R, I, epsilon, print_point)</span>
+<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="n">invLambdas</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">Lambdas</span>
+<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">70</span>     <span class="c1"># Draw point Wi</span>
+<span class="ne">---&gt; </span><span class="mi">71</span>     <span class="n">r</span> <span class="o">=</span> <span class="n">sample_module</span><span class="p">(</span><span class="n">U</span><span class="o">/</span><span class="n">U</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">invLambdas</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span>     <span class="n">alpha</span> <span class="o">=</span> <span class="n">sample_argument</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">invLambdas</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">73</span>     <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">alpha</span><span class="p">)</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:44,</span> in <span class="ni">sample_module</span><span class="nt">(C, R, I, invLambdas, F, epsilon)</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">F</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">invLambdas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span>
+<span class="ne">---&gt; </span><span class="mi">44</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="k">return</span> <span class="n">r</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/scipy/optimize/_zeros_py.py:778,</span> in <span class="ni">brentq</span><span class="nt">(f, a, b, args, xtol, rtol, maxiter, full_output, disp)</span>
+<span class="g g-Whitespace">    </span><span class="mi">776</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">777</span>     <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">args</span><span class="p">,)</span>
+<span class="ne">--&gt; </span><span class="mi">778</span> <span class="n">maxiter</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">maxiter</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">779</span> <span class="k">if</span> <span class="n">xtol</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">780</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;xtol too small (</span><span class="si">%g</span><span class="s2"> &lt;= 0)&quot;</span> <span class="o">%</span> <span class="n">xtol</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
 </section>
+</section>
+<section id="classifictaion-models">
+<h2>Classifictaion models<a class="headerlink" href="#classifictaion-models" title="Permalink to this headline">#</a></h2>
+<p>In this section, we will train and test some Machine Learning models using the data we’ve created in the previous section. For a start we will select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). And also we will only use baseline models, i.e. all the hyperparameters’ values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).</p>
+<p>The models we use in this paper are:</p>
+<ul class="simple">
+<li><p>Logistic regression, which is a classification algorithm, used when the value of the target variable is categorical in nature. Logistic regression is most commonly used when the data in question has binary output, so when it belongs to one class or another, or is either a <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p>Random forest, a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the accuracy and control over-fitting.</p></li>
+</ul>
+<p>Two other classification models (Support Vector Machine and XGBoost) have been tested but not introduced in this paper since they gave similar results to the models prensent in this paper.</p>
 <section id="this-is-another-subheading">
 <span id="subsec-subheading"></span><h3>This is another subheading<a class="headerlink" href="#this-is-another-subheading" title="Permalink to this headline">#</a></h3>
 <p>As seen in <a class="reference internal" href="#subsec-subheading"><span class="std std-ref">section</span></a>, lorem ipsum dolor sit amet,
-consectetur adipiscing elit. Cras nec ornare urna. Nullam consectetur
-vestibulum lacinia. Aenean sed augue elit. Aenean venenatis orci ut felis
-condimentum, sit amet feugiat eros tincidunt. Vestibulum ante ipsum primis in
-faucibus orci luctus et ultrices posuere cubilia curae; Integer varius metus
-nunc, at molestie metus eleifend et. Maecenas ullamcorper metus at nisl
-molestie, ac commodo arcu mollis. Donec felis odio, fermentum lacinia
-vestibulum non, elementum eu metus. Donec suscipit aliquam malesuada. Praesent
-justo turpis, dignissim ac nulla non, malesuada rutrum nisi.</p>
+consectetur adipiscing elit. Cras nec ornare urna. Nullam consectetur</p>
 <table class="colwidths-auto table" id="my-table-ref">
 <caption><span class="caption-number">Table 1 </span><span class="caption-text">My table title</span><a class="headerlink" href="#my-table-ref" title="Permalink to this table">#</a></caption>
 <thead>
@@ -741,12 +821,6 @@ justo turpis, dignissim ac nulla non, malesuada rutrum nisi.</p>
 </section>
 <section id="discussion">
 <h2>Discussion<a class="headerlink" href="#discussion" title="Permalink to this headline">#</a></h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent aliquam
-porttitor rutrum. Donec in sollicitudin risus, ultrices ultricies nisi.
-Vestibulum vel turpis eros. Suspendisse pellentesque nunc augue, eget laoreet
-dui dictum ut. Mauris pretium lectus ut elit pulvinar, nec accumsan purus
-hendrerit. Phasellus hendrerit orci a vestibulum euismod. Nunc vel massa
-facilisis, cursus justo nec, suscipit est.</p>
 <ul class="simple">
 <li><p>This is a list</p></li>
 <li><p>With more elements</p></li>
@@ -761,16 +835,6 @@ facilisis, cursus justo nec, suscipit est.</p>
 </section>
 <section id="conclusion">
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie mollis
-urna, vitae convallis turpis placerat vel. Orci varius natoque penatibus et
-magnis dis parturient montes, nascetur ridiculus mus. Vestibulum elit nulla,
-laoreet a sagittis non, pharetra ac velit. Aliquam volutpat nisl augue, eget
-maximus erat cursus eget. Maecenas sed nisi bibendum, sagittis tellus et,
-lacinia augue. In lobortis, libero at auctor aliquam, mi leo egestas orci, a
-pulvinar mauris magna in nisi. Morbi cursus dictum dignissim. Fusce at ex sit
-amet felis vehicula gravida non in sem. Morbi ut condimentum diam. Aliquam
-erat volutpat. Fusce id pharetra ante, tincidunt dapibus eros. Curabitur
-mattis magna non felis aliquet sagittis.</p>
 <div class="docutils container" id="id19">
 <dl class="citation">
 <dt class="label" id="id23"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
