@@ -25,6 +25,7 @@ In the performance analysis of cellular systems, the locations of antennas (or b
 name: paris-orange-fig
 ---
 Left: Antennas in Paris. Right: Antennas in one frequency  band only.
+:label: paris
 ```
 
 In previous papers, point processes with repulsion have been used to model such systems {cite}`Deng2014`, {cite}`Miyoshi2016`, {cite}`Gomez2015` for no reason but a mere resemblance between the pictures like the right picture in {numref}`paris-orange-fig` and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.
@@ -165,7 +166,11 @@ On the left, Voronoi associated to a realization of a Poisson process. On the ri
 As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.
 
 ## Classification on CARTORADIO data
-In this section, we will see how from a given configuration we can decide about its repulsiveness using some classification models, and then test them on a real dataset (CARTORADIO) which is a set of configurations of some mobile phone base stations in Paris.
+The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km$^2). Hence there is no model which can be constructed for these regions.  In big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is thus where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure {fig}`paris`.
+
+When it comes to assess the type of point process we should consider, we cannot consider the city as a whole: the geography (notably the Seine river in Paris, the parks, etc.), the non uniformity of demands (the traffic is heavier aroung railway stations or touristic sites,  for instance) which entails a higher density of antennas,  ruin any kind of invariance a statistician could hope for. That means, we should restrict our expectations to local models of a the size district or a bit more. Since interference, which are the main annoyance to be dealt with, are a local phenomenon, working on a partial part of the whole domain is sufficient to predict and dimension a wireless network. 
+
+
 
 Since this type of raw data needed for our task is not already available somewhere, we will need to create the data ourselves, which is some different configurations that are either repulsive or not. Then we make transformations on this raw data in order to extract the information and feed it to the models. The same information will be extracted from the CARTORADIO data so we can test it on our models.
 
