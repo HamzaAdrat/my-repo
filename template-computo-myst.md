@@ -194,7 +194,7 @@ fig, ax = plt.subplots()
 ax.plot(np.arange(10))
 ```
 
-```{code-cell} python3
+```{code-cell} ipython3
 ---
 tags: [show-output, show-input]
 ---
@@ -216,10 +216,11 @@ def convert_lists_to_points(l1, l2):
     return np.array([l1, l2]).T
 
 def extract_Voronoi_areas(vor):  
-    areas, perim = [], []
+    areas= []
+    perim = []
     for i in range(len(vor.filtered_regions)):
         areas.append(round(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).volume, 3))
-        perim.append(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).area)
+        perim.append(round(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).area, 2))
     return areas, list(np.around((np.array(perim))**2, 3))
 
 def in_box(towers, bounding_box):
@@ -339,7 +340,7 @@ def transform_df(odf):
 
 Here is an example of the data created. We generate a data of $3000$ observations of configurations ($1500$ repulsive and $1500$ non repulsive) of $N = 24$ points.
 
-```{code-cell} python3
+```{code-cell} ipython3
 ---
 tags: [show-output, show-input]
 ---
@@ -358,7 +359,7 @@ The models we use in this paper are:
 
 Two other classification models (Support Vector Machine and XGBoost) have been tested but not introduced in this paper since they gave similar results to the models prensent in this paper.
 
-```{code-cell} python3
+```{code-cell} ipython3
 ---
 tags: [show-output, show-input]
 ---
@@ -432,6 +433,26 @@ y = ddf_transformed['type'].values
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle= True, random_state=7)
 ```
 Here are the results of the logistic regression
+
+```{code-cell} ipython3
+---
+tags: [show-output, show-input]
+---
+Baseline_LR = make_pipeline(StandardScaler(), LogisticRegression())
+Baseline_LR.fit(X_train, y_train)
+model_Evaluate(Baseline_LR, X_test, y_test)
+```
+
+Here are the results of the random forest
+
+```{code-cell} ipython3
+---
+tags: [show-output, show-input]
+---
+baseline_RF = RandomForestClassifier()
+baseline_RF.fit(X_train,y_train)
+model_Evaluate(baseline_RF, X_test, y_test)
+```
 
 (subsec:subheading)=
 ### This is another subheading
