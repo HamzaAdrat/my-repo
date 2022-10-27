@@ -25,7 +25,7 @@ In the performance analysis of cellular systems, the locations of antennas (or b
 name: paris-orange-fig
 ---
 Left: Antennas in Paris. Right: Antennas in one frequency  band only.
-:label: paris
+
 ```
 
 In previous papers, point processes with repulsion have been used to model such systems {cite}`Deng2014`, {cite}`Miyoshi2016`, {cite}`Gomez2015` for no reason but a mere resemblance between the pictures like the right picture in {numref}`paris-orange-fig` and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.
@@ -166,26 +166,24 @@ On the left, Voronoi associated to a realization of a Poisson process. On the ri
 As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.
 
 ## Classification on CARTORADIO data
-The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km$^2). Hence there is no model which can be constructed for these regions.  In big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is thus where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure {fig}`paris`.
+The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km$^2$). Hence there is no need to  construct models for these regions.  On the contrary, in big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is  where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure {numref}`paris-orange-fig`.
 
-When it comes to assess the type of point process we should consider, we cannot consider the city as a whole: the geography (notably the Seine river in Paris, the parks, etc.), the non uniformity of demands (the traffic is heavier aroung railway stations or touristic sites,  for instance) which entails a higher density of antennas,  ruin any kind of invariance a statistician could hope for. That means, we should restrict our expectations to local models of a the size district or a bit more. Since interference, which are the main annoyance to be dealt with, are a local phenomenon, working on a partial part of the whole domain is sufficient to predict and dimension a wireless network. 
+When it comes to assess the type of point process we should consider in this situation, we cannot consider the city as a whole: the geography (notably the Seine river in Paris, the parks, etc.), the non uniformity of demands (the traffic is heavier aroung railway stations or touristic sites,  for instance) which entails a higher density of antennas,  ruin any kind of invariance a statistician could hope for. That means, we should restrict our expectations to local models of  the size district or a bit more. Since interference, which are the main annoyance to be dealt with, are a local phenomenon, working on a partial part of the whole domain is sufficient to predict the behavior and dimension a wireless network. 
+
+
+### Model training
+
+Given a circular domain with $N$ points, we want to decide whether the points suffer from repulsion or not. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a  Ginibre point process of intensity $1$  with $N$ occupies roughly a disk with this radius. We train our models on datas issued from drawings of Ginibre configuration and from drawings of $N$ points independently and uniformly scattered in $B(0,\sqrt{N})$.
 
 
 
-Since this type of raw data needed for our task is not already available somewhere, we will need to create the data ourselves, which is some different configurations that are either repulsive or not. Then we make transformations on this raw data in order to extract the information and feed it to the models. The same information will be extracted from the CARTORADIO data so we can test it on our models.
+For each of the previous samples, we compute the Voronoi diagrams and retain
+only the $10$ cells which are the closest to the barycenter of the
+configuration in order to avoid side effects. We then  extract the areas and the perimeters  of
+these cells.  In addition to that, we 
+compute the mean of the first $5$, $10$, $15$ and $20$ cells' areas in order to
+have a more global information.
 
-### Data construction
-
-The goal of this section is to create the raw data needed for our classification task, and to which we will apply some transformations in order to extract the final data that will be used to train our models.
-
-The idea is for a given number $N$, we will create many finite configurations of $N$ points each that are either repulsive (Ginibre configuration for example) or not (Poisson configuration). So we will start by calling the ginibre sampling algorithm mentionned earlier in {cite}`MR4279876` in order to generate Ginibre configurations.
-For the other type of configurations, i.e. non repulsive ones, we will simulate an homogeneous Poisson point process on the circle $\mathcal{C}(0,r)$, where the radius $r = \sqrt{N}$.
-
-*Remark:* In the Ginibre simulation, we will use a radius $r = E(\sqrt{N})$, where $E(x)$ is the integer of $x$, in order to avoid the problems (and therefore the misleadings) in the edge of the circles.
-
-For each of the previous samples, we compute the Voronoi diagrams and we first extract the areas of these cells. But since we will have different configurations with different cardinals $N$, we will order the cells by proximity of their barycenters to the origin, and then extract the areas of the first ten cells, the idea of having this small number of areas is that we consider that these $10$ cells contain the main information needed for our classification. In addition to that, we will compute the mean of the first $5$, $10$, $15$ and $20$ cells' areas in order to have more information that can be significant for our models.
-
-Then in the same time, we extract the square perimeters of the same cells already used so that, hopefuly, the models could exploit the isoperimetric inequality and separate the two type of configurations.
 
 The final data will be a set of observations where each one contains $29$ columns described as follow:
 - For $1 \le i \le 10, \; \mathrm{V}_i$ is the area of the $i^{\mathrm{th}}$ Voronoi cell.
