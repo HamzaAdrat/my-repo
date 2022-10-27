@@ -339,7 +339,7 @@ def transform_df(odf):
 %run -i Moroz_dpp.py
 ```
 
-Here is an example of the data created. We generate a data of $3000$ observations of configurations ($1500$ repulsive and $1500$ non repulsive) of $N = 24$ points.
+Here is an example of the data created. We generate a data of $2000$ observations of configurations ($1000$ repulsive and $1000$ non repulsive) of $N = 24$ points.
 
 ```{code-cell} ipython3
 ---

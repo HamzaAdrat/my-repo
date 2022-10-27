@@ -561,7 +561,7 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fc89c6792e0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f1f187f52b0&gt;]
 </pre></div>
 </div>
 <img alt="_images/template-computo-myst_1_1.png" src="_images/template-computo-myst_1_1.png" />
@@ -718,7 +718,7 @@ Compiling functions ...
 </div>
 </div>
 </div>
-<p>Here is an example of the data created. We generate a data of <span class="math notranslate nohighlight">\(3000\)</span> observations of configurations (<span class="math notranslate nohighlight">\(1500\)</span> repulsive and <span class="math notranslate nohighlight">\(1500\)</span> non repulsive) of <span class="math notranslate nohighlight">\(N = 24\)</span> points.</p>
+<p>Here is an example of the data created. We generate a data of <span class="math notranslate nohighlight">\(2000\)</span> observations of configurations (<span class="math notranslate nohighlight">\(1000\)</span> repulsive and <span class="math notranslate nohighlight">\(1000\)</span> non repulsive) of <span class="math notranslate nohighlight">\(N = 24\)</span> points.</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
@@ -729,16 +729,50 @@ Compiling functions ...
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">File messagestream.pyx:91,</span> in <span class="ni">scipy._lib.messagestream.MessageStream.close</span><span class="nt">()</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 
-<span class="ne">TypeError</span>: remove: path should be string, bytes or os.PathLike, not NoneType
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Exception ignored in: &#39;scipy._lib.messagestream.MessageStream.__dealloc__&#39;
-Traceback (most recent call last):
-  File &quot;messagestream.pyx&quot;, line 91, in scipy._lib.messagestream.MessageStream.close
-TypeError: remove: path should be string, bytes or os.PathLike, not NoneType
+<span class="nn">Cell In [2], line 96,</span> in <span class="ni">create_dataframe</span><span class="nt">(N, observations)</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="ne">---&gt; </span><span class="mi">96</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">98</span> <span class="k">return</span> <span class="n">df</span>
+
+<span class="nn">Cell In [2], line 88,</span> in <span class="ni">random_process</span><span class="nt">(N)</span>
+<span class="g g-Whitespace">     </span><span class="mi">85</span> <span class="n">rand_points</span> <span class="o">=</span> <span class="n">rand_points</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">87</span> <span class="n">rand_vor</span> <span class="o">=</span> <span class="n">voronoi</span><span class="p">(</span><span class="n">rand_points</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">radius</span> <span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">radius</span> <span class="o">+</span><span class="mf">.1</span><span class="p">,</span> <span class="o">-</span><span class="n">radius</span> <span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">radius</span> <span class="o">+</span><span class="mf">.1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">rand_points</span><span class="p">))</span>
+<span class="ne">---&gt; </span><span class="mi">88</span> <span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span> <span class="o">=</span> <span class="n">extract_Voronoi_areas</span><span class="p">(</span><span class="n">rand_vor</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">90</span> <span class="k">return</span> <span class="p">[</span><span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="nn">Cell In [2], line 23,</span> in <span class="ni">extract_Voronoi_areas</span><span class="nt">(vor)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">)):</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="n">areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">volume</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="ne">---&gt; </span><span class="mi">23</span>     <span class="n">perim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="k">return</span> <span class="n">areas</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">perim</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="nn">File _qhull.pyx:2450,</span> in <span class="ni">scipy.spatial._qhull.ConvexHull.__init__</span><span class="nt">()</span>
+
+<span class="nn">File _qhull.pyx:1554,</span> in <span class="ni">scipy.spatial._qhull._QhullUser.__init__</span><span class="nt">()</span>
+
+<span class="nn">File _qhull.pyx:2483,</span> in <span class="ni">scipy.spatial._qhull.ConvexHull._update</span><span class="nt">()</span>
+
+<span class="nn">File _qhull.pyx:1583,</span> in <span class="ni">scipy.spatial._qhull._QhullUser._update</span><span class="nt">()</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/numpy/core/_methods.py:42,</span> in <span class="ni">_amin</span><span class="nt">(a, axis, out, keepdims, initial, where)</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span> <span class="k">def</span> <span class="nf">_amax</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span>           <span class="n">initial</span><span class="o">=</span><span class="n">_NoValue</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">40</span>     <span class="k">return</span> <span class="n">umr_maximum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">,</span> <span class="n">initial</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">42</span> <span class="k">def</span> <span class="nf">_amin</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span>           <span class="n">initial</span><span class="o">=</span><span class="n">_NoValue</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span>     <span class="k">return</span> <span class="n">umr_minimum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">,</span> <span class="n">initial</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">46</span> <span class="k">def</span> <span class="nf">_sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">47</span>          <span class="n">initial</span><span class="o">=</span><span class="n">_NoValue</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
