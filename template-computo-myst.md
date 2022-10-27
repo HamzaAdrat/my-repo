@@ -257,7 +257,7 @@ def voronoi(towers, bounding_box, N):
     return vor
 
 def dpp_Moroz(N):
-    radius = (np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
+    radius = int(np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
     args = [radius, N, kernels['ginibre'], precision, error, quiet, output]
     
     moroz_dpp = sample(*args)
