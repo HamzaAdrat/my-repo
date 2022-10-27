@@ -32,8 +32,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-ddf = create_dataframe(24, 1000)
-ddf_transformed = transform_df(ddf)
-ddf_transformed.head()
+['data_31 = data_test.iloc[[0, 7]]', 'data_23 = data_test.iloc[[1]]', 'data_22 = data_test.iloc[[2, 4, 9]]', 'data_24 = data_test.iloc[[3, 6]]', 'data_46 = data_test.iloc[[5]]']
+...
+['X_train_23, X_test_23, y_train_23, y_test_23 = models_input(23)', 'X_train_22, X_test_22, y_train_22, y_test_22 = models_input(22)', 'X_train_24, X_test_24, y_train_24, y_test_24 = models_input(24)', 'X_train_46, X_test_46, y_train_46, y_test_46 = models_input(46)', 'X_train_29, X_test_29, y_train_29, y_test_29 = models_input(29)']
 -------------------
 
