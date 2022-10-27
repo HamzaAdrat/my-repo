@@ -363,24 +363,14 @@ Two other classification models (Support Vector Machine and XGBoost) have been t
 ---
 tags: [show-output, show-input]
 ---
-from scipy.stats import sem
-
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
 
-import xgboost as XGBClassifier
-
-from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV, cross_val_score
-from sklearn.model_selection import RepeatedKFold, learning_curve, ShuffleSplit
-
-from sklearn.metrics import accuracy_score, confusion_matrix
-from sklearn.metrics import mean_absolute_error, mean_squared_error
-from sklearn.metrics import classification_report
-from sklearn.metrics import auc, roc_curve, roc_auc_score, precision_score, recall_score, precision_recall_curve, f1_score
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, classification_report, roc_curve, roc_auc_score
 
 # Useful function for evaluating our models:
 
