@@ -444,6 +444,72 @@ baseline_RF.fit(X_train,y_train)
 model_Evaluate(baseline_RF, X_test, y_test)
 ```
 
+### Testing on CARTORADIO data
+
+CARTORADIO data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification models already used, the repulsion of these configurations.
+
+The initial data (positions of the mobile phone antennas) covered a large area of the city of Paris (see figure 1-(a)), while the prediction models were trained on simulated data on small circles compared with the initial CARTORADIO data.
+In addition to that, we are working with a real dataset, so we often encounter the problem of heterogeneity between the different configurations since they depend on the structure of the space in which the antennas are placed.
+
+So to remedy this problem, we will extract from each configuration a representative sample similar to the type of training data so that the tests make sense. Figure 1-(b) shows a sample extracted from a given configuration.
+
+In the following, we will read the CARTORADIA directly from the "data_cartoradio.csv" file.
+
+```{code-cell} ipython3
+# Useful functions to transform the CARTORADIO data
+
+def update_df(odf): 
+    converted_V = odf['Voronoi_areas'].str[1:-1].str.split(',').tolist()
+    converted_P = odf['Voronoi_perim'].str[1:-1].str.split(',').tolist()
+    
+    list_V = [(np.float_(converted_V[i])).tolist() for i in range(odf.shape[0])]
+    list_P = [(np.float_(converted_P[i])).tolist() for i in range(odf.shape[0])]
+    
+    list_N = [len(list_V[i]) for i in range(odf.shape[0])]
+    
+    [MV5, MV10, MV15, MV20] = [compute_mean(list_V, n) for n in [5, 10, 15, 20]]
+    [MP5, MP10, MP15, MP20] = [compute_mean(list_P, n) for n in [5, 10, 15, 20]]
+    
+    normalized_V10 = [normalize(list_V[i][:10]) for i in range(odf.shape[0])]
+    normalized_P10 = [normalize(list_P[i][:10]) for i in range(odf.shape[0])]
+    
+    [V1, V2, V3, V4, V5, V6, V7, V8, V9, V10] = [single_area(normalized_V10, k) for k in range(10)]
+    [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10] = [single_area(normalized_P10, k) for k in range(10)]
+    
+    dict_df = {'V1':V1, 'V2':V2, 'V3':V3, 'V4':V4, 'V5':V5, 'V6':V6, 'V7':V7, 'V8':V8, 'V9':V9, 'V10':V10,
+               'MV5':MV5, 'MV10':MV10, 'MV15':MV15, 'MV20':MV20,
+               'P1':P1, 'P2':P2, 'P3':P3, 'P4':P4, 'P5':P5, 'P6':P6, 'P7':P7, 'P8':P8, 'P9':P9, 'P10':P10,
+               'MP5':MP5, 'MP10':MP10, 'MP15':MP15, 'MP20':MP20}
+    
+    return list_N, pd.DataFrame(dict_df)
+
+def models_input(N):
+    data0 = create_dataframe(N, observations = 1000)
+    data1 = transform_df(data0)
+    
+    model_cols = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'MV5', 'MV10', 'MV15', 'MV20',
+                  'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'MP5', 'MP10', 'MP15', 'MP20']
+
+    X = data1[model_cols].values
+    y = data1['type'].values
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=True, random_state=7)
+    
+    return X_train, X_test, y_train, y_test
+```
+
+```{code-cell} ipython3
+---
+tags: [show-output, show-input]
+---
+data = pd.read_csv('data_voronoi_cartoradio.csv', sep=',')
+list_N, data_test = update_df(data)
+print(list_N)
+data_test.head()
+```
+
+Now that the data is read and transformed, we regroup the observations by the number of points $N$ and then create the models inputs for each value of $N$ (this task may take a while to be executed).
+
+
 (subsec:subheading)=
 ### This is another subheading
 
