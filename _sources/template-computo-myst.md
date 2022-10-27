@@ -358,6 +358,80 @@ The models we use in this paper are:
 
 Two other classification models (Support Vector Machine and XGBoost) have been tested but not introduced in this paper since they gave similar results to the models prensent in this paper.
 
+```{code-cell} python3
+---
+tags: [show-output, show-input]
+---
+from scipy.stats import sem
+
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+
+import xgboost as XGBClassifier
+
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV, cross_val_score
+from sklearn.model_selection import RepeatedKFold, learning_curve, ShuffleSplit
+
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import classification_report
+from sklearn.metrics import auc, roc_curve, roc_auc_score, precision_score, recall_score, precision_recall_curve, f1_score
+
+# Useful function for evaluating our models:
+
+def model_Evaluate(model, x_tt, y_tt):
+    y_pred = model.predict(x_tt)
+    print(classification_report(y_tt, y_pred))
+    
+    cf_matrix = confusion_matrix(y_tt, y_pred)
+    categories  = ['Negative','Positive']
+    group_names = ['True Neg','False Pos', 'False Neg','True Pos']
+    group_percentages = ['{0:.2%}'.format(value) for value in cf_matrix.flatten() / np.sum(cf_matrix)]
+
+    labels = [f'{v1}\n{v2}' for v1, v2 in zip(group_names,group_percentages)]
+    labels = np.asarray(labels).reshape(2,2)
+    
+    logit_roc_auc = roc_auc_score(y_tt, model.predict(x_tt))
+    fpr, tpr, thresholds = roc_curve(y_tt, model.predict_proba(x_tt)[:,1])
+    
+    fig = plt.figure(figsize=(12, 5))
+    # Adds subplot on position 1
+    ax = fig.add_subplot(121)
+    sns.heatmap(cf_matrix, annot = labels, cmap = 'Blues',fmt = '', xticklabels = categories, yticklabels = categories)
+    ax.set_title("Confusion Matrix", fontdict = {'size':18}, pad = 20)
+    ax.set(xlabel='Predicted values', ylabel='Actual values')
+
+    # Adds subplot on position 2
+    ax = fig.add_subplot(122)
+    ax.plot(fpr, tpr, label='area = %0.2f' % logit_roc_auc)
+    ax.plot([0, 1], [0, 1],'r--', label='Standard')
+    ax.set_xlim([-0.02, 1.02])
+    ax.set_ylim([0.0, 1.05])
+    
+    thresholds_rounded = [round(num, 1) for num in thresholds]
+    for threshold in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]:
+        if threshold in thresholds_rounded:
+            index = thresholds_rounded.index(threshold)
+            ax.annotate(threshold, (fpr[index], tpr[index]))
+
+    ax.set_title('Receiver Operating Characteristic (ROC)')
+    ax.set(xlabel='False Positive Rate (1-specificity)', ylabel='True Positive Rate (sensitivity)')
+    ax.legend(loc="lower right")
+    ax.grid()
+    plt.show()
+
+
+model_cols = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'MV5', 'MV10', 'MV15', 'MV20',
+             'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'MP5', 'MP10', 'MP15', 'MP20']
+X = ddf_transformed[model_cols].values
+y = ddf_transformed['type'].values
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle= True, random_state=7)
+```
+Here are the results of the logistic regression
 
 (subsec:subheading)=
 ### This is another subheading
