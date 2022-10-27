@@ -555,7 +555,7 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fa790ef21c0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f0ba065d2b0&gt;]
 </pre></div>
 </div>
 <img alt="_images/template-computo-myst_1_1.png" src="_images/template-computo-myst_1_1.png" />
@@ -581,10 +581,11 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
 
 <span class="k">def</span> <span class="nf">extract_Voronoi_areas</span><span class="p">(</span><span class="n">vor</span><span class="p">):</span>  
-    <span class="n">areas</span><span class="p">,</span> <span class="n">perim</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">areas</span><span class="o">=</span> <span class="p">[]</span>
+    <span class="n">perim</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">)):</span>
         <span class="n">areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">volume</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-        <span class="n">perim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>
+        <span class="n">perim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">areas</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">perim</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">in_box</span><span class="p">(</span><span class="n">towers</span><span class="p">,</span> <span class="n">bounding_box</span><span class="p">):</span>
@@ -720,36 +721,172 @@ Compiling functions ...
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="nn">Cell In [2], line 93,</span> in <span class="ni">create_dataframe</span><span class="nt">(N, observations)</span>
-<span class="g g-Whitespace">     </span><span class="mi">91</span> <span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">     </span><span class="mi">92</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">93</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">94</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">95</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="nn">Cell In [2], line 70,</span> in <span class="ni">dpp_Moroz</span><span class="nt">(N)</span>
-<span class="g g-Whitespace">     </span><span class="mi">67</span> <span class="n">dpp_Mz_points</span> <span class="o">=</span> <span class="n">dpp_Mz_points</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="n">dpp_Mz_vor</span> <span class="o">=</span> <span class="n">voronoi</span><span class="p">(</span><span class="n">dpp_Mz_points</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mf">.1</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mf">.1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">dpp_Mz_points</span><span class="p">))</span>
-<span class="ne">---&gt; </span><span class="mi">70</span> <span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span> <span class="o">=</span> <span class="n">extract_Voronoi_areas</span><span class="p">(</span><span class="n">dpp_Mz_vor</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">72</span> <span class="k">return</span> <span class="p">[</span><span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-
-<span class="nn">Cell In [2], line 22,</span> in <span class="ni">extract_Voronoi_areas</span><span class="nt">(vor)</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">)):</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="n">areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">volume</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="ne">---&gt; </span><span class="mi">22</span>     <span class="n">perim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="k">return</span> <span class="n">areas</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">perim</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
-</div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>V3</th>
+      <th>V4</th>
+      <th>V5</th>
+      <th>V6</th>
+      <th>V7</th>
+      <th>V8</th>
+      <th>V9</th>
+      <th>V10</th>
+      <th>...</th>
+      <th>P6</th>
+      <th>P7</th>
+      <th>P8</th>
+      <th>P9</th>
+      <th>P10</th>
+      <th>MP5</th>
+      <th>MP10</th>
+      <th>MP15</th>
+      <th>MP20</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.450598</td>
+      <td>-0.834598</td>
+      <td>0.699027</td>
+      <td>0.077215</td>
+      <td>0.700806</td>
+      <td>-0.999169</td>
+      <td>-0.450302</td>
+      <td>-0.841715</td>
+      <td>-0.602419</td>
+      <td>-0.199442</td>
+      <td>...</td>
+      <td>-0.986636</td>
+      <td>-0.570861</td>
+      <td>-1.206300</td>
+      <td>-0.761998</td>
+      <td>0.592283</td>
+      <td>83.2852</td>
+      <td>75.7372</td>
+      <td>72.765533</td>
+      <td>72.68950</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.585034</td>
+      <td>1.095963</td>
+      <td>-0.576746</td>
+      <td>-0.871164</td>
+      <td>-0.256843</td>
+      <td>-0.757843</td>
+      <td>0.211081</td>
+      <td>-0.705249</td>
+      <td>-1.271855</td>
+      <td>1.547621</td>
+      <td>...</td>
+      <td>-0.952495</td>
+      <td>-0.063028</td>
+      <td>-0.833495</td>
+      <td>-1.286983</td>
+      <td>1.813496</td>
+      <td>75.5298</td>
+      <td>67.3881</td>
+      <td>70.978733</td>
+      <td>73.09600</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.375787</td>
+      <td>-0.106434</td>
+      <td>1.388883</td>
+      <td>1.585322</td>
+      <td>-0.481454</td>
+      <td>-0.614795</td>
+      <td>-0.682655</td>
+      <td>-1.054104</td>
+      <td>-0.219535</td>
+      <td>-1.191016</td>
+      <td>...</td>
+      <td>-1.018371</td>
+      <td>-1.055487</td>
+      <td>-0.235177</td>
+      <td>0.323260</td>
+      <td>-0.736605</td>
+      <td>71.7138</td>
+      <td>67.2249</td>
+      <td>69.721800</td>
+      <td>74.55985</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.531758</td>
+      <td>-1.182965</td>
+      <td>-0.617958</td>
+      <td>-0.215210</td>
+      <td>-0.257947</td>
+      <td>1.284232</td>
+      <td>-1.230774</td>
+      <td>0.304162</td>
+      <td>2.110011</td>
+      <td>0.338207</td>
+      <td>...</td>
+      <td>1.488765</td>
+      <td>-1.221244</td>
+      <td>0.588380</td>
+      <td>1.928731</td>
+      <td>0.236071</td>
+      <td>29.4632</td>
+      <td>43.1096</td>
+      <td>62.946800</td>
+      <td>68.32595</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.584320</td>
+      <td>-0.956789</td>
+      <td>0.192605</td>
+      <td>-0.029684</td>
+      <td>-0.901217</td>
+      <td>0.488086</td>
+      <td>-1.328173</td>
+      <td>2.323320</td>
+      <td>0.273930</td>
+      <td>-0.646398</td>
+      <td>...</td>
+      <td>-0.106537</td>
+      <td>-0.703600</td>
+      <td>2.776573</td>
+      <td>0.411449</td>
+      <td>-0.392299</td>
+      <td>62.9342</td>
+      <td>71.9838</td>
+      <td>78.409000</td>
+      <td>76.39235</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div></div></div>
 </div>
 </section>
 </section>
@@ -835,8 +972,41 @@ Compiling functions ...
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">XGBClassifier</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">RandomizedSearchCV</span><span class="p">,</span> <span class="n">cross_val_score</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RepeatedKFold</span><span class="p">,</span> <span class="n">learning_curve</span><span class="p">,</span> <span class="n">ShuffleSplit</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;xgboost&#39;
+</pre></div>
+</div>
+</div>
 </div>
 <p>Here are the results of the logistic regression</p>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Baseline_LR</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the results of the random forest</p>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baseline_RF</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">baseline_RF</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="this-is-another-subheading">
 <span id="subsec-subheading"></span><h3>This is another subheading<a class="headerlink" href="#this-is-another-subheading" title="Permalink to this headline">#</a></h3>
 <p>As seen in <a class="reference internal" href="#subsec-subheading"><span class="std std-ref">section</span></a>, lorem ipsum dolor sit amet,
