@@ -355,7 +355,7 @@ ddf_transformed = transform_df(ddf)
 ddf_transformed.head()
 ```
 
-## Classifictaion models
+## Classification models
 
 In this section, we will train and test some Machine Learning models using the data we've created in the previous section. For a start we will select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). And also we will only use baseline models, i.e. all the hyperparameters' values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).
 

@@ -318,8 +318,8 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#classifictaion-models">
-   Classifictaion models
+  <a class="reference internal nav-link" href="#classification-models">
+   Classification models
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -386,8 +386,8 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#classifictaion-models">
-   Classifictaion models
+  <a class="reference internal nav-link" href="#classification-models">
+   Classification models
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -560,7 +560,7 @@ have a more global information.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fc8919b3370&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fbf103122e0&gt;]
 </pre></div>
 </div>
 <img alt="_images/template-computo-myst_1_1.png" src="_images/template-computo-myst_1_1.png" />
@@ -732,18 +732,12 @@ Compiling functions ...
 <span class="ne">TypeError</span>: remove: path should be string, bytes or os.PathLike, not NoneType
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Exception ignored in: &#39;scipy._lib.messagestream.MessageStream.__dealloc__&#39;
-Traceback (most recent call last):
-  File &quot;messagestream.pyx&quot;, line 91, in scipy._lib.messagestream.MessageStream.close
-TypeError: remove: path should be string, bytes or os.PathLike, not NoneType
-</pre></div>
-</div>
 </div>
 </div>
 </section>
 </section>
-<section id="classifictaion-models">
-<h2>Classifictaion models<a class="headerlink" href="#classifictaion-models" title="Permalink to this headline">#</a></h2>
+<section id="classification-models">
+<h2>Classification models<a class="headerlink" href="#classification-models" title="Permalink to this headline">#</a></h2>
 <p>In this section, we will train and test some Machine Learning models using the data we’ve created in the previous section. For a start we will select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). And also we will only use baseline models, i.e. all the hyperparameters’ values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).</p>
 <p>The models we use in this paper are:</p>
 <ul class="simple">
