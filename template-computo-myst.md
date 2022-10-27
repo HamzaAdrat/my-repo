@@ -349,7 +349,7 @@ ddf_transformed = transform_df(ddf)
 ddf_transformed.head()
 ```
 
-## Classification models
+### Classification models
 
 In this section, we will train and test some Machine Learning models using the data we've created in the previous section. For a start we will select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). And also we will only use baseline models, i.e. all the hyperparameters' values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).
 
@@ -448,10 +448,17 @@ model_Evaluate(baseline_RF, X_test, y_test)
 
 CARTORADIO data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification models already used, the repulsion of these configurations.
 
-The initial data (positions of the mobile phone antennas) covered a large area of the city of Paris (see figure 1-(a)), while the prediction models were trained on simulated data on small circles compared with the initial CARTORADIO data.
+The initial data (positions of the mobile phone antennas) covered a large area of the city of Paris (see {numref}`cartoradio-fig`(right)), while the prediction models were trained on simulated data on small circles compared with the initial CARTORADIO data.
 In addition to that, we are working with a real dataset, so we often encounter the problem of heterogeneity between the different configurations since they depend on the structure of the space in which the antennas are placed.
 
-So to remedy this problem, we will extract from each configuration a representative sample similar to the type of training data so that the tests make sense. Figure 1-(b) shows a sample extracted from a given configuration.
+So to remedy this problem, we will extract from each configuration a representative sample similar to the type of training data so that the tests make sense. {numref}`cartoradio-fig` (left) shows a sample extracted from a given configuration.
+
+```{figure} /cartoradio.png
+---
+name: cartoradio-fig
+---
+On the left, Initial cartoradio configuration. On the right, Sample extracted from it and scaled.
+```
 
 In the following, we will read the CARTORADIA directly from the "data_cartoradio.csv" file.
 
@@ -508,6 +515,115 @@ data_test.head()
 ```
 
 Now that the data is read and transformed, we regroup the observations by the number of points $N$ and then create the models inputs for each value of $N$ (this task may take a while to be executed).
+
+```{code-cell} ipython3
+data_31 = data_test.iloc[[0, 7]]
+data_23 = data_test.iloc[[1]]
+data_22 = data_test.iloc[[2, 4, 9]]
+data_24 = data_test.iloc[[3, 6]]
+data_46 = data_test.iloc[[5]]
+data_29 = data_test.iloc[[8]]
+
+X_train_31, X_test_31, y_train_31, y_test_31 = models_input(31)
+X_train_23, X_test_23, y_train_23, y_test_23 = models_input(23)
+X_train_22, X_test_22, y_train_22, y_test_22 = models_input(22)
+X_train_24, X_test_24, y_train_24, y_test_24 = models_input(24)
+X_train_46, X_test_46, y_train_46, y_test_46 = models_input(46)
+X_train_29, X_test_29, y_train_29, y_test_29 = models_input(29)
+```
+
+```{code-cell} ipython3
+---
+tags: [show-output, show-input]
+---
+print('N = 31')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X_train_31, y_train_31)
+print(Baseline_LR.predict(data_31.values)[0], Baseline_LR.predict_proba(data_31.values)[0])
+print(Baseline_LR.predict(data_31.values)[1], Baseline_LR.predict_proba(data_31.values)[1])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X_train_31, y_train_31)
+print(baseline_RF.predict(data_31.values)[0], baseline_RF.predict_proba(data_31.values)[0])
+print(baseline_RF.predict(data_31.values)[1], baseline_RF.predict_proba(data_31.values)[1])
+
+print('---------------------------------------------')
+print('---------------------------------------------')
+
+print('N = 23')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X_train_23, y_train_23)
+print(Baseline_LR.predict(data_23.values)[0], Baseline_LR.predict_proba(data_23.values)[0])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X_train_23, y_train_23)
+print(baseline_RF.predict(data_23.values)[0], baseline_RF.predict_proba(data_23.values)[0])
+
+print('---------------------------------------------')
+print('---------------------------------------------')
+
+print('N = 22')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X_train_22, y_train_22)
+print(Baseline_LR.predict(data_22.values)[0], Baseline_LR.predict_proba(data_22.values)[0])
+print(Baseline_LR.predict(data_22.values)[1], Baseline_LR.predict_proba(data_22.values)[1])
+print(Baseline_LR.predict(data_22.values)[2], Baseline_LR.predict_proba(data_22.values)[2])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X_train_22, y_train_22)
+print(baseline_RF.predict(data_22.values)[0], baseline_RF.predict_proba(data_22.values)[0])
+print(baseline_RF.predict(data_22.values)[1], baseline_RF.predict_proba(data_22.values)[1])
+print(baseline_RF.predict(data_22.values)[2], baseline_RF.predict_proba(data_22.values)[2])
+
+print('---------------------------------------------')
+print('---------------------------------------------')
+
+print('N = 24')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X_train_24, y_train_24)
+print(Baseline_LR.predict(data_24.values)[0], Baseline_LR.predict_proba(data_24.values)[0])
+print(Baseline_LR.predict(data_24.values)[1], Baseline_LR.predict_proba(data_24.values)[1])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X_train_24, y_train_24)
+print(baseline_RF.predict(data_24.values)[0], baseline_RF.predict_proba(data_24.values)[0])
+print(baseline_RF.predict(data_24.values)[1], baseline_RF.predict_proba(data_24.values)[1])
+
+print('---------------------------------------------')
+print('---------------------------------------------')
+
+print('N = 46')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X_train_46, y_train_46)
+print(Baseline_LR.predict(data_46.values)[0], Baseline_LR.predict_proba(data_46.values)[0])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X_train_46, y_train_46)
+print(baseline_RF.predict(data_46.values)[0], baseline_RF.predict_proba(data_46.values)[0])
+
+print('---------------------------------------------')
+print('---------------------------------------------')
+
+print('N = 29')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X_train_29, y_train_29)
+print(Baseline_LR.predict(data_29.values)[0], Baseline_LR.predict_proba(data_29.values)[0])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X_train_29, y_train_29)
+print(baseline_RF.predict(data_29.values)[0], baseline_RF.predict_proba(data_29.values)[0])
+print('---------------------------------------------')
+```
+
+We can notice that the classification results are mostly positive, which means that the majority of the samples taken from the CARTORADIO data can be decided as repulsive configurations which is consistent with our starting hypothesis. For the configurations whose results were as non-repulsive, we can say that this is due to one of the two following reasons:
+- As long as we are dealing with real data, these two samples may be a non-repulsive ones and the results are actually coherent.
+- It is sure that the accuracy of our models is very high, but we may have some classification errors, which means that even if the configuration is repulsive, the model decides that it is not.
 
 
 (subsec:subheading)=
