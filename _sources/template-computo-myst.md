@@ -41,23 +41,6 @@ and that equality holds if and only if the curve is a circle. After normalizatio
 
 This paper is organized as follows. We first recall the theoretical notions that we will need in the rest of this paper. We will also briefly define the Papangelou intensity which is at the core of the definition of repulsion. In section 3 we show numerically, and based on two Machine Learning classification models, how the locations of antennas in Paris can be considered as repulsive configurations.
 
-This document provides a Myst template for contributions to the **Computo**
-Journal {cite}`computo`. We show how `Python` {cite}`perez2011python`, `R`, or `Julia` code can be included.
-Note that you can also add equations easily:
-
-$$
-\sum x + y = Z
-$$
-
-You can also add equations in such a way to be able to reference them later:
-
-```{math}
-:label: math
-w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}
-```
-
-See equation {eq}`math` for details.
-
 ## Preliminaries
 
  A configuration on $E=\mathbf R^2$ is a locally finite (respectively finite) subset of $E$. The space of configurations (respectively finite configurations) is denoted $\mathfrak N$ (respectively $\mathfrak N_{f}$). We equip $\mathfrak N$ with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by $\mathcal B(\mathfrak N)$ the Borelean $\sigma$-field on $\mathfrak N$. A locally finite (respectively finite) point process is a random variable with values in $\mathfrak N$ (respectively $\mathfrak N_{f}$).
@@ -185,14 +168,6 @@ The final data will be a set of observations where each one contains $29$ column
 - A binary column that represent the type of the initial configuration ($1$ for repulsive/Ginibre - $0$ for non-repulsive/Poisson).
 
 The final column will be the target variable for our classification models.
-
-```{code-cell} ipython3
-import matplotlib.pyplot as plt
-import numpy as np
-
-fig, ax = plt.subplots()
-ax.plot(np.arange(10))
-```
 
 ```{code-cell} ipython3
 ---
