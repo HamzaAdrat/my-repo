@@ -561,7 +561,7 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fb26cb191f0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f95e0e561f0&gt;]
 </pre></div>
 </div>
 <img alt="_images/template-computo-myst_1_1.png" src="_images/template-computo-myst_1_1.png" />
@@ -631,7 +631,8 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
     <span class="n">radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="p">;</span> <span class="n">precision</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**-</span><span class="mi">53</span> <span class="p">;</span> <span class="n">error</span> <span class="o">=</span> <span class="kc">False</span> <span class="p">;</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span> <span class="p">;</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span> 
     <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">kernels</span><span class="p">[</span><span class="s1">&#39;ginibre&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">output</span><span class="p">]</span>
     
-    <span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">convert_complex_points</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
+    <span class="n">moroz_dpp</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">convert_complex_points</span><span class="p">(</span><span class="n">moroz_dpp</span><span class="p">)</span>
     <span class="n">X_dpp_Mz</span> <span class="o">=</span> <span class="n">X_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span> <span class="p">;</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">Y_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span>
     <span class="n">dpp_Mz_points</span> <span class="o">=</span> <span class="n">convert_lists_to_points</span><span class="p">(</span><span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span><span class="p">)</span>
     
@@ -727,172 +728,90 @@ Compiling functions ...
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+<span class="nn">Cell In [2], line 95,</span> in <span class="ni">create_dataframe</span><span class="nt">(N, observations)</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span> <span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">95</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>V1</th>
-      <th>V2</th>
-      <th>V3</th>
-      <th>V4</th>
-      <th>V5</th>
-      <th>V6</th>
-      <th>V7</th>
-      <th>V8</th>
-      <th>V9</th>
-      <th>V10</th>
-      <th>...</th>
-      <th>P6</th>
-      <th>P7</th>
-      <th>P8</th>
-      <th>P9</th>
-      <th>P10</th>
-      <th>MP5</th>
-      <th>MP10</th>
-      <th>MP15</th>
-      <th>MP20</th>
-      <th>type</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1.557082</td>
-      <td>0.362659</td>
-      <td>-1.096643</td>
-      <td>1.036184</td>
-      <td>0.062331</td>
-      <td>0.509377</td>
-      <td>-0.350252</td>
-      <td>-1.739642</td>
-      <td>-1.091720</td>
-      <td>0.750625</td>
-      <td>...</td>
-      <td>0.792666</td>
-      <td>-0.352891</td>
-      <td>-1.110924</td>
-      <td>-1.459486</td>
-      <td>1.057431</td>
-      <td>76.6328</td>
-      <td>73.4541</td>
-      <td>70.977000</td>
-      <td>71.50065</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.546032</td>
-      <td>-1.695204</td>
-      <td>0.561060</td>
-      <td>-0.706335</td>
-      <td>0.045085</td>
-      <td>-0.184348</td>
-      <td>1.901594</td>
-      <td>0.975844</td>
-      <td>-0.996884</td>
-      <td>0.645219</td>
-      <td>...</td>
-      <td>-0.105997</td>
-      <td>2.124815</td>
-      <td>0.910743</td>
-      <td>-0.657787</td>
-      <td>0.699278</td>
-      <td>38.7330</td>
-      <td>49.5373</td>
-      <td>57.072467</td>
-      <td>72.82890</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.722865</td>
-      <td>0.550977</td>
-      <td>-1.386503</td>
-      <td>-0.734449</td>
-      <td>1.145113</td>
-      <td>0.635053</td>
-      <td>0.916239</td>
-      <td>-0.694279</td>
-      <td>-1.804080</td>
-      <td>0.649065</td>
-      <td>...</td>
-      <td>0.403807</td>
-      <td>0.781128</td>
-      <td>-0.753567</td>
-      <td>-1.992967</td>
-      <td>0.403807</td>
-      <td>67.9666</td>
-      <td>64.9319</td>
-      <td>68.976400</td>
-      <td>69.83235</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-0.209756</td>
-      <td>-0.641086</td>
-      <td>-0.771075</td>
-      <td>-1.000121</td>
-      <td>-0.705038</td>
-      <td>2.681298</td>
-      <td>0.230262</td>
-      <td>0.395009</td>
-      <td>0.175347</td>
-      <td>-0.154841</td>
-      <td>...</td>
-      <td>2.559318</td>
-      <td>0.584864</td>
-      <td>0.463831</td>
-      <td>0.087720</td>
-      <td>-0.129126</td>
-      <td>32.0682</td>
-      <td>72.6282</td>
-      <td>80.442000</td>
-      <td>84.64470</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.124111</td>
-      <td>-0.142385</td>
-      <td>0.204604</td>
-      <td>-0.589446</td>
-      <td>-0.371898</td>
-      <td>1.253185</td>
-      <td>1.354345</td>
-      <td>-0.141297</td>
-      <td>-2.359199</td>
-      <td>0.667981</td>
-      <td>...</td>
-      <td>0.850862</td>
-      <td>1.985981</td>
-      <td>-0.284468</td>
-      <td>-1.706528</td>
-      <td>0.887737</td>
-      <td>58.5628</td>
-      <td>63.4710</td>
-      <td>68.855600</td>
-      <td>68.50220</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 29 columns</p>
-</div></div></div>
+<span class="nn">Cell In [2], line 63,</span> in <span class="ni">dpp_Moroz</span><span class="nt">(N)</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span> <span class="n">radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="p">;</span> <span class="n">precision</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**-</span><span class="mi">53</span> <span class="p">;</span> <span class="n">error</span> <span class="o">=</span> <span class="kc">False</span> <span class="p">;</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span> <span class="p">;</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span> 
+<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">kernels</span><span class="p">[</span><span class="s1">&#39;ginibre&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">output</span><span class="p">]</span>
+<span class="ne">---&gt; </span><span class="mi">63</span> <span class="n">moroz_dpp</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">convert_complex_points</span><span class="p">(</span><span class="n">moroz_dpp</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">65</span> <span class="n">X_dpp_Mz</span> <span class="o">=</span> <span class="n">X_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span> <span class="p">;</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">Y_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:324,</span> in <span class="ni">sample</span><span class="nt">(R, N, kernel, precision, error, quiet, output)</span>
+<span class="g g-Whitespace">    </span><span class="mi">322</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">323</span>     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sampling the points ...&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">324</span> <span class="n">V</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">sample_points</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">print_point_txt</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">326</span>     <span class="nb">print</span><span class="p">()</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:71,</span> in <span class="ni">sample_points</span><span class="nt">(kernel, R, I, epsilon, print_point)</span>
+<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="n">invLambdas</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">Lambdas</span>
+<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">70</span>     <span class="c1"># Draw point Wi</span>
+<span class="ne">---&gt; </span><span class="mi">71</span>     <span class="n">r</span> <span class="o">=</span> <span class="n">sample_module</span><span class="p">(</span><span class="n">U</span><span class="o">/</span><span class="n">U</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">invLambdas</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span>     <span class="n">alpha</span> <span class="o">=</span> <span class="n">sample_argument</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">invLambdas</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">73</span>     <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">alpha</span><span class="p">)</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:44,</span> in <span class="ni">sample_module</span><span class="nt">(C, R, I, invLambdas, F, epsilon)</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">F</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">invLambdas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span>
+<span class="ne">---&gt; </span><span class="mi">44</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="k">return</span> <span class="n">r</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/scipy/optimize/_zeros_py.py:783,</span> in <span class="ni">brentq</span><span class="nt">(f, a, b, args, xtol, rtol, maxiter, full_output, disp)</span>
+<span class="g g-Whitespace">    </span><span class="mi">781</span> <span class="k">if</span> <span class="n">rtol</span> <span class="o">&lt;</span> <span class="n">_rtol</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">782</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;rtol too small (</span><span class="si">%g</span><span class="s2"> &lt; </span><span class="si">%g</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rtol</span><span class="p">,</span> <span class="n">_rtol</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">783</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_zeros</span><span class="o">.</span><span class="n">_brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span> <span class="n">rtol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">full_output</span><span class="p">,</span> <span class="n">disp</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">784</span> <span class="k">return</span> <span class="n">results_c</span><span class="p">(</span><span class="n">full_output</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:43,</span> in <span class="ni">sample_module.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(r)</span>
+<span class="g g-Whitespace">     </span><span class="mi">41</span> <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">43</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">F</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">invLambdas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="k">return</span> <span class="n">r</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:98,</span> in <span class="ni">&lt;lambda&gt;</span><span class="nt">(i, r)</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span> <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span> <span class="k">as</span> <span class="n">_namedtuple</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="n">Kernel</span> <span class="o">=</span> <span class="n">_namedtuple</span><span class="p">(</span><span class="s1">&#39;Kernel&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span> <span class="n">kernels</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span>     <span class="c1"># Ginibre point process</span>
+<span class="ne">---&gt; </span><span class="mi">98</span>     <span class="s1">&#39;ginibre&#39;</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">_special</span><span class="o">.</span><span class="n">gammainc</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">r</span><span class="p">),</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>                       <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">i</span><span class="o">!=</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">_special</span><span class="o">.</span><span class="n">gammaln</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>                                                    <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">))),</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> 
+<span class="g g-Whitespace">    </span><span class="mi">102</span>     <span class="c1"># Zeros of an analytic function with Gaussian coefficients</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span>     <span class="s1">&#39;gaussian&#39;</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span>                        <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">105</span> 
+<span class="g g-Whitespace">    </span><span class="mi">106</span>     <span class="c1">## Experimental kernels</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="c1"># Gaussian kernel times 1 - r**2</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span>     <span class="s1">&#39;weighted&#39;</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span>                        <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span> 
+<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="c1"># Uniform modules</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>     <span class="s1">&#39;pseudo-uniform&#39;</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">113</span>                              <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">114</span> <span class="p">}</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="c1"># Parser  for command line arguments</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="classification-models">
@@ -977,19 +896,6 @@ Compiling functions ...
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.87      0.88      0.87       298
-           1       0.88      0.87      0.87       302
-
-    accuracy                           0.87       600
-   macro avg       0.87      0.87      0.87       600
-weighted avg       0.87      0.87      0.87       600
-</pre></div>
-</div>
-<img alt="_images/template-computo-myst_8_1.png" src="_images/template-computo-myst_8_1.png" />
-</div>
 </div>
 <p>Here are the results of the random forest</p>
 <div class="cell tag_show-output tag_show-input docutils container">
@@ -999,19 +905,6 @@ weighted avg       0.87      0.87      0.87       600
 <span class="n">model_Evaluate</span><span class="p">(</span><span class="n">baseline_RF</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.93      0.92      0.92       298
-           1       0.92      0.93      0.93       302
-
-    accuracy                           0.93       600
-   macro avg       0.93      0.92      0.92       600
-weighted avg       0.93      0.93      0.92       600
-</pre></div>
-</div>
-<img alt="_images/template-computo-myst_10_1.png" src="_images/template-computo-myst_10_1.png" />
 </div>
 </div>
 </section>
@@ -1082,176 +975,6 @@ In addition to that, we are working with a real dataset, so we often encounter t
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[31, 23, 22, 24, 22, 46, 24, 31, 29, 22]
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>V1</th>
-      <th>V2</th>
-      <th>V3</th>
-      <th>V4</th>
-      <th>V5</th>
-      <th>V6</th>
-      <th>V7</th>
-      <th>V8</th>
-      <th>V9</th>
-      <th>V10</th>
-      <th>...</th>
-      <th>P5</th>
-      <th>P6</th>
-      <th>P7</th>
-      <th>P8</th>
-      <th>P9</th>
-      <th>P10</th>
-      <th>MP5</th>
-      <th>MP10</th>
-      <th>MP15</th>
-      <th>MP20</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1.058615</td>
-      <td>-1.059609</td>
-      <td>-0.322889</td>
-      <td>-0.837226</td>
-      <td>-0.608632</td>
-      <td>-0.546514</td>
-      <td>0.057273</td>
-      <td>-0.332828</td>
-      <td>0.110694</td>
-      <td>2.481117</td>
-      <td>...</td>
-      <td>-0.313571</td>
-      <td>-0.390272</td>
-      <td>-0.272901</td>
-      <td>-0.510596</td>
-      <td>0.075056</td>
-      <td>2.841118</td>
-      <td>54.9306</td>
-      <td>60.7143</td>
-      <td>60.7143</td>
-      <td>60.7143</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.297282</td>
-      <td>-0.299891</td>
-      <td>-0.052026</td>
-      <td>-0.948517</td>
-      <td>-0.221096</td>
-      <td>-0.493487</td>
-      <td>-0.628118</td>
-      <td>2.228860</td>
-      <td>1.582844</td>
-      <td>-0.871287</td>
-      <td>...</td>
-      <td>-0.219659</td>
-      <td>-0.564626</td>
-      <td>-0.639599</td>
-      <td>2.209631</td>
-      <td>1.647841</td>
-      <td>-0.900765</td>
-      <td>57.9418</td>
-      <td>69.9330</td>
-      <td>69.9330</td>
-      <td>69.9330</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>-0.315399</td>
-      <td>-0.524015</td>
-      <td>-1.064477</td>
-      <td>-0.154813</td>
-      <td>-0.756404</td>
-      <td>-0.778721</td>
-      <td>-0.056812</td>
-      <td>1.792111</td>
-      <td>2.012857</td>
-      <td>-0.154328</td>
-      <td>...</td>
-      <td>-0.808625</td>
-      <td>-0.304950</td>
-      <td>-0.290136</td>
-      <td>2.051852</td>
-      <td>1.790089</td>
-      <td>0.068707</td>
-      <td>53.5506</td>
-      <td>80.4082</td>
-      <td>80.4082</td>
-      <td>80.4082</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-0.035014</td>
-      <td>-0.192421</td>
-      <td>-0.538841</td>
-      <td>0.176928</td>
-      <td>-0.759460</td>
-      <td>-0.958388</td>
-      <td>-0.734051</td>
-      <td>-0.177548</td>
-      <td>2.703503</td>
-      <td>0.515292</td>
-      <td>...</td>
-      <td>-0.827160</td>
-      <td>-0.875832</td>
-      <td>-0.594335</td>
-      <td>0.029275</td>
-      <td>2.580715</td>
-      <td>1.019987</td>
-      <td>61.9572</td>
-      <td>78.8108</td>
-      <td>78.8108</td>
-      <td>78.8108</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1.320579</td>
-      <td>-0.068657</td>
-      <td>0.890645</td>
-      <td>-1.103718</td>
-      <td>-1.511872</td>
-      <td>1.745779</td>
-      <td>0.231539</td>
-      <td>-0.269419</td>
-      <td>-0.711664</td>
-      <td>-0.523213</td>
-      <td>...</td>
-      <td>-1.648871</td>
-      <td>2.167209</td>
-      <td>0.013477</td>
-      <td>-0.391777</td>
-      <td>-0.368717</td>
-      <td>-0.440355</td>
-      <td>68.3258</td>
-      <td>71.4361</td>
-      <td>71.4361</td>
-      <td>71.4361</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 28 columns</p>
-</div></div></div>
 </div>
 <p>Now that the data is read and transformed, we regroup the observations by the number of points <span class="math notranslate nohighlight">\(N\)</span> and then create the models inputs for each value of <span class="math notranslate nohighlight">\(N\)</span> (this task may take a while to be executed).</p>
 <div class="cell docutils container">
@@ -1269,75 +992,6 @@ In addition to that, we are working with a real dataset, so we often encounter t
 <span class="n">X_train_24</span><span class="p">,</span> <span class="n">X_test_24</span><span class="p">,</span> <span class="n">y_train_24</span><span class="p">,</span> <span class="n">y_test_24</span> <span class="o">=</span> <span class="n">models_input</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span>
 <span class="n">X_train_46</span><span class="p">,</span> <span class="n">X_test_46</span><span class="p">,</span> <span class="n">y_train_46</span><span class="p">,</span> <span class="n">y_test_46</span> <span class="o">=</span> <span class="n">models_input</span><span class="p">(</span><span class="mi">46</span><span class="p">)</span>
 <span class="n">X_train_29</span><span class="p">,</span> <span class="n">X_test_29</span><span class="p">,</span> <span class="n">y_train_29</span><span class="p">,</span> <span class="n">y_test_29</span> <span class="o">=</span> <span class="n">models_input</span><span class="p">(</span><span class="mi">29</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">data_29</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">8</span><span class="p">]]</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">X_train_31</span><span class="p">,</span> <span class="n">X_test_31</span><span class="p">,</span> <span class="n">y_train_31</span><span class="p">,</span> <span class="n">y_test_31</span> <span class="o">=</span> <span class="n">models_input</span><span class="p">(</span><span class="mi">31</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">X_train_23</span><span class="p">,</span> <span class="n">X_test_23</span><span class="p">,</span> <span class="n">y_train_23</span><span class="p">,</span> <span class="n">y_test_23</span> <span class="o">=</span> <span class="n">models_input</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">X_train_22</span><span class="p">,</span> <span class="n">X_test_22</span><span class="p">,</span> <span class="n">y_train_22</span><span class="p">,</span> <span class="n">y_test_22</span> <span class="o">=</span> <span class="n">models_input</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">X_train_24</span><span class="p">,</span> <span class="n">X_test_24</span><span class="p">,</span> <span class="n">y_train_24</span><span class="p">,</span> <span class="n">y_test_24</span> <span class="o">=</span> <span class="n">models_input</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span>
-
-<span class="nn">Cell In [7], line 29,</span> in <span class="ni">models_input</span><span class="nt">(N)</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="k">def</span> <span class="nf">models_input</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">29</span>     <span class="n">data0</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">observations</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">30</span>     <span class="n">data1</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">data0</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">32</span>     <span class="n">model_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;V1&#39;</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV5&#39;</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">33</span>                   <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP5&#39;</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">]</span>
-
-<span class="nn">Cell In [2], line 94,</span> in <span class="ni">create_dataframe</span><span class="nt">(N, observations)</span>
-<span class="g g-Whitespace">     </span><span class="mi">92</span> <span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">     </span><span class="mi">93</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">94</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">95</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">96</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
-
-<span class="nn">Cell In [2], line 63,</span> in <span class="ni">dpp_Moroz</span><span class="nt">(N)</span>
-<span class="g g-Whitespace">     </span><span class="mi">60</span> <span class="n">radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="p">;</span> <span class="n">precision</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**-</span><span class="mi">53</span> <span class="p">;</span> <span class="n">error</span> <span class="o">=</span> <span class="kc">False</span> <span class="p">;</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span> <span class="p">;</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span> 
-<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">kernels</span><span class="p">[</span><span class="s1">&#39;ginibre&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">output</span><span class="p">]</span>
-<span class="ne">---&gt; </span><span class="mi">63</span> <span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">convert_complex_points</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="n">X_dpp_Mz</span> <span class="o">=</span> <span class="n">X_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span> <span class="p">;</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">Y_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">65</span> <span class="n">dpp_Mz_points</span> <span class="o">=</span> <span class="n">convert_lists_to_points</span><span class="p">(</span><span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span><span class="p">)</span>
-
-<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:324,</span> in <span class="ni">sample</span><span class="nt">(R, N, kernel, precision, error, quiet, output)</span>
-<span class="g g-Whitespace">    </span><span class="mi">322</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">323</span>     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sampling the points ...&#39;</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">324</span> <span class="n">V</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">sample_points</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">print_point_txt</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">326</span>     <span class="nb">print</span><span class="p">()</span>
-
-<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:72,</span> in <span class="ni">sample_points</span><span class="nt">(kernel, R, I, epsilon, print_point)</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">70</span>     <span class="c1"># Draw point Wi</span>
-<span class="g g-Whitespace">     </span><span class="mi">71</span>     <span class="n">r</span> <span class="o">=</span> <span class="n">sample_module</span><span class="p">(</span><span class="n">U</span><span class="o">/</span><span class="n">U</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">invLambdas</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">72</span>     <span class="n">alpha</span> <span class="o">=</span> <span class="n">sample_argument</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">invLambdas</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">73</span>     <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">alpha</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">74</span>     <span class="n">W</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
-
-<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:57,</span> in <span class="ni">sample_argument</span><span class="nt">(V, r, I, invLambdas, g, epsilon)</span>
-<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">56</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">_horner</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">alpha</span><span class="p">)))</span> <span class="o">-</span> <span class="n">c</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-<span class="ne">---&gt; </span><span class="mi">57</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">_optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">58</span> <span class="k">return</span> <span class="n">alpha</span>
-
-<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/scipy/optimize/_zeros_py.py:783,</span> in <span class="ni">brentq</span><span class="nt">(f, a, b, args, xtol, rtol, maxiter, full_output, disp)</span>
-<span class="g g-Whitespace">    </span><span class="mi">781</span> <span class="k">if</span> <span class="n">rtol</span> <span class="o">&lt;</span> <span class="n">_rtol</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">782</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;rtol too small (</span><span class="si">%g</span><span class="s2"> &lt; </span><span class="si">%g</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rtol</span><span class="p">,</span> <span class="n">_rtol</span><span class="p">))</span>
-<span class="ne">--&gt; </span><span class="mi">783</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_zeros</span><span class="o">.</span><span class="n">_brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span> <span class="n">rtol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">full_output</span><span class="p">,</span> <span class="n">disp</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">784</span> <span class="k">return</span> <span class="n">results_c</span><span class="p">(</span><span class="n">full_output</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
-
-<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:56,</span> in <span class="ni">sample_argument.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(alpha)</span>
-<span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
-<span class="ne">---&gt; </span><span class="mi">56</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">_horner</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">alpha</span><span class="p">)))</span> <span class="o">-</span> <span class="n">c</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">_optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">58</span> <span class="k">return</span> <span class="n">alpha</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
