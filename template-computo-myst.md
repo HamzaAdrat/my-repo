@@ -219,9 +219,9 @@ def extract_Voronoi_areas(vor):
     areas= []
     perim = []
     for i in range(len(vor.filtered_regions)):
-        areas.append(round(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).volume, 3))
+        areas.append(round(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).volume, 2))
         perim.append(round(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).area, 2))
-    return areas, list(np.around((np.array(perim))**2, 3))
+    return areas, list(np.around((np.array(perim))**2, 2))
 
 def in_box(towers, bounding_box):
     return np.logical_and(np.logical_and(bounding_box[0] <= towers[:, 0], towers[:, 0] <= bounding_box[1]),
@@ -275,8 +275,8 @@ def dpp_Moroz(N):
 
 def random_process(N):
     radius = np.sqrt(N)
-    alpha = 2 * np.pi * scipy.stats.uniform.rvs(0,1,N)
-    r = radius * np.sqrt(scipy.stats.uniform.rvs(0,1,N))
+    alpha = 2*np.pi*scipy.stats.uniform.rvs(0,1,N)
+    r = radius*np.sqrt(scipy.stats.uniform.rvs(0,1,N))
     
     X_rand, Y_rand = r*np.cos(alpha), r*np.sin(alpha)
     rand_points = convert_lists_to_points(X_rand, Y_rand)
