@@ -260,7 +260,8 @@ def dpp_Moroz(N):
     radius = int(np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
     args = [radius, N, kernels['ginibre'], precision, error, quiet, output]
     
-    X_dpp_Mz, Y_dpp_Mz = convert_complex_points(sample(*args))
+    moroz_dpp = sample(*args)
+    X_dpp_Mz, Y_dpp_Mz = convert_complex_points(moroz_dpp)
     X_dpp_Mz = X_dpp_Mz*((np.sqrt(N))/radius) ; Y_dpp_Mz = Y_dpp_Mz*((np.sqrt(N))/radius)
     dpp_Mz_points = convert_lists_to_points(X_dpp_Mz, Y_dpp_Mz)
     
