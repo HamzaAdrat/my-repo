@@ -249,8 +249,8 @@ def voronoi(towers, bounding_box, N):
     # Compute Voronoi
     vor = Voronoi(points)
     # Filter regions
-    regions = []
-    [vor.point_region[i] for i in range(N)]
+    # regions = []
+    # [vor.point_region[i] for i in range(N)]
 
     vor.filtered_points = points_center
     vor.filtered_regions = [vor.regions[vor.point_region[i]] for i in range(len(points_center))]
