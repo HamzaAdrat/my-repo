@@ -176,15 +176,7 @@ When it comes to assess the type of point process we should consider in this sit
 
 Given a circular domain with $N$ points, we want to decide whether the points suffer from repulsion or not. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a  Ginibre point process of intensity $1$  with $N$ occupies roughly a disk with this radius. We train our models on datas issued from drawings of Ginibre configuration and from drawings of $N$ points independently and uniformly scattered in $B(0,\sqrt{N})$.
 
-
-
-For each of the previous samples, we compute the Voronoi diagrams and retain
-only the $10$ cells which are the closest to the barycenter of the
-configuration in order to avoid side effects. We then  extract the areas and the perimeters  of
-these cells.  In addition to that, we 
-compute the mean of the first $5$, $10$, $15$ and $20$ cells' areas in order to
-have a more global information.
-
+For each of the previous samples, we compute the Voronoi diagrams and retain only the $10$ cells which are the closest to the barycenter of the configuration in order to avoid side effects. We then  extract the areas and the perimeters  of these cells. In addition to that, we compute the mean of the first $5$, $10$, $15$ and $20$ cells' areas in order to have a more global information.
 
 The final data will be a set of observations where each one contains $29$ columns described as follow:
 - For $1 \le i \le 10, \; \mathrm{V}_i$ is the area of the $i^{\mathrm{th}}$ Voronoi cell.
@@ -351,7 +343,7 @@ Here is an example of the data created. We generate a data of $3000$ observation
 ---
 tags: [show-output, show-input]
 ---
-ddf = create_dataframe(24, 1500)
+ddf = create_dataframe(24, 1000)
 ddf_transformed = transform_df(ddf)
 ddf_transformed.head()
 ```

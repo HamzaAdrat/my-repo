@@ -535,12 +535,7 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <section id="model-training">
 <h3>Model training<a class="headerlink" href="#model-training" title="Permalink to this headline">#</a></h3>
 <p>Given a circular domain with <span class="math notranslate nohighlight">\(N\)</span> points, we want to decide whether the points suffer from repulsion or not. Since the repulsion is not sensitive to scaling, we normalize the radius to <span class="math notranslate nohighlight">\(R=\sqrt{N}\)</span>. This is due to the fact that a cloud drawn from a  Ginibre point process of intensity <span class="math notranslate nohighlight">\(1\)</span>  with <span class="math notranslate nohighlight">\(N\)</span> occupies roughly a disk with this radius. We train our models on datas issued from drawings of Ginibre configuration and from drawings of <span class="math notranslate nohighlight">\(N\)</span> points independently and uniformly scattered in <span class="math notranslate nohighlight">\(B(0,\sqrt{N})\)</span>.</p>
-<p>For each of the previous samples, we compute the Voronoi diagrams and retain
-only the <span class="math notranslate nohighlight">\(10\)</span> cells which are the closest to the barycenter of the
-configuration in order to avoid side effects. We then  extract the areas and the perimeters  of
-these cells.  In addition to that, we
-compute the mean of the first <span class="math notranslate nohighlight">\(5\)</span>, <span class="math notranslate nohighlight">\(10\)</span>, <span class="math notranslate nohighlight">\(15\)</span> and <span class="math notranslate nohighlight">\(20\)</span> cells’ areas in order to
-have a more global information.</p>
+<p>For each of the previous samples, we compute the Voronoi diagrams and retain only the <span class="math notranslate nohighlight">\(10\)</span> cells which are the closest to the barycenter of the configuration in order to avoid side effects. We then  extract the areas and the perimeters  of these cells. In addition to that, we compute the mean of the first <span class="math notranslate nohighlight">\(5\)</span>, <span class="math notranslate nohighlight">\(10\)</span>, <span class="math notranslate nohighlight">\(15\)</span> and <span class="math notranslate nohighlight">\(20\)</span> cells’ areas in order to have a more global information.</p>
 <p>The final data will be a set of observations where each one contains <span class="math notranslate nohighlight">\(29\)</span> columns described as follow:</p>
 <ul class="simple">
 <li><p>For <span class="math notranslate nohighlight">\(1 \le i \le 10, \; \mathrm{V}_i\)</span> is the area of the <span class="math notranslate nohighlight">\(i^{\mathrm{th}}\)</span> Voronoi cell.</p></li>
@@ -560,7 +555,7 @@ have a more global information.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fcffcb74370&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fcf8815a370&gt;]
 </pre></div>
 </div>
 <img alt="_images/template-computo-myst_1_1.png" src="_images/template-computo-myst_1_1.png" />
@@ -718,43 +713,179 @@ Compiling functions ...
 <p>Here is an example of the data created. We generate a data of <span class="math notranslate nohighlight">\(3000\)</span> observations of configurations (<span class="math notranslate nohighlight">\(1500\)</span> repulsive and <span class="math notranslate nohighlight">\(1500\)</span> non repulsive) of <span class="math notranslate nohighlight">\(N = 24\)</span> points.</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
 <span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="nn">Cell In [2], line 93,</span> in <span class="ni">create_dataframe</span><span class="nt">(N, observations)</span>
-<span class="g g-Whitespace">     </span><span class="mi">91</span> <span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">     </span><span class="mi">92</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">93</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">94</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">95</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="nn">Cell In [2], line 70,</span> in <span class="ni">dpp_Moroz</span><span class="nt">(N)</span>
-<span class="g g-Whitespace">     </span><span class="mi">67</span> <span class="n">dpp_Mz_points</span> <span class="o">=</span> <span class="n">dpp_Mz_points</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="n">dpp_Mz_vor</span> <span class="o">=</span> <span class="n">voronoi</span><span class="p">(</span><span class="n">dpp_Mz_points</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mf">.1</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mf">.1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">dpp_Mz_points</span><span class="p">))</span>
-<span class="ne">---&gt; </span><span class="mi">70</span> <span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span> <span class="o">=</span> <span class="n">extract_Voronoi_areas</span><span class="p">(</span><span class="n">dpp_Mz_vor</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">72</span> <span class="k">return</span> <span class="p">[</span><span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-
-<span class="nn">Cell In [2], line 22,</span> in <span class="ni">extract_Voronoi_areas</span><span class="nt">(vor)</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">)):</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="n">areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">volume</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="ne">---&gt; </span><span class="mi">22</span>     <span class="n">perim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="k">return</span> <span class="n">areas</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">perim</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
-</div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>V3</th>
+      <th>V4</th>
+      <th>V5</th>
+      <th>V6</th>
+      <th>V7</th>
+      <th>V8</th>
+      <th>V9</th>
+      <th>V10</th>
+      <th>...</th>
+      <th>P6</th>
+      <th>P7</th>
+      <th>P8</th>
+      <th>P9</th>
+      <th>P10</th>
+      <th>MP5</th>
+      <th>MP10</th>
+      <th>MP15</th>
+      <th>MP20</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-1.224826</td>
+      <td>1.158193</td>
+      <td>0.560797</td>
+      <td>0.488585</td>
+      <td>-1.704056</td>
+      <td>0.139009</td>
+      <td>1.278001</td>
+      <td>0.125880</td>
+      <td>0.509920</td>
+      <td>-1.331504</td>
+      <td>...</td>
+      <td>0.151679</td>
+      <td>1.919535</td>
+      <td>0.577740</td>
+      <td>1.094182</td>
+      <td>-1.551334</td>
+      <td>60.6182</td>
+      <td>66.3171</td>
+      <td>68.861400</td>
+      <td>73.37470</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.859577</td>
+      <td>-1.516776</td>
+      <td>-0.546340</td>
+      <td>-1.081296</td>
+      <td>1.159108</td>
+      <td>-0.703290</td>
+      <td>0.521361</td>
+      <td>0.095275</td>
+      <td>1.754854</td>
+      <td>-0.542472</td>
+      <td>...</td>
+      <td>-0.179040</td>
+      <td>0.304964</td>
+      <td>0.163672</td>
+      <td>1.891835</td>
+      <td>-0.732377</td>
+      <td>52.5284</td>
+      <td>60.3658</td>
+      <td>71.081533</td>
+      <td>72.95520</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.448335</td>
+      <td>1.337758</td>
+      <td>0.827298</td>
+      <td>-1.180375</td>
+      <td>-0.419344</td>
+      <td>-1.138958</td>
+      <td>1.369856</td>
+      <td>-1.089258</td>
+      <td>1.119285</td>
+      <td>-0.377927</td>
+      <td>...</td>
+      <td>-0.609779</td>
+      <td>2.006012</td>
+      <td>-0.659100</td>
+      <td>1.899382</td>
+      <td>-0.731309</td>
+      <td>69.9594</td>
+      <td>82.7454</td>
+      <td>75.756733</td>
+      <td>78.90205</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.083953</td>
+      <td>-0.219804</td>
+      <td>-0.192668</td>
+      <td>0.715385</td>
+      <td>-0.378166</td>
+      <td>-0.044026</td>
+      <td>-0.999466</td>
+      <td>-0.505747</td>
+      <td>-1.557582</td>
+      <td>2.098121</td>
+      <td>...</td>
+      <td>-0.283329</td>
+      <td>-1.027436</td>
+      <td>-0.254315</td>
+      <td>-1.686547</td>
+      <td>2.124142</td>
+      <td>81.8372</td>
+      <td>73.3659</td>
+      <td>65.747000</td>
+      <td>71.09060</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.899359</td>
+      <td>0.412637</td>
+      <td>0.259298</td>
+      <td>-0.698640</td>
+      <td>0.112851</td>
+      <td>-1.353346</td>
+      <td>-0.319600</td>
+      <td>-0.760665</td>
+      <td>2.288024</td>
+      <td>-0.839918</td>
+      <td>...</td>
+      <td>-1.044658</td>
+      <td>-0.489861</td>
+      <td>-0.157129</td>
+      <td>2.686064</td>
+      <td>-0.740516</td>
+      <td>65.8268</td>
+      <td>66.7344</td>
+      <td>65.656067</td>
+      <td>69.08000</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div></div></div>
 </div>
 </section>
 </section>
