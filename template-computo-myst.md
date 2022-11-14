@@ -642,6 +642,8 @@ In this paper it has been shown numerically (based on the theoretical results in
 
 Once the models are trained and tested on the data created, they are tested after that on real data, which are the positions of a mobile phone base stations in PARIS. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained models.
 
+## Bibliography
+
 ```{bibliography}
 :style: unsrt
 ```
