@@ -157,9 +157,9 @@ When it comes to assess the type of point process we should consider in this sit
 
 ### Model training
 
-Given a circular domain with $N$ points, we want to decide whether the points suffer from repulsion or not. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a  Ginibre point process of intensity $1$  with $N$ occupies roughly a disk with this radius. We train our models on datas issued from drawings of Ginibre configuration and from drawings of $N$ points independently and uniformly scattered in $B(0,\sqrt{N})$.
+Given a circular domain with $N$ points, we want to decide whether the points exhibit  repulsion or not. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a  Ginibre point process of intensity $1$  with $N$ points occupies roughly a disk with this radius. We train our models on datas issued from drawings of Ginibre configuration and from drawings of $N$ points independently and uniformly scattered in $B(0,\sqrt{N})$.
 
-For each of the previous samples, we compute the Voronoi diagrams and retain only the $10$ cells which are the closest to the barycenter of the configuration in order to avoid side effects. We then  extract the areas and the perimeters  of these cells. In addition to that, we compute the mean of the first $5$, $10$, $15$ and $20$ cells' areas in order to have a more global information.
+For each of the previous samples, we compute the Voronoi diagrams and retain only the $10$ cells which are the closest to the barycenter of the configuration in order to avoid side effects. We then  extract the areas and the perimeters  of these cells. In principle, this should be enough to have a good classification algorithm. We noticed that in addition to thes quantities, it dramatically improves the results of the classification of we add  the mean of the first $5$, $10$, $15$ and $20$ cells' areas in order to have a more global information.
 
 The final data will be a set of observations where each one contains $29$ columns described as follow:
 - For $1 \le i \le 10, \; \mathrm{V}_i$ is the area of the $i^{\mathrm{th}}$ Voronoi cell.
@@ -314,7 +314,8 @@ def transform_df(odf):
 %run -i Moroz_dpp.py
 ```
 
-Here is an example of the data created. We generate a data of $2000$ observations of configurations ($1000$ repulsive and $1000$ non repulsive) of $N = 24$ points.
+Here is an example of the data created. We generate a data of $2,000$ observations of configurations ($1,000$ repulsive and $1,000$ non repulsive) of $N = 24$ points.
+
 
 ```{code-cell} ipython3
 ---
@@ -327,13 +328,13 @@ ddf_transformed.head()
 
 ### Classification models
 
-In this section, we will train and test some Machine Learning models using the data we've created in the previous section. For a start we will select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). And also we will only use baseline models, i.e. all the hyperparameters' values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).
+In this section, we  train and test some Machine Learning models using the data we've created in the previous section. For a start we  select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). Note that  we  only use baseline models, i.e. all the hyperparameters' values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).
 
 The models we use in this paper are:
 - Logistic regression, which is a classification algorithm, used when the value of the target variable is categorical in nature. Logistic regression is most commonly used when the data in question has binary output, so when it belongs to one class or another, or is either a $0$ or $1$.
 - Random forest, a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the accuracy and control over-fitting.
 
-Two other classification models (Support Vector Machine and XGBoost) have been tested but not introduced in this paper since they gave similar results to the models prensent in this paper.
+Two other classification models (Support Vector Machine and XGBoost) have been tested but did not yield more significant results than those two models.
 
 ```{code-cell} ipython3
 ---
@@ -422,12 +423,12 @@ model_Evaluate(baseline_RF, X_test, y_test)
 
 ### Testing on CARTORADIO data
 
-CARTORADIO data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification models already used, the repulsion of these configurations.
+CARTORADIO data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification models already used, whether the configuration do present some repulsion.
 
-The initial data (positions of the mobile phone antennas) covered a large area of the city of Paris (see {numref}`cartoradio-fig`(right)), while the prediction models were trained on simulated data on small circles compared with the initial CARTORADIO data.
-In addition to that, we are working with a real dataset, so we often encounter the problem of heterogeneity between the different configurations since they depend on the structure of the space in which the antennas are placed.
+The initial data (positions of the  antennas) cover a large area of the city of Paris (see {numref}`cartoradio-fig`(right))
+With a real dataset,  we often encounter the problem of heterogeneity between the different parts of the configurations since they depend on the topology  of the space in which the antennas are placed.
 
-So to remedy this problem, we will extract from each configuration a representative sample similar to the type of training data so that the tests make sense. {numref}`cartoradio-fig` (left) shows a sample extracted from a given configuration.
+To cope with this problem, we  extract from each configuration a representative sample similar to the type of training data so that the tests make sense. {numref}`cartoradio-fig` (left) shows a sample extracted from a given configuration.
 
 ```{figure} /cartoradio.png
 ---
@@ -436,7 +437,7 @@ name: cartoradio-fig
 On the left, Initial cartoradio configuration. On the right, Sample extracted from it and scaled.
 ```
 
-In the following, we will read the CARTORADIA directly from the "data_cartoradio.csv" file.
+In the following, we  read the CARTORADIA directly from the "data_cartoradio.csv" file.
 
 ```{code-cell} ipython3
 # Useful functions to transform the CARTORADIO data
@@ -490,7 +491,9 @@ print(list_N)
 data_test.head()
 ```
 
+
 Now that the data is read and transformed, we regroup the observations by the number of points $N$ and then create the models inputs for each value of $N$ using the function *models_input(N)*, but since this task takes so much time to be executed that we got the time-out error. That's why we already prepared, for each value of $N$, a file containing the data created locally, and we will read the files directly.
+
 
 #### N = 31
 
@@ -636,6 +639,7 @@ We can notice that the classification results are mostly positive, which means t
 - As long as we are dealing with real data, these two samples may be a non-repulsive ones and the results are actually coherent.
 - It is sure that the accuracy of our models is very high, but we may have some classification errors, which means that even if the configuration is repulsive, the model decides that it is not.
 
+
 ## Conclusion
 
 In this paper it has been shown numerically (based on the theoretical results in {cite}`goldman_palm_2010`) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification models described earlier.
@@ -643,6 +647,7 @@ In this paper it has been shown numerically (based on the theoretical results in
 Once the models are trained and tested on the data created, they are tested after that on real data, which are the positions of a mobile phone base stations in PARIS. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained models.
 
 ## Bibliography
+
 
 ```{bibliography}
 :style: unsrt
