@@ -41,23 +41,6 @@ and that equality holds if and only if the curve is a circle. After normalizatio
 
 This paper is organized as follows. We first recall the theoretical notions that we will need in the rest of this paper. We will also briefly define the Papangelou intensity which is at the core of the definition of repulsion. In section 3 we show numerically, and based on two Machine Learning classification models, how the locations of antennas in Paris can be considered as repulsive configurations.
 
-This document provides a Myst template for contributions to the **Computo**
-Journal {cite}`computo`. We show how `Python` {cite}`perez2011python`, `R`, or `Julia` code can be included.
-Note that you can also add equations easily:
-
-$$
-\sum x + y = Z
-$$
-
-You can also add equations in such a way to be able to reference them later:
-
-```{math}
-:label: math
-w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}
-```
-
-See equation {eq}`math` for details.
-
 ## Preliminaries
 
  A configuration on $E=\mathbf R^2$ is a locally finite (respectively finite) subset of $E$. The space of configurations (respectively finite configurations) is denoted $\mathfrak N$ (respectively $\mathfrak N_{f}$). We equip $\mathfrak N$ with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by $\mathcal B(\mathfrak N)$ the Borelean $\sigma$-field on $\mathfrak N$. A locally finite (respectively finite) point process is a random variable with values in $\mathfrak N$ (respectively $\mathfrak N_{f}$).
@@ -187,14 +170,6 @@ The final data will be a set of observations where each one contains $29$ column
 The final column will be the target variable for our classification models.
 
 ```{code-cell} ipython3
-import matplotlib.pyplot as plt
-import numpy as np
-
-fig, ax = plt.subplots()
-ax.plot(np.arange(10))
-```
-
-```{code-cell} ipython3
 ---
 tags: [show-output, show-input]
 ---
@@ -249,8 +224,8 @@ def voronoi(towers, bounding_box, N):
     # Compute Voronoi
     vor = Voronoi(points)
     # Filter regions
-    regions = []
-    [vor.point_region[i] for i in range(N)]
+    # regions = []
+    # [vor.point_region[i] for i in range(N)]
 
     vor.filtered_points = points_center
     vor.filtered_regions = [vor.regions[vor.point_region[i]] for i in range(len(points_center))]
@@ -339,7 +314,8 @@ def transform_df(odf):
 %run -i Moroz_dpp.py
 ```
 
-Here is an example of the data created. We generate a data of $3,000$ observations of configurations ($1,500$ repulsive and $1,500$ non repulsive) of $N = 24$ points.
+Here is an example of the data created. We generate a data of $2,000$ observations of configurations ($1,000$ repulsive and $1,000$ non repulsive) of $N = 24$ points.
+
 
 ```{code-cell} ipython3
 ---
@@ -515,118 +491,163 @@ print(list_N)
 data_test.head()
 ```
 
-Now that the data is read and transformed, we gather the observations by the number of points $N$ and then create the models inputs for each value of $N$ (this task may take a while to be executed).
 
-```{code-cell} ipython3
-data_31 = data_test.iloc[[0, 7]]
-data_23 = data_test.iloc[[1]]
-data_22 = data_test.iloc[[2, 4, 9]]
-data_24 = data_test.iloc[[3, 6]]
-data_46 = data_test.iloc[[5]]
-data_29 = data_test.iloc[[8]]
+Now that the data is read and transformed, we regroup the observations by the number of points $N$ and then create the models inputs for each value of $N$ using the function *models_input(N)*, but since this task takes so much time to be executed that we got the time-out error. That's why we already prepared, for each value of $N$, a file containing the data created locally, and we will read the files directly.
 
-X_train_31, X_test_31, y_train_31, y_test_31 = models_input(31)
-X_train_23, X_test_23, y_train_23, y_test_23 = models_input(23)
-X_train_22, X_test_22, y_train_22, y_test_22 = models_input(22)
-X_train_24, X_test_24, y_train_24, y_test_24 = models_input(24)
-X_train_46, X_test_46, y_train_46, y_test_46 = models_input(46)
-X_train_29, X_test_29, y_train_29, y_test_29 = models_input(29)
-```
+
+#### N = 31
 
 ```{code-cell} ipython3
 ---
 tags: [show-output, show-input]
 ---
+data31 = pd.read_csv('data_31.csv', sep=',')
+X31 = data31[model_cols].values
+y31 = data31['type'].values
+X31_train, X31_test, y31_train, y31_test = train_test_split(X31, y31, test_size=0.3, shuffle=True, random_state=7)
+data_test_31 = data_test.iloc[[0, 7]]
+
 print('N = 31')
 print('------------------')
 print('Logistic Regression Results')
-Baseline_LR.fit(X_train_31, y_train_31)
-print(Baseline_LR.predict(data_31.values)[0], Baseline_LR.predict_proba(data_31.values)[0])
-print(Baseline_LR.predict(data_31.values)[1], Baseline_LR.predict_proba(data_31.values)[1])
+Baseline_LR.fit(X31_train, y31_train)
+print(Baseline_LR.predict(data_test_31.values)[0], Baseline_LR.predict_proba(data_test_31.values)[0])
+print(Baseline_LR.predict(data_test_31.values)[1], Baseline_LR.predict_proba(data_test_31.values)[1])
 print('------------------')
 print('Random Forest Results')
-baseline_RF.fit(X_train_31, y_train_31)
-print(baseline_RF.predict(data_31.values)[0], baseline_RF.predict_proba(data_31.values)[0])
-print(baseline_RF.predict(data_31.values)[1], baseline_RF.predict_proba(data_31.values)[1])
+baseline_RF.fit(X31_train, y31_train)
+print(baseline_RF.predict(data_test_31.values)[0], baseline_RF.predict_proba(data_test_31.values)[0])
+print(baseline_RF.predict(data_test_31.values)[1], baseline_RF.predict_proba(data_test_31.values)[1])
+```
+#### N = 23
 
-print('---------------------------------------------')
-print('---------------------------------------------')
+```{code-cell} ipython3
+---
+tags: [show-output, show-input]
+---
+data23 = pd.read_csv('data_23.csv', sep=',')
+X23 = data23[model_cols].values
+y23 = data23['type'].values
+X23_train, X23_test, y23_train, y23_test = train_test_split(X23, y23, test_size=0.3, shuffle=True, random_state=7)
+data_test_23 = data_test.iloc[[1]]
 
 print('N = 23')
 print('------------------')
 print('Logistic Regression Results')
-Baseline_LR.fit(X_train_23, y_train_23)
-print(Baseline_LR.predict(data_23.values)[0], Baseline_LR.predict_proba(data_23.values)[0])
+Baseline_LR.fit(X23_train, y23_train)
+print(Baseline_LR.predict(data_test_23.values)[0], Baseline_LR.predict_proba(data_test_23.values)[0])
 print('------------------')
 print('Random Forest Results')
-baseline_RF.fit(X_train_23, y_train_23)
-print(baseline_RF.predict(data_23.values)[0], baseline_RF.predict_proba(data_23.values)[0])
+baseline_RF.fit(X23_train, y23_train)
+print(baseline_RF.predict(data_test_23.values)[0], baseline_RF.predict_proba(data_test_23.values)[0])
+```
+#### N = 22
 
-print('---------------------------------------------')
-print('---------------------------------------------')
+```{code-cell} ipython3
+---
+tags: [show-output, show-input]
+---
+data22 = pd.read_csv('data_22.csv', sep=',')
+X22 = data22[model_cols].values
+y22 = data22['type'].values
+X22_train, X22_test, y22_train, y22_test = train_test_split(X22, y22, test_size=0.3, shuffle=True, random_state=7)
+data_test_22 = data_test.iloc[[2, 4, 9]]
 
 print('N = 22')
 print('------------------')
 print('Logistic Regression Results')
-Baseline_LR.fit(X_train_22, y_train_22)
-print(Baseline_LR.predict(data_22.values)[0], Baseline_LR.predict_proba(data_22.values)[0])
-print(Baseline_LR.predict(data_22.values)[1], Baseline_LR.predict_proba(data_22.values)[1])
-print(Baseline_LR.predict(data_22.values)[2], Baseline_LR.predict_proba(data_22.values)[2])
+Baseline_LR.fit(X22_train, y22_train)
+print(Baseline_LR.predict(data_test_22.values)[0], Baseline_LR.predict_proba(data_test_22.values)[0])
+print(Baseline_LR.predict(data_test_22.values)[1], Baseline_LR.predict_proba(data_test_22.values)[1])
+print(Baseline_LR.predict(data_test_22.values)[2], Baseline_LR.predict_proba(data_test_22.values)[2])
 print('------------------')
 print('Random Forest Results')
-baseline_RF.fit(X_train_22, y_train_22)
-print(baseline_RF.predict(data_22.values)[0], baseline_RF.predict_proba(data_22.values)[0])
-print(baseline_RF.predict(data_22.values)[1], baseline_RF.predict_proba(data_22.values)[1])
-print(baseline_RF.predict(data_22.values)[2], baseline_RF.predict_proba(data_22.values)[2])
+baseline_RF.fit(X22_train, y22_train)
+print(baseline_RF.predict(data_test_22.values)[0], baseline_RF.predict_proba(data_test_22.values)[0])
+print(baseline_RF.predict(data_test_22.values)[1], baseline_RF.predict_proba(data_test_22.values)[1])
+print(baseline_RF.predict(data_test_22.values)[2], baseline_RF.predict_proba(data_test_22.values)[2])
+```
+#### N = 24
 
-print('---------------------------------------------')
-print('---------------------------------------------')
+```{code-cell} ipython3
+---
+tags: [show-output, show-input]
+---
+data24 = pd.read_csv('data_24.csv', sep=',')
+X24 = data24[model_cols].values
+y24 = data24['type'].values
+X24_train, X24_test, y24_train, y24_test = train_test_split(X24, y24, test_size=0.3, shuffle=True, random_state=7)
+data_test_24 = data_test.iloc[[3, 6]]
 
 print('N = 24')
 print('------------------')
 print('Logistic Regression Results')
-Baseline_LR.fit(X_train_24, y_train_24)
-print(Baseline_LR.predict(data_24.values)[0], Baseline_LR.predict_proba(data_24.values)[0])
-print(Baseline_LR.predict(data_24.values)[1], Baseline_LR.predict_proba(data_24.values)[1])
+Baseline_LR.fit(X24_train, y24_train)
+print(Baseline_LR.predict(data_test_24.values)[0], Baseline_LR.predict_proba(data_test_24.values)[0])
+print(Baseline_LR.predict(data_test_24.values)[1], Baseline_LR.predict_proba(data_test_24.values)[1])
 print('------------------')
 print('Random Forest Results')
-baseline_RF.fit(X_train_24, y_train_24)
-print(baseline_RF.predict(data_24.values)[0], baseline_RF.predict_proba(data_24.values)[0])
-print(baseline_RF.predict(data_24.values)[1], baseline_RF.predict_proba(data_24.values)[1])
+baseline_RF.fit(X24_train, y24_train)
+print(baseline_RF.predict(data_test_24.values)[0], baseline_RF.predict_proba(data_test_24.values)[0])
+print(baseline_RF.predict(data_test_24.values)[1], baseline_RF.predict_proba(data_test_24.values)[1])
+```
+#### N = 46
 
-print('---------------------------------------------')
-print('---------------------------------------------')
+```{code-cell} ipython3
+---
+tags: [show-output, show-input]
+---
+data46 = pd.read_csv('data_46.csv', sep=',')
+X46 = data46[model_cols].values
+y46 = data46['type'].values
+X46_train, X46_test, y46_train, y46_test = train_test_split(X46, y46, test_size=0.3, shuffle=True, random_state=7)
+data_test_46 = data_test.iloc[[5]]
 
 print('N = 46')
 print('------------------')
 print('Logistic Regression Results')
-Baseline_LR.fit(X_train_46, y_train_46)
-print(Baseline_LR.predict(data_46.values)[0], Baseline_LR.predict_proba(data_46.values)[0])
+Baseline_LR.fit(X46_train, y46_train)
+print(Baseline_LR.predict(data_test_46.values)[0], Baseline_LR.predict_proba(data_test_46.values)[0])
 print('------------------')
 print('Random Forest Results')
-baseline_RF.fit(X_train_46, y_train_46)
-print(baseline_RF.predict(data_46.values)[0], baseline_RF.predict_proba(data_46.values)[0])
+baseline_RF.fit(X46_train, y46_train)
+print(baseline_RF.predict(data_test_46.values)[0], baseline_RF.predict_proba(data_test_46.values)[0])
+```
+#### N = 29
 
-print('---------------------------------------------')
-print('---------------------------------------------')
+```{code-cell} ipython3
+---
+tags: [show-output, show-input]
+---
+data29 = pd.read_csv('data_29.csv', sep=',')
+X29 = data29[model_cols].values
+y29 = data29['type'].values
+X29_train, X29_test, y29_train, y29_test = train_test_split(X29, y29, test_size=0.3, shuffle=True, random_state=7)
+data_test_29 = data_test.iloc[[8]]
 
 print('N = 29')
 print('------------------')
 print('Logistic Regression Results')
-Baseline_LR.fit(X_train_29, y_train_29)
-print(Baseline_LR.predict(data_29.values)[0], Baseline_LR.predict_proba(data_29.values)[0])
+Baseline_LR.fit(X29_train, y29_train)
+print(Baseline_LR.predict(data_test_29.values)[0], Baseline_LR.predict_proba(data_test_29.values)[0])
 print('------------------')
 print('Random Forest Results')
-baseline_RF.fit(X_train_29, y_train_29)
-print(baseline_RF.predict(data_29.values)[0], baseline_RF.predict_proba(data_29.values)[0])
-print('---------------------------------------------')
+baseline_RF.fit(X29_train, y29_train)
+print(baseline_RF.predict(data_test_29.values)[0], baseline_RF.predict_proba(data_test_29.values)[0])
 ```
-
 We can notice that the classification results are mostly positive, which means that the majority of the samples taken from the CARTORADIO data can be decided as repulsive configurations which is consistent with our starting hypothesis. For the configurations whose results were as non-repulsive, we can say that this is due to one of the two following reasons:
 - As long as we are dealing with real data, these two samples may be a non-repulsive ones and the results are actually coherent.
 - It is sure that the accuracy of our models is very high, but we may have some classification errors, which means that even if the configuration is repulsive, the model decides that it is not.
 
-## Conclusion 
+
+## Conclusion
+
+In this paper it has been shown numerically (based on the theoretical results in {cite}`goldman_palm_2010`) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification models described earlier.
+
+Once the models are trained and tested on the data created, they are tested after that on real data, which are the positions of a mobile phone base stations in PARIS. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained models.
+
+## Bibliography
+
 
 ```{bibliography}
 :style: unsrt
