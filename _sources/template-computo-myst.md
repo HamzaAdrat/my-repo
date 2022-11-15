@@ -492,7 +492,7 @@ data_test.head()
 ```
 
 
-Now that the data is read and transformed, we regroup the observations by the number of points $N$ and then create the models inputs for each value of $N$ using the function *models_input(N)*, but since this task takes so much time to be executed that we got the time-out error. That's why we already prepared, for each value of $N$, a file containing the data created locally, and we will read the files directly.
+Now that the data are read and transformed, we gather the observations by the number of points $N$ and then create the models inputs for each value of $N$ using the function *models_input(N)*. This task takes so much time to be executed that we got a time-out error on the GitHub server. That's why we prepared locally, for each value of $N$, a file containing the data created locally, and we  read the files directly.
 
 
 #### N = 31
