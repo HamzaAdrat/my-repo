@@ -595,145 +595,145 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <p>The final column will be the target variable for our classification models.</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-import pandas as pd
-import scipy.stats
-import matplotlib.pyplot as plt
-import seaborn as sns
-from scipy.spatial import Delaunay, Voronoi, ConvexHull
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">Delaunay</span><span class="p">,</span> <span class="n">Voronoi</span><span class="p">,</span> <span class="n">ConvexHull</span>
 
-font = {&#39;family&#39;: &#39;serif&#39;, &#39;color&#39;:  &#39;black&#39;, &#39;weight&#39;: &#39;normal&#39;, &#39;size&#39;: 11,}
+<span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;serif&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span>  <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,}</span>
 
-# Useful functions for creating the data:
+<span class="c1"># Useful functions for creating the data:</span>
 
-def convert_complex_points(l):
-    return l.real, l.imag
+<span class="k">def</span> <span class="nf">convert_complex_points</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">l</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">imag</span>
 
-def convert_lists_to_points(l1, l2):
-    return np.array([l1, l2]).T
+<span class="k">def</span> <span class="nf">convert_lists_to_points</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
 
-def extract_Voronoi_areas(vor):  
-    areas= []
-    perim = []
-    for i in range(len(vor.filtered_regions)):
-        areas.append(round(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).volume, 2))
-        perim.append(round(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).area, 2))
-    return areas, list(np.around((np.array(perim))**2, 2))
+<span class="k">def</span> <span class="nf">extract_Voronoi_areas</span><span class="p">(</span><span class="n">vor</span><span class="p">):</span>  
+    <span class="n">areas</span><span class="o">=</span> <span class="p">[]</span>
+    <span class="n">perim</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">)):</span>
+        <span class="n">areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">volume</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">perim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">areas</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">perim</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
-def in_box(towers, bounding_box):
-    return np.logical_and(np.logical_and(bounding_box[0] &lt;= towers[:, 0], towers[:, 0] &lt;= bounding_box[1]),
-                          np.logical_and(bounding_box[2] &lt;= towers[:, 1], towers[:, 1] &lt;= bounding_box[3]))
+<span class="k">def</span> <span class="nf">in_box</span><span class="p">(</span><span class="n">towers</span><span class="p">,</span> <span class="n">bounding_box</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">towers</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">towers</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                          <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">towers</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">towers</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">bounding_box</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
 
 
-def voronoi(towers, bounding_box, N):
-    # Select towers inside the bounding box
-    i = in_box(towers, bounding_box)
-    # Mirror points
-    points_center = towers[i, :]
-    points_left = np.copy(points_center)
-    points_left[:, 0] = bounding_box[0] - (points_left[:, 0] - bounding_box[0])
-    points_right = np.copy(points_center)
-    points_right[:, 0] = bounding_box[1] + (bounding_box[1] - points_right[:, 0])
-    points_down = np.copy(points_center)
-    points_down[:, 1] = bounding_box[2] - (points_down[:, 1] - bounding_box[2])
-    points_up = np.copy(points_center)
-    points_up[:, 1] = bounding_box[3] + (bounding_box[3] - points_up[:, 1])
-    points = np.append(points_center,
-                       np.append(np.append(points_left, points_right, axis=0),
-                                 np.append(points_down, points_up, axis=0),
-                                 axis=0),
-                       axis=0)
-    # Compute Voronoi
-    vor = Voronoi(points)
-    # Filter regions
-    # regions = []
-    # [vor.point_region[i] for i in range(N)]
+<span class="k">def</span> <span class="nf">voronoi</span><span class="p">(</span><span class="n">towers</span><span class="p">,</span> <span class="n">bounding_box</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="c1"># Select towers inside the bounding box</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">in_box</span><span class="p">(</span><span class="n">towers</span><span class="p">,</span> <span class="n">bounding_box</span><span class="p">)</span>
+    <span class="c1"># Mirror points</span>
+    <span class="n">points_center</span> <span class="o">=</span> <span class="n">towers</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">points_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">points_center</span><span class="p">)</span>
+    <span class="n">points_left</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">points_left</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">points_right</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">points_center</span><span class="p">)</span>
+    <span class="n">points_right</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">points_right</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">points_down</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">points_center</span><span class="p">)</span>
+    <span class="n">points_down</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounding_box</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">points_down</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bounding_box</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">points_up</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">points_center</span><span class="p">)</span>
+    <span class="n">points_up</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounding_box</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">points_up</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points_center</span><span class="p">,</span>
+                       <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points_left</span><span class="p">,</span> <span class="n">points_right</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                                 <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points_down</span><span class="p">,</span> <span class="n">points_up</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                                 <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                       <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># Compute Voronoi</span>
+    <span class="n">vor</span> <span class="o">=</span> <span class="n">Voronoi</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="c1"># Filter regions</span>
+    <span class="c1"># regions = []</span>
+    <span class="c1"># [vor.point_region[i] for i in range(N)]</span>
 
-    vor.filtered_points = points_center
-    vor.filtered_regions = [vor.regions[vor.point_region[i]] for i in range(len(points_center))]
-    return vor
+    <span class="n">vor</span><span class="o">.</span><span class="n">filtered_points</span> <span class="o">=</span> <span class="n">points_center</span>
+    <span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span> <span class="o">=</span> <span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">point_region</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points_center</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="n">vor</span>
 
-def dpp_Moroz(N):
-    radius = int(np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
-    args = [radius, N, kernels[&#39;ginibre&#39;], precision, error, quiet, output]
+<span class="k">def</span> <span class="nf">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="p">;</span> <span class="n">precision</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**-</span><span class="mi">53</span> <span class="p">;</span> <span class="n">error</span> <span class="o">=</span> <span class="kc">False</span> <span class="p">;</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span> <span class="p">;</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span> 
+    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">kernels</span><span class="p">[</span><span class="s1">&#39;ginibre&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">output</span><span class="p">]</span>
     
-    moroz_dpp = sample(*args)
-    X_dpp_Mz, Y_dpp_Mz = convert_complex_points(moroz_dpp)
-    X_dpp_Mz = X_dpp_Mz*((np.sqrt(N))/radius) ; Y_dpp_Mz = Y_dpp_Mz*((np.sqrt(N))/radius)
-    dpp_Mz_points = convert_lists_to_points(X_dpp_Mz, Y_dpp_Mz)
+    <span class="n">moroz_dpp</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">convert_complex_points</span><span class="p">(</span><span class="n">moroz_dpp</span><span class="p">)</span>
+    <span class="n">X_dpp_Mz</span> <span class="o">=</span> <span class="n">X_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span> <span class="p">;</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">Y_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span>
+    <span class="n">dpp_Mz_points</span> <span class="o">=</span> <span class="n">convert_lists_to_points</span><span class="p">(</span><span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span><span class="p">)</span>
     
-    indices = np.argsort((dpp_Mz_points[:,0])**2 + ((dpp_Mz_points[:,1])**2))
-    dpp_Mz_points = dpp_Mz_points[indices]
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">((</span><span class="n">dpp_Mz_points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">((</span><span class="n">dpp_Mz_points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">dpp_Mz_points</span> <span class="o">=</span> <span class="n">dpp_Mz_points</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
     
-    dpp_Mz_vor = voronoi(dpp_Mz_points, (-np.sqrt(N)-.1, np.sqrt(N)+.1, -np.sqrt(N)-.1, np.sqrt(N)+.1), len(dpp_Mz_points))
-    Voronoi_areas, Voronoi_perim = extract_Voronoi_areas(dpp_Mz_vor)
+    <span class="n">dpp_Mz_vor</span> <span class="o">=</span> <span class="n">voronoi</span><span class="p">(</span><span class="n">dpp_Mz_points</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mf">.1</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mf">.1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">dpp_Mz_points</span><span class="p">))</span>
+    <span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span> <span class="o">=</span> <span class="n">extract_Voronoi_areas</span><span class="p">(</span><span class="n">dpp_Mz_vor</span><span class="p">)</span>
     
-    return [Voronoi_areas, Voronoi_perim, 1]
+    <span class="k">return</span> <span class="p">[</span><span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 
-def random_process(N):
-    radius = np.sqrt(N)
-    alpha = 2*np.pi*scipy.stats.uniform.rvs(0,1,N)
-    r = radius*np.sqrt(scipy.stats.uniform.rvs(0,1,N))
+<span class="k">def</span> <span class="nf">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">uniform</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">radius</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">uniform</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
     
-    X_rand, Y_rand = r*np.cos(alpha), r*np.sin(alpha)
-    rand_points = convert_lists_to_points(X_rand, Y_rand)
+    <span class="n">X_rand</span><span class="p">,</span> <span class="n">Y_rand</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="n">rand_points</span> <span class="o">=</span> <span class="n">convert_lists_to_points</span><span class="p">(</span><span class="n">X_rand</span><span class="p">,</span> <span class="n">Y_rand</span><span class="p">)</span>
     
-    indices = np.argsort((rand_points[:,0])**2 + ((rand_points[:,1])**2))
-    rand_points = rand_points[indices]
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">((</span><span class="n">rand_points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">((</span><span class="n">rand_points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">rand_points</span> <span class="o">=</span> <span class="n">rand_points</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
     
-    rand_vor = voronoi(rand_points, (-radius -.1, radius +.1, -radius -.1, radius +.1), len(rand_points))
-    Voronoi_areas, Voronoi_perim = extract_Voronoi_areas(rand_vor)
+    <span class="n">rand_vor</span> <span class="o">=</span> <span class="n">voronoi</span><span class="p">(</span><span class="n">rand_points</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">radius</span> <span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">radius</span> <span class="o">+</span><span class="mf">.1</span><span class="p">,</span> <span class="o">-</span><span class="n">radius</span> <span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">radius</span> <span class="o">+</span><span class="mf">.1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">rand_points</span><span class="p">))</span>
+    <span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span> <span class="o">=</span> <span class="n">extract_Voronoi_areas</span><span class="p">(</span><span class="n">rand_vor</span><span class="p">)</span>
     
-    return [Voronoi_areas, Voronoi_perim, 0]
+    <span class="k">return</span> <span class="p">[</span><span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 
-def create_dataframe(N, observations):
-    list_df = []
-    for i in range(observations):
-        list_df.append(dpp_Moroz(N))
-        list_df.append(random_process(N))
-    df = pd.DataFrame(list_df, columns =[&#39;Voronoi_areas&#39;, &#39;Voronoi_perim&#39;, &#39;Type&#39;])
-    return df
+<span class="k">def</span> <span class="nf">create_dataframe</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">observations</span><span class="p">):</span>
+    <span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
+        <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+        <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">df</span>
 
-def normalize(vec):
-    vec = np.array(vec)
-    m, e = np.mean(vec), np.sqrt(np.var(vec))
-    return (vec - m)/e
+<span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
+    <span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">vec</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">vec</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span><span class="o">/</span><span class="n">e</span>
 
-def compute_mean(l, n):
-    if n &lt;= len(l):
-        new_l = np.array(list(list(zip(*l))[:n])).T
-    else:
-        new_l = np.array(list(list(zip(*l))[:len(l)])).T
+<span class="k">def</span> <span class="nf">compute_mean</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+        <span class="n">new_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">l</span><span class="p">))[:</span><span class="n">n</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">l</span><span class="p">))[:</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)]))</span><span class="o">.</span><span class="n">T</span>
 
-    return np.mean(new_l, axis=1)
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">new_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-def single_area(l, k):
-    l = np.array(l)
-    return l[:,k]
+<span class="k">def</span> <span class="nf">single_area</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">l</span><span class="p">[:,</span><span class="n">k</span><span class="p">]</span>
 
-def transform_df(odf):
+<span class="k">def</span> <span class="nf">transform_df</span><span class="p">(</span><span class="n">odf</span><span class="p">):</span>
     
-    list_V = odf[&#39;Voronoi_areas&#39;].tolist()
-    list_P = odf[&#39;Voronoi_perim&#39;].tolist()
+    <span class="n">list_V</span> <span class="o">=</span> <span class="n">odf</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">list_P</span> <span class="o">=</span> <span class="n">odf</span><span class="p">[</span><span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     
-    [MV5, MV10, MV15, MV20] = [compute_mean(list_V, n) for n in [5, 10, 15, 20]]
-    [MP5, MP10, MP15, MP20] = [compute_mean(list_P, n) for n in [5, 10, 15, 20]]
+    <span class="p">[</span><span class="n">MV5</span><span class="p">,</span> <span class="n">MV10</span><span class="p">,</span> <span class="n">MV15</span><span class="p">,</span> <span class="n">MV20</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_mean</span><span class="p">(</span><span class="n">list_V</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">]]</span>
+    <span class="p">[</span><span class="n">MP5</span><span class="p">,</span> <span class="n">MP10</span><span class="p">,</span> <span class="n">MP15</span><span class="p">,</span> <span class="n">MP20</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_mean</span><span class="p">(</span><span class="n">list_P</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">]]</span>
     
-    normalized_V10 = [normalize(list_V[i][:10]) for i in range(odf.shape[0])]
-    normalized_P10 = [normalize(list_P[i][:10]) for i in range(odf.shape[0])]
+    <span class="n">normalized_V10</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalize</span><span class="p">(</span><span class="n">list_V</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    <span class="n">normalized_P10</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalize</span><span class="p">(</span><span class="n">list_P</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
     
-    [V1, V2, V3, V4, V5, V6, V7, V8, V9, V10] = [single_area(normalized_V10, k) for k in range(10)]
-    [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10] = [single_area(normalized_P10, k) for k in range(10)]
+    <span class="p">[</span><span class="n">V1</span><span class="p">,</span> <span class="n">V2</span><span class="p">,</span> <span class="n">V3</span><span class="p">,</span> <span class="n">V4</span><span class="p">,</span> <span class="n">V5</span><span class="p">,</span> <span class="n">V6</span><span class="p">,</span> <span class="n">V7</span><span class="p">,</span> <span class="n">V8</span><span class="p">,</span> <span class="n">V9</span><span class="p">,</span> <span class="n">V10</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">single_area</span><span class="p">(</span><span class="n">normalized_V10</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">P3</span><span class="p">,</span> <span class="n">P4</span><span class="p">,</span> <span class="n">P5</span><span class="p">,</span> <span class="n">P6</span><span class="p">,</span> <span class="n">P7</span><span class="p">,</span> <span class="n">P8</span><span class="p">,</span> <span class="n">P9</span><span class="p">,</span> <span class="n">P10</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">single_area</span><span class="p">(</span><span class="n">normalized_P10</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
     
-    dict_df = {&#39;V1&#39;:V1, &#39;V2&#39;:V2, &#39;V3&#39;:V3, &#39;V4&#39;:V4, &#39;V5&#39;:V5, &#39;V6&#39;:V6, &#39;V7&#39;:V7, &#39;V8&#39;:V8, &#39;V9&#39;:V9, &#39;V10&#39;:V10,
-               &#39;MV5&#39;:MV5, &#39;MV10&#39;:MV10, &#39;MV15&#39;:MV15, &#39;MV20&#39;:MV20,
-               &#39;P1&#39;:P1, &#39;P2&#39;:P2, &#39;P3&#39;:P3, &#39;P4&#39;:P4, &#39;P5&#39;:P5, &#39;P6&#39;:P6, &#39;P7&#39;:P7, &#39;P8&#39;:P8, &#39;P9&#39;:P9, &#39;P10&#39;:P10,
-               &#39;MP5&#39;:MP5, &#39;MP10&#39;:MP10, &#39;MP15&#39;:MP15, &#39;MP20&#39;:MP20,
-               &#39;type&#39;: odf[&#39;Type&#39;]}
+    <span class="n">dict_df</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;V1&#39;</span><span class="p">:</span><span class="n">V1</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">:</span><span class="n">V2</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">:</span><span class="n">V3</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">:</span><span class="n">V4</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">:</span><span class="n">V5</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">:</span><span class="n">V6</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">:</span><span class="n">V7</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">:</span><span class="n">V8</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">:</span><span class="n">V9</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">:</span><span class="n">V10</span><span class="p">,</span>
+               <span class="s1">&#39;MV5&#39;</span><span class="p">:</span><span class="n">MV5</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">:</span><span class="n">MV10</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">:</span><span class="n">MV15</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">:</span><span class="n">MV20</span><span class="p">,</span>
+               <span class="s1">&#39;P1&#39;</span><span class="p">:</span><span class="n">P1</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">:</span><span class="n">P2</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">:</span><span class="n">P3</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">:</span><span class="n">P4</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">:</span><span class="n">P5</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">:</span><span class="n">P6</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">:</span><span class="n">P7</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">:</span><span class="n">P8</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">:</span><span class="n">P9</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">:</span><span class="n">P10</span><span class="p">,</span>
+               <span class="s1">&#39;MP5&#39;</span><span class="p">:</span><span class="n">MP5</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">:</span><span class="n">MP10</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">:</span><span class="n">MP15</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">:</span><span class="n">MP20</span><span class="p">,</span>
+               <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">odf</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]}</span>
     
-    return pd.DataFrame(dict_df)
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dict_df</span><span class="p">)</span>
 
-%run -i Moroz_dpp.py
+<span class="o">%</span><span class="k">run</span> -i Moroz_dpp.py
 </pre></div>
 </div>
 </div>
@@ -747,179 +747,52 @@ Compiling functions ...
 <p>Here is an example of the data created. We generate a data of <span class="math notranslate nohighlight">\(2,000\)</span> observations of configurations (<span class="math notranslate nohighlight">\(1,000\)</span> repulsive and <span class="math notranslate nohighlight">\(1,000\)</span> non repulsive) of <span class="math notranslate nohighlight">\(N = 24\)</span> points.</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ddf = create_dataframe(24, 1000)
-ddf_transformed = transform_df(ddf)
-ddf_transformed.head()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
+<span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+<span class="nn">Cell In[1], line 95,</span> in <span class="ni">create_dataframe</span><span class="nt">(N, observations)</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span> <span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">95</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>V1</th>
-      <th>V2</th>
-      <th>V3</th>
-      <th>V4</th>
-      <th>V5</th>
-      <th>V6</th>
-      <th>V7</th>
-      <th>V8</th>
-      <th>V9</th>
-      <th>V10</th>
-      <th>...</th>
-      <th>P6</th>
-      <th>P7</th>
-      <th>P8</th>
-      <th>P9</th>
-      <th>P10</th>
-      <th>MP5</th>
-      <th>MP10</th>
-      <th>MP15</th>
-      <th>MP20</th>
-      <th>type</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>-0.190104</td>
-      <td>-0.027344</td>
-      <td>-0.593750</td>
-      <td>-0.528646</td>
-      <td>0.063802</td>
-      <td>-1.550781</td>
-      <td>0.057292</td>
-      <td>2.531250</td>
-      <td>0.610677</td>
-      <td>-0.372396</td>
-      <td>...</td>
-      <td>-1.396019</td>
-      <td>-0.260036</td>
-      <td>2.423557</td>
-      <td>0.855052</td>
-      <td>-0.217898</td>
-      <td>73.880</td>
-      <td>81.947</td>
-      <td>83.674000</td>
-      <td>76.0720</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.561342</td>
-      <td>-0.220762</td>
-      <td>0.723015</td>
-      <td>-0.791131</td>
-      <td>-0.947059</td>
-      <td>-0.179728</td>
-      <td>-0.676236</td>
-      <td>-0.343863</td>
-      <td>0.382435</td>
-      <td>2.614671</td>
-      <td>...</td>
-      <td>-0.053188</td>
-      <td>-0.702249</td>
-      <td>-0.394260</td>
-      <td>0.337401</td>
-      <td>2.696302</td>
-      <td>43.978</td>
-      <td>61.632</td>
-      <td>61.730667</td>
-      <td>64.8430</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1.572409</td>
-      <td>0.766321</td>
-      <td>0.766321</td>
-      <td>-0.372950</td>
-      <td>-1.093055</td>
-      <td>0.325659</td>
-      <td>0.121451</td>
-      <td>-1.490725</td>
-      <td>-1.415490</td>
-      <td>0.820060</td>
-      <td>...</td>
-      <td>0.573602</td>
-      <td>1.740574</td>
-      <td>-0.383337</td>
-      <td>-1.663187</td>
-      <td>1.196399</td>
-      <td>70.502</td>
-      <td>75.716</td>
-      <td>82.290667</td>
-      <td>76.5705</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.450359</td>
-      <td>0.878140</td>
-      <td>0.105757</td>
-      <td>0.331530</td>
-      <td>-0.785454</td>
-      <td>-1.985618</td>
-      <td>1.959476</td>
-      <td>-0.583446</td>
-      <td>0.034460</td>
-      <td>-0.405204</td>
-      <td>...</td>
-      <td>-2.190109</td>
-      <td>1.441391</td>
-      <td>-0.945955</td>
-      <td>-0.412519</td>
-      <td>0.738622</td>
-      <td>52.062</td>
-      <td>48.619</td>
-      <td>66.928667</td>
-      <td>71.4745</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.512343</td>
-      <td>-0.698485</td>
-      <td>-0.562945</td>
-      <td>0.656920</td>
-      <td>-0.472585</td>
-      <td>-0.535837</td>
-      <td>0.223190</td>
-      <td>0.693064</td>
-      <td>2.021361</td>
-      <td>-1.837026</td>
-      <td>...</td>
-      <td>-0.422986</td>
-      <td>0.764548</td>
-      <td>-0.067426</td>
-      <td>2.333772</td>
-      <td>-1.420141</td>
-      <td>68.774</td>
-      <td>73.865</td>
-      <td>80.386667</td>
-      <td>78.3355</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 29 columns</p>
-</div></div></div>
+<span class="nn">Cell In[1], line 63,</span> in <span class="ni">dpp_Moroz</span><span class="nt">(N)</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span> <span class="n">radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="p">;</span> <span class="n">precision</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**-</span><span class="mi">53</span> <span class="p">;</span> <span class="n">error</span> <span class="o">=</span> <span class="kc">False</span> <span class="p">;</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span> <span class="p">;</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span> 
+<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">kernels</span><span class="p">[</span><span class="s1">&#39;ginibre&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">output</span><span class="p">]</span>
+<span class="ne">---&gt; </span><span class="mi">63</span> <span class="n">moroz_dpp</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">convert_complex_points</span><span class="p">(</span><span class="n">moroz_dpp</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">65</span> <span class="n">X_dpp_Mz</span> <span class="o">=</span> <span class="n">X_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span> <span class="p">;</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">Y_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:324,</span> in <span class="ni">sample</span><span class="nt">(R, N, kernel, precision, error, quiet, output)</span>
+<span class="g g-Whitespace">    </span><span class="mi">322</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">323</span>     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sampling the points ...&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">324</span> <span class="n">V</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">sample_points</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">print_point_txt</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">326</span>     <span class="nb">print</span><span class="p">()</span>
+
+<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:80,</span> in <span class="ni">sample_points</span><span class="nt">(kernel, R, I, epsilon, print_point)</span>
+<span class="g g-Whitespace">     </span><span class="mi">77</span> <span class="n">print_point</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">79</span> <span class="c1"># Compute new vector ei</span>
+<span class="ne">---&gt; </span><span class="mi">80</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">r</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">I</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">invLambdas</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">81</span> <span class="n">l</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">_argtruncate</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">82</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">V</span><span class="p">[:,</span> <span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">])</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="classification-models">
@@ -933,64 +806,64 @@ ddf_transformed.head()
 <p>Two other classification models (Support Vector Machine and XGBoost) have been tested but did not yield more significant results than those two models.</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
 
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, classification_report, roc_curve, roc_auc_score
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">roc_auc_score</span>
 
-# Useful function for evaluating our models:
+<span class="c1"># Useful function for evaluating our models:</span>
 
-def model_Evaluate(model, x_tt, y_tt):
-    y_pred = model.predict(x_tt)
-    print(classification_report(y_tt, y_pred))
+<span class="k">def</span> <span class="nf">model_Evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_tt</span><span class="p">,</span> <span class="n">y_tt</span><span class="p">):</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_tt</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
     
-    cf_matrix = confusion_matrix(y_tt, y_pred)
-    categories  = [&#39;Negative&#39;,&#39;Positive&#39;]
-    group_names = [&#39;True Neg&#39;,&#39;False Pos&#39;, &#39;False Neg&#39;,&#39;True Pos&#39;]
-    group_percentages = [&#39;{0:.2%}&#39;.format(value) for value in cf_matrix.flatten() / np.sum(cf_matrix)]
+    <span class="n">cf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">categories</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Negative&#39;</span><span class="p">,</span><span class="s1">&#39;Positive&#39;</span><span class="p">]</span>
+    <span class="n">group_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;True Neg&#39;</span><span class="p">,</span><span class="s1">&#39;False Pos&#39;</span><span class="p">,</span> <span class="s1">&#39;False Neg&#39;</span><span class="p">,</span><span class="s1">&#39;True Pos&#39;</span><span class="p">]</span>
+    <span class="n">group_percentages</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0:.2%}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cf_matrix</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cf_matrix</span><span class="p">)]</span>
 
-    labels = [f&#39;{v1}\n{v2}&#39; for v1, v2 in zip(group_names,group_percentages)]
-    labels = np.asarray(labels).reshape(2,2)
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">v1</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">v2</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">group_names</span><span class="p">,</span><span class="n">group_percentages</span><span class="p">)]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
     
-    logit_roc_auc = roc_auc_score(y_tt, model.predict(x_tt))
-    fpr, tpr, thresholds = roc_curve(y_tt, model.predict_proba(x_tt)[:,1])
+    <span class="n">logit_roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_tt</span><span class="p">))</span>
+    <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_tt</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">])</span>
     
-    fig = plt.figure(figsize=(12, 5))
-    # Adds subplot on position 1
-    ax = fig.add_subplot(121)
-    sns.heatmap(cf_matrix, annot = labels, cmap = &#39;Blues&#39;,fmt = &#39;&#39;, xticklabels = categories, yticklabels = categories)
-    ax.set_title(&quot;Confusion Matrix&quot;, fontdict = {&#39;size&#39;:18}, pad = 20)
-    ax.set(xlabel=&#39;Predicted values&#39;, ylabel=&#39;Actual values&#39;)
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="c1"># Adds subplot on position 1</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cf_matrix</span><span class="p">,</span> <span class="n">annot</span> <span class="o">=</span> <span class="n">labels</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Blues&#39;</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xticklabels</span> <span class="o">=</span> <span class="n">categories</span><span class="p">,</span> <span class="n">yticklabels</span> <span class="o">=</span> <span class="n">categories</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix&quot;</span><span class="p">,</span> <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span><span class="mi">18</span><span class="p">},</span> <span class="n">pad</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Predicted values&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Actual values&#39;</span><span class="p">)</span>
 
-    # Adds subplot on position 2
-    ax = fig.add_subplot(122)
-    ax.plot(fpr, tpr, label=&#39;area = %0.2f&#39; % logit_roc_auc)
-    ax.plot([0, 1], [0, 1],&#39;r--&#39;, label=&#39;Standard&#39;)
-    ax.set_xlim([-0.02, 1.02])
-    ax.set_ylim([0.0, 1.05])
+    <span class="c1"># Adds subplot on position 2</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;area = </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">logit_roc_auc</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Standard&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">])</span>
     
-    thresholds_rounded = [round(num, 1) for num in thresholds]
-    for threshold in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]:
-        if threshold in thresholds_rounded:
-            index = thresholds_rounded.index(threshold)
-            ax.annotate(threshold, (fpr[index], tpr[index]))
+    <span class="n">thresholds_rounded</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">thresholds_rounded</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">thresholds_rounded</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span> <span class="p">(</span><span class="n">fpr</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">tpr</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
 
-    ax.set_title(&#39;Receiver Operating Characteristic (ROC)&#39;)
-    ax.set(xlabel=&#39;False Positive Rate (1-specificity)&#39;, ylabel=&#39;True Positive Rate (sensitivity)&#39;)
-    ax.legend(loc=&quot;lower right&quot;)
-    ax.grid()
-    plt.show()
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Receiver Operating Characteristic (ROC)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;False Positive Rate (1-specificity)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;True Positive Rate (sensitivity)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
-model_cols = [&#39;V1&#39;, &#39;V2&#39;, &#39;V3&#39;, &#39;V4&#39;, &#39;V5&#39;, &#39;V6&#39;, &#39;V7&#39;, &#39;V8&#39;, &#39;V9&#39;, &#39;V10&#39;, &#39;MV5&#39;, &#39;MV10&#39;, &#39;MV15&#39;, &#39;MV20&#39;,
-             &#39;P1&#39;, &#39;P2&#39;, &#39;P3&#39;, &#39;P4&#39;, &#39;P5&#39;, &#39;P6&#39;, &#39;P7&#39;, &#39;P8&#39;, &#39;P9&#39;, &#39;P10&#39;, &#39;MP5&#39;, &#39;MP10&#39;, &#39;MP15&#39;, &#39;MP20&#39;]
-X = ddf_transformed[model_cols].values
-y = ddf_transformed[&#39;type&#39;].values
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle= True, random_state=7)
+<span class="n">model_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;V1&#39;</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV5&#39;</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP5&#39;</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">ddf_transformed</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">ddf_transformed</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -998,47 +871,21 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle
 <p>Here are the results of the logistic regression</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>Baseline_LR = make_pipeline(StandardScaler(), LogisticRegression())
-Baseline_LR.fit(X_train, y_train)
-model_Evaluate(Baseline_LR, X_test, y_test)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Baseline_LR</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.91      0.87      0.89       298
-           1       0.88      0.92      0.90       302
-
-    accuracy                           0.90       600
-   macro avg       0.90      0.89      0.89       600
-weighted avg       0.90      0.90      0.89       600
-</pre></div>
-</div>
-<img alt="_images/template-computo-myst_7_1.png" src="_images/template-computo-myst_7_1.png" />
 </div>
 </div>
 <p>Here are the results of the random forest</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>baseline_RF = RandomForestClassifier()
-baseline_RF.fit(X_train,y_train)
-model_Evaluate(baseline_RF, X_test, y_test)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baseline_RF</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">baseline_RF</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.94      0.89      0.92       298
-           1       0.90      0.95      0.92       302
-
-    accuracy                           0.92       600
-   macro avg       0.92      0.92      0.92       600
-weighted avg       0.92      0.92      0.92       600
-</pre></div>
-</div>
-<img alt="_images/template-computo-myst_9_1.png" src="_images/template-computo-myst_9_1.png" />
 </div>
 </div>
 </section>
@@ -1057,266 +904,81 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 <p>In the following, we  read the CARTORADIA directly from the “data_cartoradio.csv” file.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Useful functions to transform the CARTORADIO data
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Useful functions to transform the CARTORADIO data</span>
 
-def update_df(odf): 
-    converted_V = odf[&#39;Voronoi_areas&#39;].str[1:-1].str.split(&#39;,&#39;).tolist()
-    converted_P = odf[&#39;Voronoi_perim&#39;].str[1:-1].str.split(&#39;,&#39;).tolist()
+<span class="k">def</span> <span class="nf">update_df</span><span class="p">(</span><span class="n">odf</span><span class="p">):</span> 
+    <span class="n">converted_V</span> <span class="o">=</span> <span class="n">odf</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">converted_P</span> <span class="o">=</span> <span class="n">odf</span><span class="p">[</span><span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     
-    list_V = [(np.float_(converted_V[i])).tolist() for i in range(odf.shape[0])]
-    list_P = [(np.float_(converted_P[i])).tolist() for i in range(odf.shape[0])]
+    <span class="n">list_V</span> <span class="o">=</span> <span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">converted_V</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    <span class="n">list_P</span> <span class="o">=</span> <span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">converted_P</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
     
-    list_N = [len(list_V[i]) for i in range(odf.shape[0])]
+    <span class="n">list_N</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">list_V</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
     
-    [MV5, MV10, MV15, MV20] = [compute_mean(list_V, n) for n in [5, 10, 15, 20]]
-    [MP5, MP10, MP15, MP20] = [compute_mean(list_P, n) for n in [5, 10, 15, 20]]
+    <span class="p">[</span><span class="n">MV5</span><span class="p">,</span> <span class="n">MV10</span><span class="p">,</span> <span class="n">MV15</span><span class="p">,</span> <span class="n">MV20</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_mean</span><span class="p">(</span><span class="n">list_V</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">]]</span>
+    <span class="p">[</span><span class="n">MP5</span><span class="p">,</span> <span class="n">MP10</span><span class="p">,</span> <span class="n">MP15</span><span class="p">,</span> <span class="n">MP20</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_mean</span><span class="p">(</span><span class="n">list_P</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">]]</span>
     
-    normalized_V10 = [normalize(list_V[i][:10]) for i in range(odf.shape[0])]
-    normalized_P10 = [normalize(list_P[i][:10]) for i in range(odf.shape[0])]
+    <span class="n">normalized_V10</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalize</span><span class="p">(</span><span class="n">list_V</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    <span class="n">normalized_P10</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalize</span><span class="p">(</span><span class="n">list_P</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
     
-    [V1, V2, V3, V4, V5, V6, V7, V8, V9, V10] = [single_area(normalized_V10, k) for k in range(10)]
-    [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10] = [single_area(normalized_P10, k) for k in range(10)]
+    <span class="p">[</span><span class="n">V1</span><span class="p">,</span> <span class="n">V2</span><span class="p">,</span> <span class="n">V3</span><span class="p">,</span> <span class="n">V4</span><span class="p">,</span> <span class="n">V5</span><span class="p">,</span> <span class="n">V6</span><span class="p">,</span> <span class="n">V7</span><span class="p">,</span> <span class="n">V8</span><span class="p">,</span> <span class="n">V9</span><span class="p">,</span> <span class="n">V10</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">single_area</span><span class="p">(</span><span class="n">normalized_V10</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">P3</span><span class="p">,</span> <span class="n">P4</span><span class="p">,</span> <span class="n">P5</span><span class="p">,</span> <span class="n">P6</span><span class="p">,</span> <span class="n">P7</span><span class="p">,</span> <span class="n">P8</span><span class="p">,</span> <span class="n">P9</span><span class="p">,</span> <span class="n">P10</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">single_area</span><span class="p">(</span><span class="n">normalized_P10</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
     
-    dict_df = {&#39;V1&#39;:V1, &#39;V2&#39;:V2, &#39;V3&#39;:V3, &#39;V4&#39;:V4, &#39;V5&#39;:V5, &#39;V6&#39;:V6, &#39;V7&#39;:V7, &#39;V8&#39;:V8, &#39;V9&#39;:V9, &#39;V10&#39;:V10,
-               &#39;MV5&#39;:MV5, &#39;MV10&#39;:MV10, &#39;MV15&#39;:MV15, &#39;MV20&#39;:MV20,
-               &#39;P1&#39;:P1, &#39;P2&#39;:P2, &#39;P3&#39;:P3, &#39;P4&#39;:P4, &#39;P5&#39;:P5, &#39;P6&#39;:P6, &#39;P7&#39;:P7, &#39;P8&#39;:P8, &#39;P9&#39;:P9, &#39;P10&#39;:P10,
-               &#39;MP5&#39;:MP5, &#39;MP10&#39;:MP10, &#39;MP15&#39;:MP15, &#39;MP20&#39;:MP20}
+    <span class="n">dict_df</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;V1&#39;</span><span class="p">:</span><span class="n">V1</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">:</span><span class="n">V2</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">:</span><span class="n">V3</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">:</span><span class="n">V4</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">:</span><span class="n">V5</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">:</span><span class="n">V6</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">:</span><span class="n">V7</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">:</span><span class="n">V8</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">:</span><span class="n">V9</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">:</span><span class="n">V10</span><span class="p">,</span>
+               <span class="s1">&#39;MV5&#39;</span><span class="p">:</span><span class="n">MV5</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">:</span><span class="n">MV10</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">:</span><span class="n">MV15</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">:</span><span class="n">MV20</span><span class="p">,</span>
+               <span class="s1">&#39;P1&#39;</span><span class="p">:</span><span class="n">P1</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">:</span><span class="n">P2</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">:</span><span class="n">P3</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">:</span><span class="n">P4</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">:</span><span class="n">P5</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">:</span><span class="n">P6</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">:</span><span class="n">P7</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">:</span><span class="n">P8</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">:</span><span class="n">P9</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">:</span><span class="n">P10</span><span class="p">,</span>
+               <span class="s1">&#39;MP5&#39;</span><span class="p">:</span><span class="n">MP5</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">:</span><span class="n">MP10</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">:</span><span class="n">MP15</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">:</span><span class="n">MP20</span><span class="p">}</span>
     
-    return list_N, pd.DataFrame(dict_df)
+    <span class="k">return</span> <span class="n">list_N</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dict_df</span><span class="p">)</span>
 
-def models_input(N):
-    data0 = create_dataframe(N, observations = 1000)
-    data1 = transform_df(data0)
+<span class="k">def</span> <span class="nf">models_input</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">data0</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">observations</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">data1</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">data0</span><span class="p">)</span>
     
-    model_cols = [&#39;V1&#39;, &#39;V2&#39;, &#39;V3&#39;, &#39;V4&#39;, &#39;V5&#39;, &#39;V6&#39;, &#39;V7&#39;, &#39;V8&#39;, &#39;V9&#39;, &#39;V10&#39;, &#39;MV5&#39;, &#39;MV10&#39;, &#39;MV15&#39;, &#39;MV20&#39;,
-                  &#39;P1&#39;, &#39;P2&#39;, &#39;P3&#39;, &#39;P4&#39;, &#39;P5&#39;, &#39;P6&#39;, &#39;P7&#39;, &#39;P8&#39;, &#39;P9&#39;, &#39;P10&#39;, &#39;MP5&#39;, &#39;MP10&#39;, &#39;MP15&#39;, &#39;MP20&#39;]
+    <span class="n">model_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;V1&#39;</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV5&#39;</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP5&#39;</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">]</span>
 
-    X = data1[model_cols].values
-    y = data1[&#39;type&#39;].values
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=True, random_state=7)
+    <span class="n">X</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
     
-    return X_train, X_test, y_train, y_test
+    <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data = pd.read_csv(&#39;data_voronoi_cartoradio.csv&#39;, sep=&#39;,&#39;)
-list_N, data_test = update_df(data)
-print(list_N)
-data_test.head()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_voronoi_cartoradio.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">list_N</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">update_df</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">list_N</span><span class="p">)</span>
+<span class="n">data_test</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[31, 23, 22, 24, 22, 46, 24, 31, 29, 22]
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>V1</th>
-      <th>V2</th>
-      <th>V3</th>
-      <th>V4</th>
-      <th>V5</th>
-      <th>V6</th>
-      <th>V7</th>
-      <th>V8</th>
-      <th>V9</th>
-      <th>V10</th>
-      <th>...</th>
-      <th>P5</th>
-      <th>P6</th>
-      <th>P7</th>
-      <th>P8</th>
-      <th>P9</th>
-      <th>P10</th>
-      <th>MP5</th>
-      <th>MP10</th>
-      <th>MP15</th>
-      <th>MP20</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1.058615</td>
-      <td>-1.059609</td>
-      <td>-0.322889</td>
-      <td>-0.837226</td>
-      <td>-0.608632</td>
-      <td>-0.546514</td>
-      <td>0.057273</td>
-      <td>-0.332828</td>
-      <td>0.110694</td>
-      <td>2.481117</td>
-      <td>...</td>
-      <td>-0.313571</td>
-      <td>-0.390272</td>
-      <td>-0.272901</td>
-      <td>-0.510596</td>
-      <td>0.075056</td>
-      <td>2.841118</td>
-      <td>54.9306</td>
-      <td>60.7143</td>
-      <td>60.7143</td>
-      <td>60.7143</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.297282</td>
-      <td>-0.299891</td>
-      <td>-0.052026</td>
-      <td>-0.948517</td>
-      <td>-0.221096</td>
-      <td>-0.493487</td>
-      <td>-0.628118</td>
-      <td>2.228860</td>
-      <td>1.582844</td>
-      <td>-0.871287</td>
-      <td>...</td>
-      <td>-0.219659</td>
-      <td>-0.564626</td>
-      <td>-0.639599</td>
-      <td>2.209631</td>
-      <td>1.647841</td>
-      <td>-0.900765</td>
-      <td>57.9418</td>
-      <td>69.9330</td>
-      <td>69.9330</td>
-      <td>69.9330</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>-0.315399</td>
-      <td>-0.524015</td>
-      <td>-1.064477</td>
-      <td>-0.154813</td>
-      <td>-0.756404</td>
-      <td>-0.778721</td>
-      <td>-0.056812</td>
-      <td>1.792111</td>
-      <td>2.012857</td>
-      <td>-0.154328</td>
-      <td>...</td>
-      <td>-0.808625</td>
-      <td>-0.304950</td>
-      <td>-0.290136</td>
-      <td>2.051852</td>
-      <td>1.790089</td>
-      <td>0.068707</td>
-      <td>53.5506</td>
-      <td>80.4082</td>
-      <td>80.4082</td>
-      <td>80.4082</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-0.035014</td>
-      <td>-0.192421</td>
-      <td>-0.538841</td>
-      <td>0.176928</td>
-      <td>-0.759460</td>
-      <td>-0.958388</td>
-      <td>-0.734051</td>
-      <td>-0.177548</td>
-      <td>2.703503</td>
-      <td>0.515292</td>
-      <td>...</td>
-      <td>-0.827160</td>
-      <td>-0.875832</td>
-      <td>-0.594335</td>
-      <td>0.029275</td>
-      <td>2.580715</td>
-      <td>1.019987</td>
-      <td>61.9572</td>
-      <td>78.8108</td>
-      <td>78.8108</td>
-      <td>78.8108</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1.320579</td>
-      <td>-0.068657</td>
-      <td>0.890645</td>
-      <td>-1.103718</td>
-      <td>-1.511872</td>
-      <td>1.745779</td>
-      <td>0.231539</td>
-      <td>-0.269419</td>
-      <td>-0.711664</td>
-      <td>-0.523213</td>
-      <td>...</td>
-      <td>-1.648871</td>
-      <td>2.167209</td>
-      <td>0.013477</td>
-      <td>-0.391777</td>
-      <td>-0.368717</td>
-      <td>-0.440355</td>
-      <td>68.3258</td>
-      <td>71.4361</td>
-      <td>71.4361</td>
-      <td>71.4361</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 28 columns</p>
-</div></div></div>
 </div>
 <p>Now that the data are read and transformed, we gather the observations by the number of points <span class="math notranslate nohighlight">\(N\)</span> and then create the models inputs for each value of <span class="math notranslate nohighlight">\(N\)</span> using the function <em>models_input(N)</em>. This task takes so much time to be executed that we got a time-out error on the GitHub server. That’s why we prepared locally, for each value of <span class="math notranslate nohighlight">\(N\)</span>, a file containing the data created locally, and we  read the files directly.</p>
 <section id="n-31">
 <h4>N = 31<a class="headerlink" href="#n-31" title="Permalink to this headline">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data31 = pd.read_csv(&#39;data_31.csv&#39;, sep=&#39;,&#39;)
-X31 = data31[model_cols].values
-y31 = data31[&#39;type&#39;].values
-X31_train, X31_test, y31_train, y31_test = train_test_split(X31, y31, test_size=0.3, shuffle=True, random_state=7)
-data_test_31 = data_test.iloc[[0, 7]]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data31</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_31.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X31</span> <span class="o">=</span> <span class="n">data31</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y31</span> <span class="o">=</span> <span class="n">data31</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X31_train</span><span class="p">,</span> <span class="n">X31_test</span><span class="p">,</span> <span class="n">y31_train</span><span class="p">,</span> <span class="n">y31_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X31</span><span class="p">,</span> <span class="n">y31</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_31</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">]]</span>
 
-print(&#39;N = 31&#39;)
-print(&#39;------------------&#39;)
-print(&#39;Logistic Regression Results&#39;)
-Baseline_LR.fit(X31_train, y31_train)
-print(Baseline_LR.predict(data_test_31.values)[0], Baseline_LR.predict_proba(data_test_31.values)[0])
-print(Baseline_LR.predict(data_test_31.values)[1], Baseline_LR.predict_proba(data_test_31.values)[1])
-print(&#39;------------------&#39;)
-print(&#39;Random Forest Results&#39;)
-baseline_RF.fit(X31_train, y31_train)
-print(baseline_RF.predict(data_test_31.values)[0], baseline_RF.predict_proba(data_test_31.values)[0])
-print(baseline_RF.predict(data_test_31.values)[1], baseline_RF.predict_proba(data_test_31.values)[1])
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 31
-------------------
-Logistic Regression Results
-0 [0.64423014 0.35576986]
-1 [0.08019266 0.91980734]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.58 0.42]
-1 [0.15 0.85]
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 31&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X31_train</span><span class="p">,</span> <span class="n">y31_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X31_train</span><span class="p">,</span> <span class="n">y31_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1326,34 +988,21 @@ Random Forest Results
 <h4>N = 23<a class="headerlink" href="#n-23" title="Permalink to this headline">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data23 = pd.read_csv(&#39;data_23.csv&#39;, sep=&#39;,&#39;)
-X23 = data23[model_cols].values
-y23 = data23[&#39;type&#39;].values
-X23_train, X23_test, y23_train, y23_test = train_test_split(X23, y23, test_size=0.3, shuffle=True, random_state=7)
-data_test_23 = data_test.iloc[[1]]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data23</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_23.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X23</span> <span class="o">=</span> <span class="n">data23</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y23</span> <span class="o">=</span> <span class="n">data23</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X23_train</span><span class="p">,</span> <span class="n">X23_test</span><span class="p">,</span> <span class="n">y23_train</span><span class="p">,</span> <span class="n">y23_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X23</span><span class="p">,</span> <span class="n">y23</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_23</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">1</span><span class="p">]]</span>
 
-print(&#39;N = 23&#39;)
-print(&#39;------------------&#39;)
-print(&#39;Logistic Regression Results&#39;)
-Baseline_LR.fit(X23_train, y23_train)
-print(Baseline_LR.predict(data_test_23.values)[0], Baseline_LR.predict_proba(data_test_23.values)[0])
-print(&#39;------------------&#39;)
-print(&#39;Random Forest Results&#39;)
-baseline_RF.fit(X23_train, y23_train)
-print(baseline_RF.predict(data_test_23.values)[0], baseline_RF.predict_proba(data_test_23.values)[0])
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 23
-------------------
-Logistic Regression Results
-1 [0.06596102 0.93403898]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.44 0.56]
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 23&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X23_train</span><span class="p">,</span> <span class="n">y23_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X23_train</span><span class="p">,</span> <span class="n">y23_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1363,42 +1012,25 @@ Random Forest Results
 <h4>N = 22<a class="headerlink" href="#n-22" title="Permalink to this headline">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data22 = pd.read_csv(&#39;data_22.csv&#39;, sep=&#39;,&#39;)
-X22 = data22[model_cols].values
-y22 = data22[&#39;type&#39;].values
-X22_train, X22_test, y22_train, y22_test = train_test_split(X22, y22, test_size=0.3, shuffle=True, random_state=7)
-data_test_22 = data_test.iloc[[2, 4, 9]]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data22</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_22.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X22</span> <span class="o">=</span> <span class="n">data22</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y22</span> <span class="o">=</span> <span class="n">data22</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X22_train</span><span class="p">,</span> <span class="n">X22_test</span><span class="p">,</span> <span class="n">y22_train</span><span class="p">,</span> <span class="n">y22_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X22</span><span class="p">,</span> <span class="n">y22</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_22</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
 
-print(&#39;N = 22&#39;)
-print(&#39;------------------&#39;)
-print(&#39;Logistic Regression Results&#39;)
-Baseline_LR.fit(X22_train, y22_train)
-print(Baseline_LR.predict(data_test_22.values)[0], Baseline_LR.predict_proba(data_test_22.values)[0])
-print(Baseline_LR.predict(data_test_22.values)[1], Baseline_LR.predict_proba(data_test_22.values)[1])
-print(Baseline_LR.predict(data_test_22.values)[2], Baseline_LR.predict_proba(data_test_22.values)[2])
-print(&#39;------------------&#39;)
-print(&#39;Random Forest Results&#39;)
-baseline_RF.fit(X22_train, y22_train)
-print(baseline_RF.predict(data_test_22.values)[0], baseline_RF.predict_proba(data_test_22.values)[0])
-print(baseline_RF.predict(data_test_22.values)[1], baseline_RF.predict_proba(data_test_22.values)[1])
-print(baseline_RF.predict(data_test_22.values)[2], baseline_RF.predict_proba(data_test_22.values)[2])
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 22
-------------------
-Logistic Regression Results
-1 [0.18127125 0.81872875]
-1 [0.01796698 0.98203302]
-1 [0.02466654 0.97533346]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.7 0.3]
-1 [0.06 0.94]
-0 [0.63 0.37]
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 22&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X22_train</span><span class="p">,</span> <span class="n">y22_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X22_train</span><span class="p">,</span> <span class="n">y22_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1408,38 +1040,23 @@ Random Forest Results
 <h4>N = 24<a class="headerlink" href="#n-24" title="Permalink to this headline">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data24 = pd.read_csv(&#39;data_24.csv&#39;, sep=&#39;,&#39;)
-X24 = data24[model_cols].values
-y24 = data24[&#39;type&#39;].values
-X24_train, X24_test, y24_train, y24_test = train_test_split(X24, y24, test_size=0.3, shuffle=True, random_state=7)
-data_test_24 = data_test.iloc[[3, 6]]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data24</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_24.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X24</span> <span class="o">=</span> <span class="n">data24</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y24</span> <span class="o">=</span> <span class="n">data24</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X24_train</span><span class="p">,</span> <span class="n">X24_test</span><span class="p">,</span> <span class="n">y24_train</span><span class="p">,</span> <span class="n">y24_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X24</span><span class="p">,</span> <span class="n">y24</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_24</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
 
-print(&#39;N = 24&#39;)
-print(&#39;------------------&#39;)
-print(&#39;Logistic Regression Results&#39;)
-Baseline_LR.fit(X24_train, y24_train)
-print(Baseline_LR.predict(data_test_24.values)[0], Baseline_LR.predict_proba(data_test_24.values)[0])
-print(Baseline_LR.predict(data_test_24.values)[1], Baseline_LR.predict_proba(data_test_24.values)[1])
-print(&#39;------------------&#39;)
-print(&#39;Random Forest Results&#39;)
-baseline_RF.fit(X24_train, y24_train)
-print(baseline_RF.predict(data_test_24.values)[0], baseline_RF.predict_proba(data_test_24.values)[0])
-print(baseline_RF.predict(data_test_24.values)[1], baseline_RF.predict_proba(data_test_24.values)[1])
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 24
-------------------
-Logistic Regression Results
-1 [0.44707948 0.55292052]
-1 [0.44709033 0.55290967]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.38 0.62]
-1 [0.32 0.68]
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 24&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X24_train</span><span class="p">,</span> <span class="n">y24_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X24_train</span><span class="p">,</span> <span class="n">y24_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1449,34 +1066,21 @@ Random Forest Results
 <h4>N = 46<a class="headerlink" href="#n-46" title="Permalink to this headline">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data46 = pd.read_csv(&#39;data_46.csv&#39;, sep=&#39;,&#39;)
-X46 = data46[model_cols].values
-y46 = data46[&#39;type&#39;].values
-X46_train, X46_test, y46_train, y46_test = train_test_split(X46, y46, test_size=0.3, shuffle=True, random_state=7)
-data_test_46 = data_test.iloc[[5]]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data46</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_46.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X46</span> <span class="o">=</span> <span class="n">data46</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y46</span> <span class="o">=</span> <span class="n">data46</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X46_train</span><span class="p">,</span> <span class="n">X46_test</span><span class="p">,</span> <span class="n">y46_train</span><span class="p">,</span> <span class="n">y46_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X46</span><span class="p">,</span> <span class="n">y46</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_46</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">5</span><span class="p">]]</span>
 
-print(&#39;N = 46&#39;)
-print(&#39;------------------&#39;)
-print(&#39;Logistic Regression Results&#39;)
-Baseline_LR.fit(X46_train, y46_train)
-print(Baseline_LR.predict(data_test_46.values)[0], Baseline_LR.predict_proba(data_test_46.values)[0])
-print(&#39;------------------&#39;)
-print(&#39;Random Forest Results&#39;)
-baseline_RF.fit(X46_train, y46_train)
-print(baseline_RF.predict(data_test_46.values)[0], baseline_RF.predict_proba(data_test_46.values)[0])
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 46
-------------------
-Logistic Regression Results
-1 [0.45965142 0.54034858]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.48 0.52]
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 46&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X46_train</span><span class="p">,</span> <span class="n">y46_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_46</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_46</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X46_train</span><span class="p">,</span> <span class="n">y46_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_46</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_46</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1486,34 +1090,21 @@ Random Forest Results
 <h4>N = 29<a class="headerlink" href="#n-29" title="Permalink to this headline">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data29 = pd.read_csv(&#39;data_29.csv&#39;, sep=&#39;,&#39;)
-X29 = data29[model_cols].values
-y29 = data29[&#39;type&#39;].values
-X29_train, X29_test, y29_train, y29_test = train_test_split(X29, y29, test_size=0.3, shuffle=True, random_state=7)
-data_test_29 = data_test.iloc[[8]]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data29</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_29.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X29</span> <span class="o">=</span> <span class="n">data29</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y29</span> <span class="o">=</span> <span class="n">data29</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X29_train</span><span class="p">,</span> <span class="n">X29_test</span><span class="p">,</span> <span class="n">y29_train</span><span class="p">,</span> <span class="n">y29_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X29</span><span class="p">,</span> <span class="n">y29</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_29</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">8</span><span class="p">]]</span>
 
-print(&#39;N = 29&#39;)
-print(&#39;------------------&#39;)
-print(&#39;Logistic Regression Results&#39;)
-Baseline_LR.fit(X29_train, y29_train)
-print(Baseline_LR.predict(data_test_29.values)[0], Baseline_LR.predict_proba(data_test_29.values)[0])
-print(&#39;------------------&#39;)
-print(&#39;Random Forest Results&#39;)
-baseline_RF.fit(X29_train, y29_train)
-print(baseline_RF.predict(data_test_29.values)[0], baseline_RF.predict_proba(data_test_29.values)[0])
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 29
-------------------
-Logistic Regression Results
-1 [0.0175506 0.9824494]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.24 0.76]
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 29&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X29_train</span><span class="p">,</span> <span class="n">y29_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X29_train</span><span class="p">,</span> <span class="n">y29_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>

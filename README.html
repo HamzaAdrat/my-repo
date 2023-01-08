@@ -368,10 +368,10 @@ title="Print to PDF"
 <p>Clone/copy this repo to use it as a starter for your own contributions.</p>
 <p><strong>Note</strong>: <em>You can rename the .Rmd and .bib files at your convenience, but we suggest you to keep the name of the config files unchanged, unless you know what you are doing.</em></p>
 <p>Typical git manipulations involve the following commands (change <code class="docutils literal notranslate"><span class="pre">my_github_account</span></code> and <code class="docutils literal notranslate"><span class="pre">my_article_for_computo</span></code>): by doing so, you will keep changes from the computo template if need (optional)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/computorg/template-computo-Rmarkdown.git
-git remote rm origin
-git remote add origin https://github.com/my_github_account/my_article_for_computo.git
-git remote add upstream https://github.com/computorg/template-computo-Rmarkdown
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/computorg/template-computo-Rmarkdown.git
+git<span class="w"> </span>remote<span class="w"> </span>rm<span class="w"> </span>origin
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/my_github_account/my_article_for_computo.git
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>https://github.com/computorg/template-computo-Rmarkdown
 </pre></div>
 </div>
 </section>
@@ -384,13 +384,13 @@ git remote add upstream https://github.com/computorg/template-computo-Rmarkdown
 <h3>Step 2: configure your binder environement<a class="headerlink" href="#step-2-configure-your-binder-environement" title="Permalink to this headline">#</a></h3>
 <p>The file <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> tells binder how to setup the machine used to build your notebook with a conda environment. It must be configured to have all the dependencies required to run you notebook (R, Python, packages/feedstocks and system dependencies).</p>
 <p>The default uses conda-forge and includes a couple of popular R packages, with a recent version of <code class="docutils literal notranslate"><span class="pre">R</span></code>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">computo</span><span class="w"></span>
-<span class="nt">channels</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span><span class="w"></span>
-<span class="nt">dependencies</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pip</span><span class="p">:</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">computo</span>
+<span class="nt">channels</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="nt">dependencies</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pip</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-r file:requirements.txt</span><span class="w"> </span>
 </pre></div>
 </div>
