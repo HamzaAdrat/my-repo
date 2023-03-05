@@ -1,48 +1,56 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Point process discrimination according to repulsion &#8212; My sample book</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
@@ -52,59 +60,212 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'template-computo-myst';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="#">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
         
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
       
       
-      <img src="_static/logo.png" class="logo" alt="logo">
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
       
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
       
-      <h1 class="site-logo" id="site-title">My sample book</h1>
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="#">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
@@ -115,376 +276,237 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         
     </div>
-</nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
+</nav>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  </div>
+  
 
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
 
-          
+  
+  <div id="rtd-footer-container"></div>
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
+      </div>
+      <main id="main-content" class="bd-main">
         
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
 
 
 
 <div class="col py-1 d-flex header-article-main">
     <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/computorg/template-computo-myst/master?urlpath=tree/template-computo-myst.md"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
+  <ul class="dropdown-menu">
+  </ul>
 </div>
 
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
+  class="btn btn-sm"
   data-toggle="tooltip"
 data-placement="bottom"
 title="Fullscreen mode"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="_sources/template-computo-myst.ipynb"
-   class="headerbtn"
+  <ul class="dropdown-menu">
+      <li><a href="_sources/template-computo-myst.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
 title="Download notebook file"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-code"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
-
-      </li>
+</a>
       
-      <li>
-        <a href="_sources/template-computo-myst.md"
-   class="headerbtn"
+      <li><a href="_sources/template-computo-myst.md" target="_blank"
+   class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
 title="Download source file"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.md</span>
+<span class="btn__text-container">.md</span>
 </a>
-
-      </li>
+</a>
       
       <li>
-        
 <button onclick="printPdf(this)"
-  class="headerbtn"
+  class="btn btn-sm dropdown-item"
   data-toggle="tooltip"
 data-placement="left"
 title="Print to PDF"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-file-pdf"></i>
   </span>
-<span class="headerbtn__text-container">.pdf</span>
+<span class="btn__text-container">.pdf</span>
 </button>
-
-      </li>
+</a>
       
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
-    </div>
-</div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#abstract">
-   Abstract
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#introduction">
-   Introduction
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#preliminaries">
-   Preliminaries
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#classification-of-cartoradio-data">
-   Classification of CARTORADIO data
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#model-training">
-     Model training
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#classification-models">
-     Classification models
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#testing-on-cartoradio-data">
-     Testing on CARTORADIO data
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-31">
-       N = 31
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-23">
-       N = 23
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-22">
-       N = 22
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-24">
-       N = 24
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-46">
-       N = 46
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-29">
-       N = 29
-      </a>
-     </li>
-    </ul>
-   </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#conclusion">
-   Conclusion
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bibliography">
-   Bibliography
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
     </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Point process discrimination according to repulsion</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#abstract">
-   Abstract
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#introduction">
-   Introduction
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#preliminaries">
-   Preliminaries
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#classification-of-cartoradio-data">
-   Classification of CARTORADIO data
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#model-training">
-     Model training
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#classification-models">
-     Classification models
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#testing-on-cartoradio-data">
-     Testing on CARTORADIO data
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-31">
-       N = 31
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-23">
-       N = 23
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-22">
-       N = 22
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-24">
-       N = 24
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-46">
-       N = 46
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#n-29">
-       N = 29
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#conclusion">
-   Conclusion
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bibliography">
-   Bibliography
-  </a>
- </li>
-</ul>
-
-                        </nav>
-                    </div>
-                </div>
+</div>
             </div>
-            <main id="main-content" role="main">
-                
-              <div>
-                
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Point process discrimination according to repulsion</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#abstract">
+   Abstract
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preliminaries">
+   Preliminaries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classification-of-cartoradio-data">
+   Classification of CARTORADIO data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-training">
+     Model training
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classification-models">
+     Classification models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-on-cartoradio-data">
+     Testing on CARTORADIO data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-31">
+       N = 31
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-23">
+       N = 23
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-22">
+       N = 22
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-24">
+       N = 24
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-46">
+       N = 46
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-29">
+       N = 29
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliography">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
   <section class="tex2jax_ignore mathjax_ignore" id="point-process-discrimination-according-to-repulsion">
-<h1>Point process discrimination according to repulsion<a class="headerlink" href="#point-process-discrimination-according-to-repulsion" title="Permalink to this headline">#</a></h1>
+<h1>Point process discrimination according to repulsion<a class="headerlink" href="#point-process-discrimination-according-to-repulsion" title="Permalink to this heading">#</a></h1>
 <section id="abstract">
-<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">#</a></h2>
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this heading">#</a></h2>
 <p>In numerous applications, cloud of points do seem to exhibit <em>repulsion</em> in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.</p>
 </section>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id21" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id20" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>(left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>, right picture).</p>
 <figure class="align-default" id="paris-orange-fig">
 <img alt="_images/paris-orange.png" src="_images/paris-orange.png" />
@@ -502,7 +524,7 @@ The choice of areas and square perimeters as aspects to our classification task 
 <p>This paper is organized as follows. We first recall the theoretical notions that we will need in the rest of this paper. We will also briefly define the Papangelou intensity which is at the core of the definition of repulsion. In section 3 we show numerically, and based on two Machine Learning classification models, how the locations of antennas in Paris can be considered as repulsive configurations.</p>
 </section>
 <section id="preliminaries">
-<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">#</a></h2>
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this heading">#</a></h2>
 <p>A configuration on <span class="math notranslate nohighlight">\(E=\mathbf R^2\)</span> is a locally finite (respectively finite) subset of <span class="math notranslate nohighlight">\(E\)</span>. The space of configurations (respectively finite configurations) is denoted <span class="math notranslate nohighlight">\(\mathfrak N\)</span> (respectively <span class="math notranslate nohighlight">\(\mathfrak N_{f}\)</span>). We equip <span class="math notranslate nohighlight">\(\mathfrak N\)</span> with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by <span class="math notranslate nohighlight">\(\mathcal B(\mathfrak N)\)</span> the Borelean <span class="math notranslate nohighlight">\(\sigma\)</span>-field on <span class="math notranslate nohighlight">\(\mathfrak N\)</span>. A locally finite (respectively finite) point process is a random variable with values in <span class="math notranslate nohighlight">\(\mathfrak N\)</span> (respectively <span class="math notranslate nohighlight">\(\mathfrak N_{f}\)</span>).</p>
 <p><strong>Definition 1.</strong>
 Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a locally finite point process on <span class="math notranslate nohighlight">\(E\)</span>. Its <em>correlation functions</em> <span class="math notranslate nohighlight">\(\rho^{(k)} \colon \mathfrak N_{f} \to \mathbb R_+\)</span> are given for any measurable function <span class="math notranslate nohighlight">\(f \colon \mathfrak N_{f} \to \mathbb R_+ \)</span> by:</p>
@@ -578,11 +600,11 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <p>As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.</p>
 </section>
 <section id="classification-of-cartoradio-data">
-<h2>Classification of CARTORADIO data<a class="headerlink" href="#classification-of-cartoradio-data" title="Permalink to this headline">#</a></h2>
+<h2>Classification of CARTORADIO data<a class="headerlink" href="#classification-of-cartoradio-data" title="Permalink to this heading">#</a></h2>
 <p>The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km<span class="math notranslate nohighlight">\(^2\)</span>). Hence there is no need to  construct models for these regions.  On the contrary, in big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is  where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>.</p>
 <p>When it comes to assess the type of point process we should consider in this situation, we cannot consider the city as a whole: the geography (notably the Seine river in Paris, the parks, etc.), the non uniformity of demands (the traffic is heavier aroung railway stations or touristic sites,  for instance) which entails a higher density of antennas,  ruin any kind of invariance a statistician  could hope for. That means, we should restrict our expectations to local models of  the size of a district or a bit more. Since interference, which are the main annoyance to be dealt with, are a local phenomenon, working on a partial part of the whole domain is sufficient to predict the behavior and dimension a wireless network.</p>
 <section id="model-training">
-<h3>Model training<a class="headerlink" href="#model-training" title="Permalink to this headline">#</a></h3>
+<h3>Model training<a class="headerlink" href="#model-training" title="Permalink to this heading">#</a></h3>
 <p>Given a circular domain with <span class="math notranslate nohighlight">\(N\)</span> points, we want to decide whether the points exhibit  repulsion or not. Since the repulsion is not sensitive to scaling, we normalize the radius to <span class="math notranslate nohighlight">\(R=\sqrt{N}\)</span>. This is due to the fact that a cloud drawn from a  Ginibre point process of intensity <span class="math notranslate nohighlight">\(1\)</span>  with <span class="math notranslate nohighlight">\(N\)</span> points occupies roughly a disk with this radius. We train our models on datas issued from drawings of Ginibre configuration and from drawings of <span class="math notranslate nohighlight">\(N\)</span> points independently and uniformly scattered in <span class="math notranslate nohighlight">\(B(0,\sqrt{N})\)</span>.</p>
 <p>For each of the previous samples, we compute the Voronoi diagrams and retain only the <span class="math notranslate nohighlight">\(10\)</span> cells which are the closest to the barycenter of the configuration in order to avoid side effects. We then  extract the areas and the perimeters  of these cells. In principle, this should be enough to have a good classification algorithm. We noticed that in addition to thes quantities, it dramatically improves the results of the classification of we add  the mean of the first <span class="math notranslate nohighlight">\(5\)</span>, <span class="math notranslate nohighlight">\(10\)</span>, <span class="math notranslate nohighlight">\(15\)</span> and <span class="math notranslate nohighlight">\(20\)</span> cells’ areas in order to have a more global information.</p>
 <p>The final data will be a set of observations where each one contains <span class="math notranslate nohighlight">\(29\)</span> columns described as follow:</p>
@@ -798,122 +820,122 @@ Compiling functions ...
   <tbody>
     <tr>
       <th>0</th>
-      <td>1.195987</td>
-      <td>-0.324280</td>
-      <td>-1.094201</td>
-      <td>-1.061577</td>
-      <td>-0.226409</td>
-      <td>-0.135062</td>
-      <td>0.321670</td>
-      <td>1.378680</td>
-      <td>-1.453062</td>
-      <td>1.398254</td>
+      <td>1.250547</td>
+      <td>1.294736</td>
+      <td>0.263661</td>
+      <td>1.191629</td>
+      <td>-1.062008</td>
+      <td>0.278390</td>
+      <td>-0.664307</td>
+      <td>-1.607005</td>
+      <td>-1.017819</td>
+      <td>0.072175</td>
       <td>...</td>
-      <td>-0.357572</td>
-      <td>0.969041</td>
-      <td>1.255068</td>
-      <td>-0.708779</td>
-      <td>1.781879</td>
-      <td>76.252</td>
-      <td>91.586</td>
-      <td>74.775333</td>
-      <td>76.4705</td>
+      <td>-0.579697</td>
+      <td>-0.817678</td>
+      <td>-1.103604</td>
+      <td>-0.337358</td>
+      <td>-0.408839</td>
+      <td>79.710</td>
+      <td>72.260</td>
+      <td>72.103333</td>
+      <td>69.7705</td>
       <td>1</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.422429</td>
-      <td>-1.467123</td>
-      <td>0.560930</td>
-      <td>0.768681</td>
-      <td>-0.517401</td>
-      <td>-0.240398</td>
-      <td>0.204784</td>
-      <td>-1.971663</td>
-      <td>1.105041</td>
-      <td>1.134720</td>
+      <td>0.214383</td>
+      <td>1.585200</td>
+      <td>-0.218506</td>
+      <td>0.162849</td>
+      <td>0.255611</td>
+      <td>1.234765</td>
+      <td>-1.218274</td>
+      <td>-1.166740</td>
+      <td>0.709114</td>
+      <td>-1.558402</td>
       <td>...</td>
-      <td>0.097580</td>
-      <td>0.309359</td>
-      <td>-1.963085</td>
-      <td>0.402842</td>
-      <td>1.640626</td>
-      <td>58.240</td>
-      <td>59.929</td>
-      <td>68.694000</td>
-      <td>76.9520</td>
+      <td>1.646091</td>
+      <td>-1.122427</td>
+      <td>-1.501262</td>
+      <td>0.845508</td>
+      <td>-0.867634</td>
+      <td>63.812</td>
+      <td>60.830</td>
+      <td>64.503333</td>
+      <td>72.0600</td>
       <td>0</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.485626</td>
-      <td>1.295003</td>
-      <td>0.449918</td>
-      <td>-0.109504</td>
-      <td>-1.109323</td>
-      <td>1.318808</td>
-      <td>-1.002199</td>
-      <td>0.592750</td>
-      <td>-1.882992</td>
-      <td>-0.038088</td>
+      <td>0.924151</td>
+      <td>1.249502</td>
+      <td>0.993869</td>
+      <td>0.916404</td>
+      <td>-1.175136</td>
+      <td>0.002324</td>
+      <td>-0.718095</td>
+      <td>-1.763865</td>
+      <td>-0.787813</td>
+      <td>0.358660</td>
       <td>...</td>
-      <td>2.521044</td>
-      <td>-0.822543</td>
-      <td>0.255871</td>
-      <td>-1.314506</td>
-      <td>-0.003024</td>
-      <td>69.256</td>
-      <td>71.278</td>
-      <td>71.268000</td>
-      <td>71.5060</td>
+      <td>-0.426687</td>
+      <td>-0.802868</td>
+      <td>-1.981170</td>
+      <td>-0.570491</td>
+      <td>1.238760</td>
+      <td>84.724</td>
+      <td>74.505</td>
+      <td>78.921333</td>
+      <td>74.2455</td>
       <td>1</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>1.073833</td>
-      <td>-1.474245</td>
-      <td>0.295602</td>
-      <td>-1.329896</td>
-      <td>-1.028645</td>
-      <td>0.144977</td>
-      <td>0.810239</td>
-      <td>1.356255</td>
-      <td>-0.708567</td>
-      <td>0.860447</td>
+      <td>1.302379</td>
+      <td>-0.523333</td>
+      <td>-1.249082</td>
+      <td>2.118847</td>
+      <td>-0.222828</td>
+      <td>0.769407</td>
+      <td>-0.330556</td>
+      <td>-0.438284</td>
+      <td>-0.614052</td>
+      <td>-0.812499</td>
       <td>...</td>
-      <td>-0.016255</td>
-      <td>1.356403</td>
-      <td>0.945328</td>
-      <td>-0.644066</td>
-      <td>0.882475</td>
-      <td>35.896</td>
-      <td>49.870</td>
-      <td>68.024667</td>
-      <td>77.4240</td>
+      <td>0.879484</td>
+      <td>-0.605546</td>
+      <td>-0.415830</td>
+      <td>-0.093888</td>
+      <td>-0.584346</td>
+      <td>75.738</td>
+      <td>71.173</td>
+      <td>73.893333</td>
+      <td>75.8875</td>
       <td>0</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>1.172841</td>
-      <td>1.396106</td>
-      <td>0.775149</td>
-      <td>-1.799379</td>
-      <td>0.900736</td>
-      <td>-0.599328</td>
-      <td>-0.152797</td>
-      <td>-0.906318</td>
-      <td>-0.899341</td>
-      <td>0.112330</td>
+      <td>0.762923</td>
+      <td>1.883647</td>
+      <td>-1.528336</td>
+      <td>-1.652861</td>
+      <td>-0.623455</td>
+      <td>0.065583</td>
+      <td>0.389348</td>
+      <td>0.140298</td>
+      <td>0.082186</td>
+      <td>0.480666</td>
       <td>...</td>
-      <td>-0.737192</td>
-      <td>-0.267378</td>
-      <td>-0.968028</td>
-      <td>-0.628958</td>
-      <td>0.539113</td>
-      <td>79.806</td>
-      <td>71.193</td>
-      <td>74.644000</td>
-      <td>73.6765</td>
+      <td>0.457864</td>
+      <td>-0.071988</td>
+      <td>0.552568</td>
+      <td>0.422581</td>
+      <td>1.289780</td>
+      <td>75.048</td>
+      <td>83.613</td>
+      <td>77.488667</td>
+      <td>73.1130</td>
       <td>1</td>
     </tr>
   </tbody>
@@ -923,7 +945,7 @@ Compiling functions ...
 </div>
 </section>
 <section id="classification-models">
-<h3>Classification models<a class="headerlink" href="#classification-models" title="Permalink to this headline">#</a></h3>
+<h3>Classification models<a class="headerlink" href="#classification-models" title="Permalink to this heading">#</a></h3>
 <p>In this section, we  train and test some Machine Learning models using the data we’ve created in the previous section. For a start we  select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). Note that  we  only use baseline models, i.e. all the hyperparameters’ values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).</p>
 <p>The models we use in this paper are:</p>
 <ul class="simple">
@@ -1007,15 +1029,15 @@ Compiling functions ...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
-           0       0.91      0.87      0.89       298
-           1       0.88      0.91      0.89       302
+           0       0.88      0.82      0.85       298
+           1       0.83      0.89      0.86       302
 
-    accuracy                           0.89       600
-   macro avg       0.89      0.89      0.89       600
-weighted avg       0.89      0.89      0.89       600
+    accuracy                           0.85       600
+   macro avg       0.86      0.85      0.85       600
+weighted avg       0.86      0.85      0.85       600
 </pre></div>
 </div>
-<img alt="_images/template-computo-myst_7_1.png" src="_images/template-computo-myst_7_1.png" />
+<img alt="_images/14d6eeb0da1ebe6eeeb248bbe6a517f8e97e28c443bad1c4c359b03678371ae5.png" src="_images/14d6eeb0da1ebe6eeeb248bbe6a517f8e97e28c443bad1c4c359b03678371ae5.png" />
 </div>
 </div>
 <p>Here are the results of the random forest</p>
@@ -1030,20 +1052,20 @@ weighted avg       0.89      0.89      0.89       600
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
-           0       0.93      0.89      0.91       298
-           1       0.90      0.93      0.91       302
+           0       0.91      0.86      0.89       298
+           1       0.87      0.92      0.89       302
 
-    accuracy                           0.91       600
-   macro avg       0.91      0.91      0.91       600
-weighted avg       0.91      0.91      0.91       600
+    accuracy                           0.89       600
+   macro avg       0.89      0.89      0.89       600
+weighted avg       0.89      0.89      0.89       600
 </pre></div>
 </div>
-<img alt="_images/template-computo-myst_9_1.png" src="_images/template-computo-myst_9_1.png" />
+<img alt="_images/37ff8636550825c7b16f519b6a3bf5a7b64c7f439f87c339280725a82fdaec97.png" src="_images/37ff8636550825c7b16f519b6a3bf5a7b64c7f439f87c339280725a82fdaec97.png" />
 </div>
 </div>
 </section>
 <section id="testing-on-cartoradio-data">
-<h3>Testing on CARTORADIO data<a class="headerlink" href="#testing-on-cartoradio-data" title="Permalink to this headline">#</a></h3>
+<h3>Testing on CARTORADIO data<a class="headerlink" href="#testing-on-cartoradio-data" title="Permalink to this heading">#</a></h3>
 <p>CARTORADIO data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification models already used, whether the configuration do present some repulsion.</p>
 <p>The initial data (positions of the  antennas) cover a large area of the city of Paris (see <a class="reference internal" href="#cartoradio-fig"><span class="std std-numref">Fig. 3</span></a>(right))
 With a real dataset,  we often encounter the problem of heterogeneity between the different parts of the configurations since they depend on the topology  of the space in which the antennas are placed.</p>
@@ -1282,7 +1304,7 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </div>
 <p>Now that the data are read and transformed, we gather the observations by the number of points <span class="math notranslate nohighlight">\(N\)</span> and then create the models inputs for each value of <span class="math notranslate nohighlight">\(N\)</span> using the function <em>models_input(N)</em>. This task takes so much time to be executed that we got a time-out error on the GitHub server. That’s why we prepared locally, for each value of <span class="math notranslate nohighlight">\(N\)</span>, a file containing the data created locally, and we  read the files directly.</p>
 <section id="n-31">
-<h4>N = 31<a class="headerlink" href="#n-31" title="Permalink to this headline">#</a></h4>
+<h4>N = 31<a class="headerlink" href="#n-31" title="Permalink to this heading">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data31</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_31.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
@@ -1315,15 +1337,15 @@ Logistic Regression Results
 Random Forest Results
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.63 0.37]
-1 [0.24 0.76]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.6 0.4]
+1 [0.2 0.8]
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="n-23">
-<h4>N = 23<a class="headerlink" href="#n-23" title="Permalink to this headline">#</a></h4>
+<h4>N = 23<a class="headerlink" href="#n-23" title="Permalink to this heading">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data23</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_23.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
@@ -1353,14 +1375,14 @@ Logistic Regression Results
 Random Forest Results
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.43 0.57]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.36 0.64]
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="n-22">
-<h4>N = 22<a class="headerlink" href="#n-22" title="Permalink to this headline">#</a></h4>
+<h4>N = 22<a class="headerlink" href="#n-22" title="Permalink to this heading">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data22</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_22.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
@@ -1396,16 +1418,16 @@ Logistic Regression Results
 Random Forest Results
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.68 0.32]
-1 [0.1 0.9]
-0 [0.62 0.38]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.73 0.27]
+1 [0.22 0.78]
+0 [0.58 0.42]
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="n-24">
-<h4>N = 24<a class="headerlink" href="#n-24" title="Permalink to this headline">#</a></h4>
+<h4>N = 24<a class="headerlink" href="#n-24" title="Permalink to this heading">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data24</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_24.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
@@ -1438,15 +1460,15 @@ Logistic Regression Results
 Random Forest Results
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.46 0.54]
-1 [0.2 0.8]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.41 0.59]
+1 [0.3 0.7]
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="n-46">
-<h4>N = 46<a class="headerlink" href="#n-46" title="Permalink to this headline">#</a></h4>
+<h4>N = 46<a class="headerlink" href="#n-46" title="Permalink to this heading">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data46</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_46.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
@@ -1476,14 +1498,14 @@ Logistic Regression Results
 Random Forest Results
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.44 0.56]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.43 0.57]
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="n-29">
-<h4>N = 29<a class="headerlink" href="#n-29" title="Permalink to this headline">#</a></h4>
+<h4>N = 29<a class="headerlink" href="#n-29" title="Permalink to this heading">#</a></h4>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data29</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_29.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
@@ -1513,7 +1535,7 @@ Logistic Regression Results
 Random Forest Results
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.18 0.82]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.24 0.76]
 </pre></div>
 </div>
 </div>
@@ -1527,48 +1549,61 @@ Random Forest Results
 </section>
 </section>
 <section id="conclusion">
-<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h2>
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
 <p>In this paper it has been shown numerically (based on the theoretical results in <span id="id16">[<a class="reference internal" href="#id24" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification models described earlier.</p>
 <p>Once the models are trained and tested on the data created, they are tested after that on real data, which are the positions of a mobile phone base stations in PARIS. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained models.</p>
 </section>
 <section id="bibliography">
-<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">#</a></h2>
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this heading">#</a></h2>
 <div class="docutils container" id="id17">
-<dl class="citation">
-<dt class="label" id="id21"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. <em>Foundations and Trends® in Networking</em>, 3(3–4):249–449, 2008. <a class="reference external" href="https://doi.org/10.1561/1300000006">doi:10.1561/1300000006</a>.</p>
-</dd>
-<dt class="label" id="id20"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
-<dd><p>ANFR. Https://www.cartoradio.fr. URL: <a class="reference external" href="https://www.cartoradio.fr">https://www.cartoradio.fr</a>.</p>
-</dd>
-<dt class="label" id="id23"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
-<dd><p>Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. <em>IEEE Transactions on Wireless Communications</em>, 2015. <a class="reference external" href="https://arxiv.org/abs/1401.3677v1">arXiv:1401.3677v1</a>.</p>
-</dd>
-<dt class="label" id="id27"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
-<dd><p>Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. <em>IEICE Transactions on Communications</em>, E99.B(11):2247–2255, 2016. <a class="reference external" href="https://doi.org/10.1587/transcom.2016nei0001">doi:10.1587/transcom.2016nei0001</a>.</p>
-</dd>
-<dt class="label" id="id25"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
-<dd><p>Jean-Sébastien Gomez, Aurélien Vasseur, Anaïs Vergne, Philippe Martins, Laurent Decreusefond, and Wei Chen. A case study on regularity in cellular network deployment. <em>IEEE Wireless Communications Letters, IEEE, 2015, pp.4</em>, 2015. <a class="reference external" href="https://arxiv.org/abs/1505.06073v1">arXiv:1505.06073v1</a>.</p>
-</dd>
-<dt class="label" id="id24"><span class="brackets">6</span><span class="fn-backref">(<a href="#id6">1</a>,<a href="#id13">2</a>,<a href="#id15">3</a>,<a href="#id16">4</a>)</span></dt>
-<dd><p>André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. <em>The Annals of Applied Probability</em>, 20(1):90–128, February 2010. <a class="reference external" href="https://arxiv.org/abs/math/0610243">arXiv:math/0610243</a>, <a class="reference external" href="https://doi.org/10.1214/09-AAP620">doi:10.1214/09-AAP620</a>.</p>
-</dd>
-<dt class="label" id="id30"><span class="brackets"><a class="fn-backref" href="#id7">7</a></span></dt>
-<dd><p>D. J. Daley and D. Vere-Jones. <em>An introduction to the theory of point processes. Vol. I</em>. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.</p>
-</dd>
-<dt class="label" id="id31"><span class="brackets">8</span><span class="fn-backref">(<a href="#id8">1</a>,<a href="#id9">2</a>)</span></dt>
-<dd><p>Hans-Otto Georgii and Hyun Jae Yoo. Conditional intensity and Gibbsianness of determinantal point processes. <em>Journal of Statistical Physics</em>, 118(1-2):55–84, 2005. <a class="reference external" href="https://doi.org/10.1007/s10955-004-8777-5">doi:10.1007/s10955-004-8777-5</a>.</p>
-</dd>
-<dt class="label" id="id26"><span class="brackets">9</span><span class="fn-backref">(<a href="#id10">1</a>,<a href="#id11">2</a>)</span></dt>
-<dd><p>J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. <em>Probability Surveys</em>, 3:206–229 (electronic), 2006.</p>
-</dd>
-<dt class="label" id="id32"><span class="brackets"><a class="fn-backref" href="#id12">10</a></span></dt>
-<dd><p>Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. <em>Mod. Stoch. Theory Appl.</em>, 8(2):209–237, 2021.</p>
-</dd>
-<dt class="label" id="id22"><span class="brackets"><a class="fn-backref" href="#id14">11</a></span></dt>
-<dd><p>F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume II Applications. <em>Foundations and Trends® in Networking</em>, 4(1–2):1–312, 2009. <a class="reference external" href="https://doi.org/10.1561/1300000026">doi:10.1561/1300000026</a>.</p>
-</dd>
-</dl>
+<div class="citation" id="id21" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. <em>Foundations and Trends® in Networking</em>, 3(3–4):249–449, 2008. <a class="reference external" href="https://doi.org/10.1561/1300000006">doi:10.1561/1300000006</a>.</p>
+</div>
+<div class="citation" id="id20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>ANFR. Https://www.cartoradio.fr. URL: <a class="reference external" href="https://www.cartoradio.fr">https://www.cartoradio.fr</a>.</p>
+</div>
+<div class="citation" id="id23" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. <em>IEEE Transactions on Wireless Communications</em>, 2015. <a class="reference external" href="https://arxiv.org/abs/1401.3677v1">arXiv:1401.3677v1</a>.</p>
+</div>
+<div class="citation" id="id27" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. <em>IEICE Transactions on Communications</em>, E99.B(11):2247–2255, 2016. <a class="reference external" href="https://doi.org/10.1587/transcom.2016nei0001">doi:10.1587/transcom.2016nei0001</a>.</p>
+</div>
+<div class="citation" id="id25" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>Jean-Sébastien Gomez, Aurélien Vasseur, Anaïs Vergne, Philippe Martins, Laurent Decreusefond, and Wei Chen. A case study on regularity in cellular network deployment. <em>IEEE Wireless Communications Letters, IEEE, 2015, pp.4</em>, 2015. <a class="reference external" href="https://arxiv.org/abs/1505.06073v1">arXiv:1505.06073v1</a>.</p>
+</div>
+<div class="citation" id="id24" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id13">2</a>,<a role="doc-backlink" href="#id15">3</a>,<a role="doc-backlink" href="#id16">4</a>)</span>
+<p>André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. <em>The Annals of Applied Probability</em>, 20(1):90–128, February 2010. <a class="reference external" href="https://arxiv.org/abs/math/0610243">arXiv:math/0610243</a>, <a class="reference external" href="https://doi.org/10.1214/09-AAP620">doi:10.1214/09-AAP620</a>.</p>
+</div>
+<div class="citation" id="id30" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">7</a><span class="fn-bracket">]</span></span>
+<p>D. J. Daley and D. Vere-Jones. <em>An introduction to the theory of point processes. Vol. I</em>. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.</p>
+</div>
+<div class="citation" id="id31" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
+<p>Hans-Otto Georgii and Hyun Jae Yoo. Conditional intensity and Gibbsianness of determinantal point processes. <em>Journal of Statistical Physics</em>, 118(1-2):55–84, 2005. <a class="reference external" href="https://doi.org/10.1007/s10955-004-8777-5">doi:10.1007/s10955-004-8777-5</a>.</p>
+</div>
+<div class="citation" id="id26" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id10">1</a>,<a role="doc-backlink" href="#id11">2</a>)</span>
+<p>J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. <em>Probability Surveys</em>, 3:206–229 (electronic), 2006.</p>
+</div>
+<div class="citation" id="id32" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">10</a><span class="fn-bracket">]</span></span>
+<p>Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. <em>Mod. Stoch. Theory Appl.</em>, 8(2):209–237, 2021.</p>
+</div>
+<div class="citation" id="id22" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">11</a><span class="fn-bracket">]</span></span>
+<p>F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume II Applications. <em>Foundations and Trends® in Networking</em>, 4(1–2):1–312, 2009. <a class="reference external" href="https://doi.org/10.1561/1300000026">doi:10.1561/1300000026</a>.</p>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -1593,36 +1628,165 @@ Random Forest Results
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
-              
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'>
 </div>
             </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
   
-    By The Jupyter Book Community<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#abstract">
+   Abstract
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preliminaries">
+   Preliminaries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classification-of-cartoradio-data">
+   Classification of CARTORADIO data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-training">
+     Model training
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classification-models">
+     Classification models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-on-cartoradio-data">
+     Testing on CARTORADIO data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-31">
+       N = 31
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-23">
+       N = 23
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-22">
+       N = 22
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-24">
+       N = 24
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-46">
+       N = 46
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n-29">
+       N = 29
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliography">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+</nav>
 </div>
 
-
-      </div>
-    </div>
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
 
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on None.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
 
   </body>
 </html>
