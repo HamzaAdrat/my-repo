@@ -608,65 +608,172 @@ Compiling functions ...
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="nn">Cell In[1], line 95,</span> in <span class="ni">create_dataframe</span><span class="nt">(N, observations)</span>
-<span class="g g-Whitespace">     </span><span class="mi">93</span> <span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">95</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">97</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="nn">Cell In[1], line 63,</span> in <span class="ni">dpp_Moroz</span><span class="nt">(N)</span>
-<span class="g g-Whitespace">     </span><span class="mi">60</span> <span class="n">radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="p">;</span> <span class="n">precision</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**-</span><span class="mi">53</span> <span class="p">;</span> <span class="n">error</span> <span class="o">=</span> <span class="kc">False</span> <span class="p">;</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span> <span class="p">;</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span> 
-<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">kernels</span><span class="p">[</span><span class="s1">&#39;ginibre&#39;</span><span class="p">],</span> <span class="n">precision</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">output</span><span class="p">]</span>
-<span class="ne">---&gt; </span><span class="mi">63</span> <span class="n">moroz_dpp</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="n">X_dpp_Mz</span><span class="p">,</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">convert_complex_points</span><span class="p">(</span><span class="n">moroz_dpp</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">65</span> <span class="n">X_dpp_Mz</span> <span class="o">=</span> <span class="n">X_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span> <span class="p">;</span> <span class="n">Y_dpp_Mz</span> <span class="o">=</span> <span class="n">Y_dpp_Mz</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="n">radius</span><span class="p">)</span>
-
-<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:324,</span> in <span class="ni">sample</span><span class="nt">(R, N, kernel, precision, error, quiet, output)</span>
-<span class="g g-Whitespace">    </span><span class="mi">322</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">323</span>     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sampling the points ...&#39;</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">324</span> <span class="n">V</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">sample_points</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">print_point_txt</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">326</span>     <span class="nb">print</span><span class="p">()</span>
-
-<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:71,</span> in <span class="ni">sample_points</span><span class="nt">(kernel, R, I, epsilon, print_point)</span>
-<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="n">invLambdas</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">Lambdas</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">70</span>     <span class="c1"># Draw point Wi</span>
-<span class="ne">---&gt; </span><span class="mi">71</span>     <span class="n">r</span> <span class="o">=</span> <span class="n">sample_module</span><span class="p">(</span><span class="n">U</span><span class="o">/</span><span class="n">U</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">R</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">invLambdas</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">72</span>     <span class="n">alpha</span> <span class="o">=</span> <span class="n">sample_argument</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">invLambdas</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">73</span>     <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">alpha</span><span class="p">)</span>
-
-<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:44,</span> in <span class="ni">sample_module</span><span class="nt">(C, R, I, invLambdas, F, epsilon)</span>
-<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">F</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">invLambdas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span>
-<span class="ne">---&gt; </span><span class="mi">44</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="k">return</span> <span class="n">r</span>
-
-<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/scipy/optimize/_zeros_py.py:784,</span> in <span class="ni">brentq</span><span class="nt">(f, a, b, args, xtol, rtol, maxiter, full_output, disp)</span>
-<span class="g g-Whitespace">    </span><span class="mi">782</span> <span class="k">if</span> <span class="n">rtol</span> <span class="o">&lt;</span> <span class="n">_rtol</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">783</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;rtol too small (</span><span class="si">%g</span><span class="s2"> &lt; </span><span class="si">%g</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rtol</span><span class="p">,</span> <span class="n">_rtol</span><span class="p">))</span>
-<span class="ne">--&gt; </span><span class="mi">784</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_zeros</span><span class="o">.</span><span class="n">_brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span> <span class="n">rtol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">full_output</span><span class="p">,</span> <span class="n">disp</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">785</span> <span class="k">return</span> <span class="n">results_c</span><span class="p">(</span><span class="n">full_output</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
-
-<span class="nn">File ~/work/my-repo/my-repo/Moroz_dpp.py:43,</span> in <span class="ni">sample_module.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(r)</span>
-<span class="g g-Whitespace">     </span><span class="mi">41</span> <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>
-<span class="ne">---&gt; </span><span class="mi">43</span> <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">F</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">invLambdas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span>
-<span class="g g-Whitespace">     </span><span class="mi">44</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="k">return</span> <span class="n">r</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
-</div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>V3</th>
+      <th>V4</th>
+      <th>V5</th>
+      <th>V6</th>
+      <th>V7</th>
+      <th>V8</th>
+      <th>V9</th>
+      <th>V10</th>
+      <th>...</th>
+      <th>P6</th>
+      <th>P7</th>
+      <th>P8</th>
+      <th>P9</th>
+      <th>P10</th>
+      <th>MP5</th>
+      <th>MP10</th>
+      <th>MP15</th>
+      <th>MP20</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.388492</td>
+      <td>0.759414</td>
+      <td>0.681325</td>
+      <td>-0.639678</td>
+      <td>-1.231852</td>
+      <td>-0.685230</td>
+      <td>-0.301293</td>
+      <td>-1.641818</td>
+      <td>1.162873</td>
+      <td>1.507766</td>
+      <td>...</td>
+      <td>-0.762334</td>
+      <td>-0.252306</td>
+      <td>-1.101415</td>
+      <td>2.187389</td>
+      <td>1.144820</td>
+      <td>68.488</td>
+      <td>75.403</td>
+      <td>68.954667</td>
+      <td>72.9135</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.537838</td>
+      <td>1.429652</td>
+      <td>-0.141826</td>
+      <td>-0.672200</td>
+      <td>-0.279330</td>
+      <td>-1.010068</td>
+      <td>-0.947209</td>
+      <td>-0.927565</td>
+      <td>2.081816</td>
+      <td>-0.071109</td>
+      <td>...</td>
+      <td>-1.025071</td>
+      <td>-0.786257</td>
+      <td>-0.944248</td>
+      <td>1.970369</td>
+      <td>-0.152466</td>
+      <td>78.412</td>
+      <td>70.198</td>
+      <td>69.016000</td>
+      <td>71.3370</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.575185</td>
+      <td>1.745361</td>
+      <td>-0.084024</td>
+      <td>-0.839177</td>
+      <td>0.192511</td>
+      <td>-1.445427</td>
+      <td>-0.105296</td>
+      <td>0.352050</td>
+      <td>-0.179748</td>
+      <td>-1.211435</td>
+      <td>...</td>
+      <td>-1.080897</td>
+      <td>-0.078599</td>
+      <td>0.633513</td>
+      <td>-0.152481</td>
+      <td>-1.293641</td>
+      <td>73.874</td>
+      <td>69.443</td>
+      <td>72.682667</td>
+      <td>78.6550</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.202359</td>
+      <td>0.717985</td>
+      <td>-0.828893</td>
+      <td>-1.198587</td>
+      <td>-1.738535</td>
+      <td>-0.819164</td>
+      <td>1.039035</td>
+      <td>0.990391</td>
+      <td>1.155780</td>
+      <td>0.479629</td>
+      <td>...</td>
+      <td>-0.795169</td>
+      <td>1.620872</td>
+      <td>0.851008</td>
+      <td>0.626465</td>
+      <td>1.232851</td>
+      <td>54.542</td>
+      <td>84.305</td>
+      <td>83.086667</td>
+      <td>80.4130</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.069439</td>
+      <td>1.129639</td>
+      <td>0.744321</td>
+      <td>-0.289458</td>
+      <td>-1.623974</td>
+      <td>-0.496214</td>
+      <td>-0.468020</td>
+      <td>-0.402234</td>
+      <td>0.067666</td>
+      <td>-0.731164</td>
+      <td>...</td>
+      <td>-0.623032</td>
+      <td>-0.086987</td>
+      <td>-0.779906</td>
+      <td>-0.537533</td>
+      <td>0.449803</td>
+      <td>79.374</td>
+      <td>75.130</td>
+      <td>72.828667</td>
+      <td>70.1385</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div></div></div>
 </div>
 </section>
 <section id="classification-models">
@@ -751,6 +858,19 @@ Compiling functions ...
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           0       0.88      0.89      0.88       298
+           1       0.89      0.88      0.89       302
+
+    accuracy                           0.89       600
+   macro avg       0.88      0.89      0.88       600
+weighted avg       0.89      0.89      0.89       600
+</pre></div>
+</div>
+<img alt="_images/6452780557175ecb688afb566460d9e00f525de584a2b077453d4c7d257a56e9.png" src="_images/6452780557175ecb688afb566460d9e00f525de584a2b077453d4c7d257a56e9.png" />
+</div>
 </div>
 <p>Here are the results of the random forest</p>
 <div class="cell tag_show-output tag_show-input docutils container">
@@ -760,6 +880,19 @@ Compiling functions ...
 <span class="n">model_Evaluate</span><span class="p">(</span><span class="n">baseline_RF</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           0       0.88      0.92      0.90       298
+           1       0.92      0.87      0.90       302
+
+    accuracy                           0.90       600
+   macro avg       0.90      0.90      0.90       600
+weighted avg       0.90      0.90      0.90       600
+</pre></div>
+</div>
+<img alt="_images/79304d1a4d9052ca5aa0235805d15dd7fd34b50c88eeb66ad2878030cdf54059.png" src="_images/79304d1a4d9052ca5aa0235805d15dd7fd34b50c88eeb66ad2878030cdf54059.png" />
 </div>
 </div>
 </section>
@@ -830,6 +963,176 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[31, 23, 22, 24, 22, 46, 24, 31, 29, 22]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>V3</th>
+      <th>V4</th>
+      <th>V5</th>
+      <th>V6</th>
+      <th>V7</th>
+      <th>V8</th>
+      <th>V9</th>
+      <th>V10</th>
+      <th>...</th>
+      <th>P5</th>
+      <th>P6</th>
+      <th>P7</th>
+      <th>P8</th>
+      <th>P9</th>
+      <th>P10</th>
+      <th>MP5</th>
+      <th>MP10</th>
+      <th>MP15</th>
+      <th>MP20</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.058615</td>
+      <td>-1.059609</td>
+      <td>-0.322889</td>
+      <td>-0.837226</td>
+      <td>-0.608632</td>
+      <td>-0.546514</td>
+      <td>0.057273</td>
+      <td>-0.332828</td>
+      <td>0.110694</td>
+      <td>2.481117</td>
+      <td>...</td>
+      <td>-0.313571</td>
+      <td>-0.390272</td>
+      <td>-0.272901</td>
+      <td>-0.510596</td>
+      <td>0.075056</td>
+      <td>2.841118</td>
+      <td>54.9306</td>
+      <td>60.7143</td>
+      <td>60.7143</td>
+      <td>60.7143</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.297282</td>
+      <td>-0.299891</td>
+      <td>-0.052026</td>
+      <td>-0.948517</td>
+      <td>-0.221096</td>
+      <td>-0.493487</td>
+      <td>-0.628118</td>
+      <td>2.228860</td>
+      <td>1.582844</td>
+      <td>-0.871287</td>
+      <td>...</td>
+      <td>-0.219659</td>
+      <td>-0.564626</td>
+      <td>-0.639599</td>
+      <td>2.209631</td>
+      <td>1.647841</td>
+      <td>-0.900765</td>
+      <td>57.9418</td>
+      <td>69.9330</td>
+      <td>69.9330</td>
+      <td>69.9330</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.315399</td>
+      <td>-0.524015</td>
+      <td>-1.064477</td>
+      <td>-0.154813</td>
+      <td>-0.756404</td>
+      <td>-0.778721</td>
+      <td>-0.056812</td>
+      <td>1.792111</td>
+      <td>2.012857</td>
+      <td>-0.154328</td>
+      <td>...</td>
+      <td>-0.808625</td>
+      <td>-0.304950</td>
+      <td>-0.290136</td>
+      <td>2.051852</td>
+      <td>1.790089</td>
+      <td>0.068707</td>
+      <td>53.5506</td>
+      <td>80.4082</td>
+      <td>80.4082</td>
+      <td>80.4082</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.035014</td>
+      <td>-0.192421</td>
+      <td>-0.538841</td>
+      <td>0.176928</td>
+      <td>-0.759460</td>
+      <td>-0.958388</td>
+      <td>-0.734051</td>
+      <td>-0.177548</td>
+      <td>2.703503</td>
+      <td>0.515292</td>
+      <td>...</td>
+      <td>-0.827160</td>
+      <td>-0.875832</td>
+      <td>-0.594335</td>
+      <td>0.029275</td>
+      <td>2.580715</td>
+      <td>1.019987</td>
+      <td>61.9572</td>
+      <td>78.8108</td>
+      <td>78.8108</td>
+      <td>78.8108</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.320579</td>
+      <td>-0.068657</td>
+      <td>0.890645</td>
+      <td>-1.103718</td>
+      <td>-1.511872</td>
+      <td>1.745779</td>
+      <td>0.231539</td>
+      <td>-0.269419</td>
+      <td>-0.711664</td>
+      <td>-0.523213</td>
+      <td>...</td>
+      <td>-1.648871</td>
+      <td>2.167209</td>
+      <td>0.013477</td>
+      <td>-0.391777</td>
+      <td>-0.368717</td>
+      <td>-0.440355</td>
+      <td>68.3258</td>
+      <td>71.4361</td>
+      <td>71.4361</td>
+      <td>71.4361</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 28 columns</p>
+</div></div></div>
 </div>
 <p>Now that the data are read and transformed, we gather the observations by the number of points <span class="math notranslate nohighlight">\(N\)</span> and then create the models inputs for each value of <span class="math notranslate nohighlight">\(N\)</span> using the function <em>models_input(N)</em>. This task takes so much time to be executed that we got a time-out error on the GitHub server. That’s why we prepared locally, for each value of <span class="math notranslate nohighlight">\(N\)</span>, a file containing the data created locally, and we  read the files directly.</p>
 <section id="n-31">
@@ -856,6 +1159,21 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 31
+------------------
+Logistic Regression Results
+0 [0.64423014 0.35576986]
+1 [0.08019266 0.91980734]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.6 0.4]
+1 [0.2 0.8]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="n-23">
@@ -877,6 +1195,19 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
 <span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X23_train</span><span class="p">,</span> <span class="n">y23_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 23
+------------------
+Logistic Regression Results
+1 [0.06596102 0.93403898]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.52 0.48]
 </pre></div>
 </div>
 </div>
@@ -908,6 +1239,23 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 22
+------------------
+Logistic Regression Results
+1 [0.18127125 0.81872875]
+1 [0.01796698 0.98203302]
+1 [0.02466654 0.97533346]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.7 0.3]
+1 [0.09 0.91]
+0 [0.67 0.33]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="n-24">
@@ -931,6 +1279,21 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 <span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X24_train</span><span class="p">,</span> <span class="n">y24_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 24
+------------------
+Logistic Regression Results
+1 [0.44707948 0.55292052]
+1 [0.44709033 0.55290967]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.37 0.63]
+1 [0.27 0.73]
 </pre></div>
 </div>
 </div>
@@ -958,6 +1321,19 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 46
+------------------
+Logistic Regression Results
+1 [0.45965142 0.54034858]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.41 0.59]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="n-29">
@@ -979,6 +1355,19 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
 <span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X29_train</span><span class="p">,</span> <span class="n">y29_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 29
+------------------
+Logistic Regression Results
+1 [0.0175506 0.9824494]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.21 0.79]
 </pre></div>
 </div>
 </div>
