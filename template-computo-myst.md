@@ -1,11 +1,10 @@
 ---
-title: "Point process discrimination according to repulsion"
-# subtitle: "Example based on the myst system"
-author: "Hamza ADRAT and Laurent DECREUSEFOND"
 jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.14.1
 kernelspec:
   display_name: Python 3
   language: python
@@ -170,9 +169,8 @@ The final data will be a set of observations where each one contains $29$ column
 The final column will be the target variable for our classification models.
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 import numpy as np
 import pandas as pd
 import scipy.stats
@@ -316,11 +314,9 @@ def transform_df(odf):
 
 Here is an example of the data created. We generate a data of $2,000$ observations of configurations ($1,000$ repulsive and $1,000$ non repulsive) of $N = 24$ points.
 
-
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 ddf = create_dataframe(24, 1000)
 ddf_transformed = transform_df(ddf)
 ddf_transformed.head()
@@ -337,9 +333,8 @@ The models we use in this paper are:
 Two other classification models (Support Vector Machine and XGBoost) have been tested but did not yield more significant results than those two models.
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -399,12 +394,12 @@ X = ddf_transformed[model_cols].values
 y = ddf_transformed['type'].values
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle= True, random_state=7)
 ```
+
 Here are the results of the logistic regression
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 Baseline_LR = make_pipeline(StandardScaler(), LogisticRegression())
 Baseline_LR.fit(X_train, y_train)
 model_Evaluate(Baseline_LR, X_test, y_test)
@@ -413,9 +408,8 @@ model_Evaluate(Baseline_LR, X_test, y_test)
 Here are the results of the random forest
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 baseline_RF = RandomForestClassifier()
 baseline_RF.fit(X_train,y_train)
 model_Evaluate(baseline_RF, X_test, y_test)
@@ -482,15 +476,13 @@ def models_input(N):
 ```
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 data = pd.read_csv('data_voronoi_cartoradio.csv', sep=',')
 list_N, data_test = update_df(data)
 print(list_N)
 data_test.head()
 ```
-
 
 Now that the data are read and transformed, we gather the observations by the number of points $N$ and then create the models inputs for each value of $N$ using the function *models_input(N)*. This task takes so much time to be executed that we got a time-out error on the GitHub server. That's why we prepared locally, for each value of $N$, a file containing the data created locally, and we  read the files directly.
 
@@ -498,9 +490,8 @@ Now that the data are read and transformed, we gather the observations by the nu
 #### N = 31
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 data31 = pd.read_csv('data_31.csv', sep=',')
 X31 = data31[model_cols].values
 y31 = data31['type'].values
@@ -519,12 +510,12 @@ baseline_RF.fit(X31_train, y31_train)
 print(baseline_RF.predict(data_test_31.values)[0], baseline_RF.predict_proba(data_test_31.values)[0])
 print(baseline_RF.predict(data_test_31.values)[1], baseline_RF.predict_proba(data_test_31.values)[1])
 ```
+
 #### N = 23
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 data23 = pd.read_csv('data_23.csv', sep=',')
 X23 = data23[model_cols].values
 y23 = data23['type'].values
@@ -541,12 +532,12 @@ print('Random Forest Results')
 baseline_RF.fit(X23_train, y23_train)
 print(baseline_RF.predict(data_test_23.values)[0], baseline_RF.predict_proba(data_test_23.values)[0])
 ```
+
 #### N = 22
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 data22 = pd.read_csv('data_22.csv', sep=',')
 X22 = data22[model_cols].values
 y22 = data22['type'].values
@@ -567,12 +558,12 @@ print(baseline_RF.predict(data_test_22.values)[0], baseline_RF.predict_proba(dat
 print(baseline_RF.predict(data_test_22.values)[1], baseline_RF.predict_proba(data_test_22.values)[1])
 print(baseline_RF.predict(data_test_22.values)[2], baseline_RF.predict_proba(data_test_22.values)[2])
 ```
+
 #### N = 24
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 data24 = pd.read_csv('data_24.csv', sep=',')
 X24 = data24[model_cols].values
 y24 = data24['type'].values
@@ -591,12 +582,12 @@ baseline_RF.fit(X24_train, y24_train)
 print(baseline_RF.predict(data_test_24.values)[0], baseline_RF.predict_proba(data_test_24.values)[0])
 print(baseline_RF.predict(data_test_24.values)[1], baseline_RF.predict_proba(data_test_24.values)[1])
 ```
+
 #### N = 46
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 data46 = pd.read_csv('data_46.csv', sep=',')
 X46 = data46[model_cols].values
 y46 = data46['type'].values
@@ -613,12 +604,12 @@ print('Random Forest Results')
 baseline_RF.fit(X46_train, y46_train)
 print(baseline_RF.predict(data_test_46.values)[0], baseline_RF.predict_proba(data_test_46.values)[0])
 ```
+
 #### N = 29
 
 ```{code-cell} ipython3
----
-tags: [show-output, show-input]
----
+:tags: [show-output, show-input]
+
 data29 = pd.read_csv('data_29.csv', sep=',')
 X29 = data29[model_cols].values
 y29 = data29['type'].values
@@ -635,6 +626,7 @@ print('Random Forest Results')
 baseline_RF.fit(X29_train, y29_train)
 print(baseline_RF.predict(data_test_29.values)[0], baseline_RF.predict_proba(data_test_29.values)[0])
 ```
+
 We can notice that the classification results are mostly positive, which means that the majority of the samples taken from the CARTORADIO data can be decided as repulsive configurations which is consistent with our starting hypothesis. For the configurations whose results were as non-repulsive, we can say that this is due to one of the two following reasons:
 - As long as we are dealing with real data, these two samples may be a non-repulsive ones and the results are actually coherent.
 - It is sure that the accuracy of our models is very high, but we may have some classification errors, which means that even if the configuration is repulsive, the model decides that it is not.
