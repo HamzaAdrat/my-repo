@@ -50,11 +50,11 @@ We consider finite point processes on a bounded window $E$. The law of a such a 
 details we refer to {cite}`Daley2003`[Chapter 5]). These are symmetric functions $(\rho_{k},k\ge 1)$ such that for any bounded function $f$, we can write:
 
 $$
- \mathbb{E}\left[ \sum_{\alpha \subset N} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{E^k} f(\{x_1, \dots, x_k\}) \rho_{k}(x_1, \dots, x_k) \, \dif x_1 \ldots \dif x_k .
+ \mathbb{E}\left[ \sum_{\alpha \subset N} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{E^k} f(\{x_1, \dots, x_k\}) \rho_{k}(x_1, \dots, x_k) \, dx_1 \ldots dx_k .
 $$
 
-Intuitively speaking, $\rho_{k}(x_{1}, \dots, x_{k})\dif x_{1} \dots \dif x_{k}$ represents the probability to observe in $N$, at least $k$ points located around the 
-point $x_{j}$. For a Poisson point process of control measure $m(x) \, \dif x$, we have
+Intuitively speaking, $\rho_{k}(x_{1}, \dots, x_{k}) \, dx_{1} \dots dx_{k}$ represents the probability to observe in $N$, at least $k$ points located around the 
+point $x_{j}$. For a Poisson point process of control measure $m(x) \, dx$, we have
 
 $$
 \rho_{k}(x_{1}, \dots,x_{k}) = \prod_{j=1}^{k} m(x_{j}).
@@ -81,10 +81,10 @@ and $\gamma(n,x)$ is the lower incomplete Gamma function. The simulation of such
 
 For an at most denumerable set of points $\{x_{n}, \, n \ge 1\}$, the Voronoi cells are defined as the convex sets
 $$
-\mathcal{C}(x_{i})=\{z\in \C,\ |z-x_{i}|\le |z-x_{j}|  \text{ for all }j\neq i\}.
+\mathbb{C}(x_{i})=\{z\in \mathcal{C},\ |z-x_{i}|\le |z-x_{j}|  \text{ for all }j\neq i\}.
 $$
 
-When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of $\R^{2}$ when the point process is taken under its Palm distribution {cite}`goldman_palm_2010`, {cite}`BaccelliStochasticGeometryWireless2009`. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form {eq}`correlation_functions_determinantal` with $K$ being $K_{R}$ with the first term removed). 
+When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of $\mathbb{R}^{2}$ when the point process is taken under its Palm distribution {cite}`goldman_palm_2010`, {cite}`BaccelliStochasticGeometryWireless2009`. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form {eq}`correlation_functions_determinantal` with $K$ being $K_{R}$ with the first term removed). 
 We denote by $\mathcal{C}_p$ (respectively $C_{G}$) the typical cell of the Voronoi tessellation associated to a stationary Poisson process in $\mathbb{C}$  with
 intensity $\lambda$ (respectively to the Ginibre point process of intensity $\rho$). One of the main theorems of {cite}`goldman_palm_2010` is the following.
 
