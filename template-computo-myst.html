@@ -349,88 +349,58 @@ document.write(`
 </section>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
-<p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id21" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id20" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>(left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>, right picture).</p>
+<p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id24" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id23" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>(left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>, right picture).</p>
 <figure class="align-default" id="paris-orange-fig">
 <img alt="_images/paris-orange.png" src="_images/paris-orange.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 1 </span><span class="caption-text">Left: Antennas in Paris. Right: Antennas in one frequency  band only.</span><a class="headerlink" href="#paris-orange-fig" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>In previous papers, point processes with repulsion have been used to model such systems <span id="id3">[<a class="reference internal" href="#id23" title="Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. IEEE Transactions on Wireless Communications, 2015. arXiv:1401.3677v1.">3</a>]</span>, <span id="id4">[<a class="reference internal" href="#id27" title="Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. IEICE Transactions on Communications, E99.B(11):2247–2255, 2016. doi:10.1587/transcom.2016nei0001.">4</a>]</span>, <span id="id5">[<a class="reference internal" href="#id25" title="Jean-Sébastien Gomez, Aurélien Vasseur, Anaïs Vergne, Philippe Martins, Laurent Decreusefond, and Wei Chen. A case study on regularity in cellular network deployment. IEEE Wireless Communications Letters, IEEE, 2015, pp.4, 2015. arXiv:1505.06073v1.">5</a>]</span> for no reason but a mere resemblance between the pictures like the right picture in <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a> and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a <em>neutral</em> point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.</p>
-<p>The rationale behind our work comes from <span id="id6">[<a class="reference internal" href="#id24" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>. It is shown there  that the Voronoi cells of the Ginibre point process (a particular point process with repulsion, see below for the exact definition) are in some sense more regular (closer to a circle) than those of a Poisson process (see <a class="reference internal" href="#equation-theorem-goldman">(5)</a> in Theorem 1.). By simulation, this feature seem to persist for other point processes with repulsion, like Gibbs processes. It is this aspect that we use to construct our classification algorithm.
-We will simulate several configurations (repulsive and non-repulsive) with the same given  number of points <span class="math notranslate nohighlight">\(N\)</span>. For each configuration, we will compute the Voronoi diagrams and construct two vectors which will represent the input of our algorithm; an area vector containing the areas of the <span class="math notranslate nohighlight">\(10\)</span> innermost Voronoi cells in order to avoid edge effects, plus <span class="math notranslate nohighlight">\(4\)</span> other average areas from <span class="math notranslate nohighlight">\(20\)</span> cells to have more information on the configuration. And a second perimeter vector which is constructed in the same way, containing the squared perimeters of the corresponding Voronoi cells.
-The choice of areas and square perimeters as aspects to our classification task is based on the *isoperimetric inequality in <span class="math notranslate nohighlight">\(\mathbf{R}^2\)</span> that states, for the length <span class="math notranslate nohighlight">\(P\)</span> of a closed curve and the area <span class="math notranslate nohighlight">\(A\)</span> of the planar region that it encloses, that</p>
-<div class="math notranslate nohighlight" id="equation-isoperimetric-inequality">
-<span class="eqno">(1)<a class="headerlink" href="#equation-isoperimetric-inequality" title="Permalink to this equation">#</a></span>\[P^2 \ge 4 \pi A\]</div>
-<p>and that equality holds if and only if the curve is a circle. After normalization, we test some classical ML models (logistic regression, random forest, support vector machine, XGBoost) to classify between repulsive and neutral point processes. The results are surprisingly good even though we trained our models only on Ginibre point processes to represent the whole family of point processes with repulsion.</p>
-<p>This paper is organized as follows. We first recall the theoretical notions that we will need in the rest of this paper. We will also briefly define the Papangelou intensity which is at the core of the definition of repulsion. In section 3 we show numerically, and based on two Machine Learning classification models, how the locations of antennas in Paris can be considered as repulsive configurations.</p>
+<p>In previous papers, point processes with repulsion have been used to model such systems <span id="id3">[<a class="reference internal" href="#id26" title="Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. IEEE Transactions on Wireless Communications, 2015. arXiv:1401.3677v1.">3</a>]</span>, <span id="id4">[<a class="reference internal" href="#id30" title="Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. IEICE Transactions on Communications, E99.B(11):2247–2255, 2016. doi:10.1587/transcom.2016nei0001.">4</a>]</span>, <span id="id5">[<a class="reference internal" href="#id28" title="Jean-Sébastien Gomez, Aurélien Vasseur, Anaïs Vergne, Philippe Martins, Laurent Decreusefond, and Wei Chen. A case study on regularity in cellular network deployment. IEEE Wireless Communications Letters, IEEE, 2015, pp.4, 2015. arXiv:1505.06073v1.">5</a>]</span> for no reason but a mere resemblance between the pictures like the right picture in <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a> and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a <em>neutral</em> point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.</p>
+<p>The rationale behind our work comes from <span id="id6">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>. It is shown there that the Voronoi cells of the Ginibre point process (a particular point
+process with repulsion, see below for the exact definition) are in some sense more regular (closer to a circle) than those of a Poisson process (see <a class="reference internal" href="#equation-theorem-goldman">(3)</a> in Theorem 1.). By simulation, this feature seems to persist for other point processes with repulsion, like Gibbs processes. In <span id="id7">[<a class="reference internal" href="#id36">7</a>]</span>, the surface of Voronoi cells is claimed to be a good discrepancy indicator between Poisson process and several processes with repulsion (Gibbs processes, Strauss processes with repulsion and the Geyer saturation model). For any of these models, we do not have any closed formula on the surface of the Voronoi cells so the procedure proposed in this paper is to simulate a large number of realizations of each of these processes and compute the empirical mean and variance of the Voronoi cells area. They obtain mixed conclusions as this sole indicator does not enable to rule out the Poisson hypothesis for many situations.</p>
+<p>Our contribution is to consider the ratio of the surface by the squared perimeter instead of the surface of the Voronoi cells alone. Actually, we can interpret
+the result of <span id="id8">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span> by saying that the Voronoi cells of a Ginibre point process are more circular than those of a Poisson point process. The isoperimetric inequality stands for any regular enough domain in the plane, <span class="math notranslate nohighlight">\(R = \frac{4 \pi S}{P^2}\)</span> is less than <span class="math notranslate nohighlight">\(1\)</span> and the equality is obtained for disks. It is thus sensible to think that the ratio <span class="math notranslate nohighlight">\(R\)</span> will be closer to <span class="math notranslate nohighlight">\(1\)</span> for repulsive processes than for neutral point processes. Following the procedure of <span id="id9">[<a class="reference internal" href="#id36">7</a>]</span>, we show that we get a much better indicator by using <span class="math notranslate nohighlight">\(R\)</span> instead <span class="math notranslate nohighlight">\(S\)</span> alone to discriminate between repulsive and neutral point processes.</p>
+<p>However, for the application we have in mind, which is to decide for one single map  which model is the most pertinent, we cannot use this criterion based on probability. That is why we resort to an ML model. After several tries, we concluded that the most efficient algorithm was to use Logistic Regression. In a first step, we trained it on simulations of Ginibre and Poisson point processes. The advantage of the Ginibre process is that we have efficient algorithm to simulate it <span id="id10">[<a class="reference internal" href="#id35" title="Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. Mod. Stoch. Theory Appl., 8(2):209–237, 2021.">8</a>]</span> and it does not seem to alter the accuracy of our algorithm to use one single class of repulsive point process. We remarked that we obtain a much better discrimination by considering the mean value of <span class="math notranslate nohighlight">\(R\)</span> for the five most central cells instead of just the most central one. We can even improve our discrimination rate by adding to the input vector the value of each of the five ratios.</p>
+<p>Furthermore, the repulsion in the Ginibre class of point processes can be also modulated by making a <span class="math notranslate nohighlight">\(\beta\)</span>-thinning (to weaken the repulsion) and then a <span class="math notranslate nohighlight">\(\sqrt{\beta}\)</span>-dilation (to keep the same intensity of points per surface unit) to obtain what is called a <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre. For <span class="math notranslate nohighlight">\(\beta=1\)</span>, we have the original Ginibre process and when <span class="math notranslate nohighlight">\(\beta\)</span> goes to <span class="math notranslate nohighlight">\(0\)</span>, it tends in law to a Poisson process (see <span id="id11">[<a class="reference internal" href="#id37" title="L. Decreusefond and A. Vasseur. Asymptotics of superposition of point processes. In Geometry of Science Information. Palaiseau, October 2015.">9</a>]</span>) so that we have a full scale of point processes with intermediate repulsion between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>. We show that our logistic regression algorithm can still accurately discriminate between Poisson and <span class="math notranslate nohighlight">\(\beta\)</span>-repulsive point processes for <span class="math notranslate nohighlight">\(\beta\)</span> up to <span class="math notranslate nohighlight">\(0.7\)</span>.</p>
+<p>The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel.</p>
 </section>
 <section id="preliminaries">
 <h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this heading">#</a></h2>
-<p>A configuration on <span class="math notranslate nohighlight">\(E=\mathbf R^2\)</span> is a locally finite (respectively finite) subset of <span class="math notranslate nohighlight">\(E\)</span>. The space of configurations (respectively finite configurations) is denoted <span class="math notranslate nohighlight">\(\mathfrak N\)</span> (respectively <span class="math notranslate nohighlight">\(\mathfrak N_{f}\)</span>). We equip <span class="math notranslate nohighlight">\(\mathfrak N\)</span> with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by <span class="math notranslate nohighlight">\(\mathcal B(\mathfrak N)\)</span> the Borelean <span class="math notranslate nohighlight">\(\sigma\)</span>-field on <span class="math notranslate nohighlight">\(\mathfrak N\)</span>. A locally finite (respectively finite) point process is a random variable with values in <span class="math notranslate nohighlight">\(\mathfrak N\)</span> (respectively <span class="math notranslate nohighlight">\(\mathfrak N_{f}\)</span>).</p>
-<p><strong>Definition 1.</strong>
-Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a locally finite point process on <span class="math notranslate nohighlight">\(E\)</span>. Its <em>correlation functions</em> <span class="math notranslate nohighlight">\(\rho^{(k)} \colon \mathfrak N_{f} \to \mathbb R_+\)</span> are given for any measurable function <span class="math notranslate nohighlight">\(f \colon \mathfrak N_{f} \to \mathbb R_+ \)</span> by:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\mathbb{E}\left[ \sum_{\substack{\alpha \in \mathfrak N_{f} \\ \alpha \subset \Phi}} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{(E)^k} f(\{x_1, \dots, x_k\}) \rho^{(k)}(\{x_1, \dots, x_k\}) \, d x_1 \ldots d x_k .
-\end{split}\]</div>
-<p>It is however easier to work with the so-called Janossy measures, whose links with correlation functions are given in <span id="id7">[<a class="reference internal" href="#id30" title="D. J. Daley and D. Vere-Jones. An introduction to the theory of point processes. Vol. I. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.">7</a>]</span>.</p>
-<p><strong>Definition 2.</strong>
-Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a finite point process on <span class="math notranslate nohighlight">\(E\)</span>. Its <em>Janossy measure</em> <span class="math notranslate nohighlight">\(J\)</span> is given for any <span class="math notranslate nohighlight">\(A \in \mathcal B(\mathfrak N_f)\)</span> by:</p>
+<p>We consider finite point processes on a bounded window <span class="math notranslate nohighlight">\(E\)</span>. The law of a such a point process <span class="math notranslate nohighlight">\(N\)</span> can be  characterized by its correlation functions (for
+details we refer to <span id="id12">[<a class="reference internal" href="#id33" title="D. J. Daley and D. Vere-Jones. An introduction to the theory of point processes. Vol. I. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.">10</a>]</span>[Chapter 5]). These are symmetric functions <span class="math notranslate nohighlight">\((\rho_{k},k\ge 1)\)</span> such that for any bounded function <span class="math notranslate nohighlight">\(f\)</span>, we can write:</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbb{P}(\Phi \in A) = \sum_{k=1}^{+ \infty} \frac{1}{k!} J(A^{(k)}),
+ \mathbb{E}\left[ \sum_{\alpha \subset N} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{E^k} f(\{x_1, \dots, x_k\}) \rho_{k}(x_1, \dots, x_k) \, \dif x_1 \ldots \dif x_k .
 \]</div>
-<p>where, for any <span class="math notranslate nohighlight">\(k \in \mathbb N^*, \; A^{(k)} = \{ \phi \in A,\; \phi(E) = k \}\)</span>.</p>
-<p><strong>Definition 3.</strong>
-Let <span class="math notranslate nohighlight">\(\Phi\)</span> be a finite point process on <span class="math notranslate nohighlight">\(E\)</span>. It is said to be regular if there exist <em>Janossy functions</em> <span class="math notranslate nohighlight">\((j^{(k)}, k\ge 0)\)</span> such that for any measurable <span class="math notranslate nohighlight">\(f \, \colon \, \mathfrak N_{f}\to \mathbb R^{+}\)</span>, we have</p>
-<div class="math notranslate nohighlight" id="equation-janossy-functions">
-<span class="eqno">(2)<a class="headerlink" href="#equation-janossy-functions" title="Permalink to this equation">#</a></span>\[E[ f(\Phi) ] =  \sum_{n\ge 0} \frac{1}{n!} \int_{E^n} f(\{x_1,\dots,x_n\}) \, j^{(n)}(\{x_1,\dots,x_n\}) d x_1 \ldots d x_n.\]</div>
-<p>With this definition in hand, we can define the concept of repulsion , following <span id="id8">[<a class="reference internal" href="#id31" title="Hans-Otto Georgii and Hyun Jae Yoo. Conditional intensity and Gibbsianness of determinantal point processes. Journal of Statistical Physics, 118(1-2):55–84, 2005. doi:10.1007/s10955-004-8777-5.">8</a>]</span>.</p>
-<p><strong>Definition 4.</strong>
-For <span class="math notranslate nohighlight">\(\Phi\)</span>  a finite point regular process on <span class="math notranslate nohighlight">\(E\)</span> with Janossy functions <span class="math notranslate nohighlight">\((j^{(k)},\, k \ge 0)\)</span>, its Papangelou intensity <span class="math notranslate nohighlight">\(c\)</span> is given for any <span class="math notranslate nohighlight">\(x \in E\)</span> and <span class="math notranslate nohighlight">\(\phi \in \mathfrak N_{f}\)</span> by:</p>
+<p>Intuitively speaking, <span class="math notranslate nohighlight">\(\rho_{k}(x_{1}, \dots, x_{k})\dif x_{1} \dots \dif x_{k}\)</span> represents the probability to observe in <span class="math notranslate nohighlight">\(N\)</span>, at least <span class="math notranslate nohighlight">\(k\)</span> points located around the
+point <span class="math notranslate nohighlight">\(x_{j}\)</span>. For a Poisson point process of control measure <span class="math notranslate nohighlight">\(m(x) \, \dif x\)</span>, we have</p>
 <div class="math notranslate nohighlight">
 \[
-c(x, \phi) = \frac{j^{(k+1)}(\{x\}\cup \phi)}{j^{(k)}(\phi)} \, \mathbf{1}_{\{j^{(k)}(\phi) \ne 0\} } \text{ if } \phi(E)=k.
+\rho_{k}(x_{1}, \dots,x_{k}) = \prod_{j=1}^{k} m(x_{j}).
 \]</div>
-<p>The quantity <span class="math notranslate nohighlight">\(c(x,\phi)\)</span> can be intuitively thought as the probability to have a particle at <span class="math notranslate nohighlight">\(x\)</span> given the observation <span class="math notranslate nohighlight">\(\phi\)</span>. Intuitively a point process shows repulsion when <span class="math notranslate nohighlight">\(\phi \mapsto c(x,\phi)\)</span> is, in some sense, decreasing:</p>
-<p><strong>Definition 5.</strong>
-A point process <span class="math notranslate nohighlight">\(\Phi\)</span> on <span class="math notranslate nohighlight">\(E\)</span> with a version <span class="math notranslate nohighlight">\(c\)</span> of its Papangelou intensity is said to be <em>repulsive</em> if, for any <span class="math notranslate nohighlight">\(\omega, \phi \in \mathfrak N_{f}\)</span> such that <span class="math notranslate nohighlight">\(\omega \subset \phi\)</span> and any <span class="math notranslate nohighlight">\(x \in E\)</span>,</p>
-<div class="math notranslate nohighlight">
-\[
-c(x,\phi) \le c(x, \omega).
-\]</div>
-<p>With this definition, it is not hard to see that Gibbs point processes, determinantal point processes are repulsive (see <span id="id9">[<a class="reference internal" href="#id31" title="Hans-Otto Georgii and Hyun Jae Yoo. Conditional intensity and Gibbsianness of determinantal point processes. Journal of Statistical Physics, 118(1-2):55–84, 2005. doi:10.1007/s10955-004-8777-5.">8</a>]</span>, <span id="id10">[<a class="reference internal" href="#id26" title="J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. Probability Surveys, 3:206–229 (electronic), 2006.">9</a>]</span>). We will not dwell into the vast literature about determinantal point processes, we only focus on the so-called Ginibre point process. It has the interesting feature that we know its distribution when restricted to a compact ball in <span class="math notranslate nohighlight">\(E\)</span>. For reasons which will be self-evident, we identify hereafter <span class="math notranslate nohighlight">\(\mathbb R^{2}\)</span> and <span class="math notranslate nohighlight">\(\mathbb C\)</span>.</p>
-<p><strong>Definition 6.</strong>
-The <em>Ginibre point process</em> with intensity <span class="math notranslate nohighlight">\(\rho = \frac{\lambda}{\pi}\)</span> (with <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>) is a locally finite point process on <span class="math notranslate nohighlight">\(\mathbb C\)</span> that can be defined by its correlation functions:</p>
+<p>The <strong>Ginibre point process</strong>, restricted to <span class="math notranslate nohighlight">\(E=B(0,r)\)</span>, with intensity <span class="math notranslate nohighlight">\(\rho = \frac{\lambda}{\pi}\)</span> (with <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>) has correlation functions (see <span id="id13">[<a class="reference internal" href="#id38" title="L. Decreusefond, I. Flint, and A. Vergne. A note on the simulation of the Ginibre point process. Journal of Applied Probability, 52(04):1003–1012, dec 2015. arXiv:1310.0800v2, doi:10.1239/jap/1450802749.">11</a>]</span>)</p>
 <div class="math notranslate nohighlight" id="equation-correlation-functions-determinantal">
-<span class="eqno">(3)<a class="headerlink" href="#equation-correlation-functions-determinantal" title="Permalink to this equation">#</a></span>\[\rho^{(k)}(x_1, \dots, x_k) = \det(K(x_i, x_j), \; 1\le i,j \le k)\]</div>
-<p>where <span class="math notranslate nohighlight">\(K\)</span> is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-K(x,y) = \rho \, e^{-\frac{\lambda}{2}(|x|^2 + |y|^2)}e^{\lambda x \bar{y}},\ \forall \, (x,y) \in \mathbb C^2.
-\]</div>
-<p>When restricted to the <span class="math notranslate nohighlight">\(B(0,R)\)</span>, the Ginibre point process admits correlation functions of the form <a class="reference internal" href="#equation-correlation-functions-determinantal">(3)</a> with <span class="math notranslate nohighlight">\(K=K_R\)</span> given by:</p>
-<div class="math notranslate nohighlight" id="equation-eq-main-1">
-<span class="eqno">(4)<a class="headerlink" href="#equation-eq-main-1" title="Permalink to this equation">#</a></span>\[K_R(x,y)=\sum_{j=1}^{+\infty} \frac{\gamma(j+1,R^2)}{j!} \phi_j(x)\phi_j(\bar y)\]</div>
-<p>with</p>
-<div class="math notranslate nohighlight">
-\[
-\phi_j(x)=\sqrt{\frac{\rho}{\gamma(j+1,R^2)}} \left(\sqrt{\lambda}x\right)^j\, e^{-\frac{\lambda}{2} |x|^2},
-\]</div>
-<p>and <span class="math notranslate nohighlight">\(\gamma(n,x)\)</span> is the lower incomplete Gamma function.</p>
-<p>The simulation of such a point process is a delicate matter, first solved in <span id="id11">[<a class="reference internal" href="#id26" title="J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. Probability Surveys, 3:206–229 (electronic), 2006.">9</a>]</span>. It remains costly because the algorithm contains complex calculations and some rejections. In order to fasten the procedure, an approximate algorithm has been given in <span id="id12">[<a class="reference internal" href="#id32" title="Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. Mod. Stoch. Theory Appl., 8(2):209–237, 2021.">10</a>]</span> (see the bibliography therein to get the URL of the Python code).</p>
-<p>For an at most denumerable set of points <span class="math notranslate nohighlight">\(\{x_{n}, \, n\ge 1\}\)</span>, the Voronoi cells are defined as the convex sets</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{C}(x_{i})=\{z\in \mathbb C,\ |z-x_{i}|\le |z-x_{j}|  \text{ for all }j\neq i\}.
-\]</div>
-<p>When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of <span class="math notranslate nohighlight">\(\mathbb R^{2}\)</span> when the point process is taken under its Palm distribution <span id="id13">[<a class="reference internal" href="#id24" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>, <span id="id14">[<a class="reference internal" href="#id22" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume II Applications. Foundations and Trends® in Networking, 4(1–2):1–312, 2009. doi:10.1561/1300000026.">11</a>]</span>. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form <a class="reference internal" href="#equation-correlation-functions-determinantal">(3)</a> with <span class="math notranslate nohighlight">\(K\)</span> being <span class="math notranslate nohighlight">\(K_{R}\)</span> with the first term removed).
-We denote by <span class="math notranslate nohighlight">\(\mathcal{C}_p\)</span> (respectively <span class="math notranslate nohighlight">\(C_{G}\)</span>) the typical cell of the Voronoi tessellation associated to a stationary Poisson process in <span class="math notranslate nohighlight">\(\mathbb C\)</span> with intensity <span class="math notranslate nohighlight">\(\lambda\)</span> (respectively to the Ginibre point process of intensity <span class="math notranslate nohighlight">\(\rho\)</span>). One of the main theorems of <span id="id15">[<a class="reference internal" href="#id24" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span> is the following.</p>
+<span class="eqno">(1)<a class="headerlink" href="#equation-correlation-functions-determinantal" title="Permalink to this equation">#</a></span>\[\rho_{k}(x_1, \dots, x_k) = \det(K(x_i, x_j), \; 1 \le i,j \le k)\]</div>
+<p>where <span class="math notranslate nohighlight">\(K\)</span> is given by</p>
+<div class="math notranslate nohighlight" id="equation-eq-main">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-main" title="Permalink to this equation">#</a></span>\[K_r(x,y)=\sum_{j=1}^\infty \frac{\gamma(j+1,r^2)}{j!} \phi_j(x)\phi_j(\bar y)\]</div>
+<p>with
+$<span class="math notranslate nohighlight">\(
+\phi_j(x) = \sqrt{\frac{\rho}{\gamma(j+1,r^2)}} \left(\sqrt{\lambda} x \right)^j \, e^{-\frac{\lambda}{2} |x|^2}
+\)</span>$</p>
+<p>and <span class="math notranslate nohighlight">\(\gamma(n,x)\)</span> is the lower incomplete Gamma function. The simulation of such a point process is a delicate matter, first solved in <span id="id14">[<a class="reference internal" href="#id29" title="J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. Probability Surveys, 3:206–229 (electronic), 2006.">12</a>]</span>. It remains costly because the algorithm contains complex calculations and some rejections. In order to fasten the procedure, an approximate algorithm, with error estimates, has been given in <span id="id15">[<a class="reference internal" href="#id35" title="Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. Mod. Stoch. Theory Appl., 8(2):209–237, 2021.">8</a>]</span> (see the bibliography therein to get the URL of the Python code).</p>
+<p>For an at most denumerable set of points <span class="math notranslate nohighlight">\(\{x_{n}, \, n \ge 1\}\)</span>, the Voronoi cells are defined as the convex sets
+$<span class="math notranslate nohighlight">\(
+\mathcal{C}(x_{i})=\{z\in \C,\ |z-x_{i}|\le |z-x_{j}|  \text{ for all }j\neq i\}.
+\)</span>$</p>
+<p>When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of <span class="math notranslate nohighlight">\(\R^{2}\)</span> when the point process is taken under its Palm distribution <span id="id16">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>, <span id="id17">[<a class="reference internal" href="#id25" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume II Applications. Foundations and Trends® in Networking, 4(1–2):1–312, 2009. doi:10.1561/1300000026.">13</a>]</span>. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form <a class="reference internal" href="#equation-correlation-functions-determinantal">(1)</a> with <span class="math notranslate nohighlight">\(K\)</span> being <span class="math notranslate nohighlight">\(K_{R}\)</span> with the first term removed).
+We denote by <span class="math notranslate nohighlight">\(\mathcal{C}_p\)</span> (respectively <span class="math notranslate nohighlight">\(C_{G}\)</span>) the typical cell of the Voronoi tessellation associated to a stationary Poisson process in <span class="math notranslate nohighlight">\(\mathbb{C}\)</span>  with
+intensity <span class="math notranslate nohighlight">\(\lambda\)</span> (respectively to the Ginibre point process of intensity <span class="math notranslate nohighlight">\(\rho\)</span>). One of the main theorems of <span id="id18">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span> is the following.</p>
 <p><strong>Theorem 1.</strong>
 When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <div class="math notranslate nohighlight" id="equation-theorem-goldman">
-<span class="eqno">(5)<a class="headerlink" href="#equation-theorem-goldman" title="Permalink to this equation">#</a></span>\[\mathbb{E} \left[ V(\mathcal{C}_{G} \cap B(0,r)) \right] = \mathbb{E} \left[ V(\mathcal{C}_p \cap B(0,r)) \right] (1 + r^2 W + \circ(r^2))\]</div>
+<span class="eqno">(3)<a class="headerlink" href="#equation-theorem-goldman" title="Permalink to this equation">#</a></span>\[\mathbb{E} \left[ V(\mathcal{C}_{G} \cap B(0,r)) \right] = \mathbb{E} \left[ V(\mathcal{C}_p \cap B(0,r)) \right] (1 + r^2 W + \circ(r^2))\]</div>
 <p>where <span class="math notranslate nohighlight">\(W\)</span> is a positive random variable.</p>
 <p>This theorem shows that near the germs of the cells a more important part of the area is captured in the Ginibre–Voronoi tessellation than in the Poisson–Voronoi tessellation. This is an indication that the Voronoi cells of the Ginibre point process are more circular than those given by the Poisson process. This can be corroborated by simulation as shows the <a class="reference internal" href="#voronoi-fig"><span class="std std-numref">Fig. 2</span></a></p>
 <figure class="align-default" id="voronoi-fig">
@@ -618,172 +588,20 @@ Compiling functions ...
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">File messagestream.pyx:91,</span> in <span class="ni">scipy._lib.messagestream.MessageStream.close</span><span class="nt">()</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>V1</th>
-      <th>V2</th>
-      <th>V3</th>
-      <th>V4</th>
-      <th>V5</th>
-      <th>V6</th>
-      <th>V7</th>
-      <th>V8</th>
-      <th>V9</th>
-      <th>V10</th>
-      <th>...</th>
-      <th>P6</th>
-      <th>P7</th>
-      <th>P8</th>
-      <th>P9</th>
-      <th>P10</th>
-      <th>MP5</th>
-      <th>MP10</th>
-      <th>MP15</th>
-      <th>MP20</th>
-      <th>type</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>-0.176656</td>
-      <td>-0.731596</td>
-      <td>-1.388275</td>
-      <td>-0.084166</td>
-      <td>1.293935</td>
-      <td>0.988718</td>
-      <td>-0.454126</td>
-      <td>-1.258789</td>
-      <td>0.063818</td>
-      <td>1.747136</td>
-      <td>...</td>
-      <td>0.680060</td>
-      <td>-0.120620</td>
-      <td>-1.108264</td>
-      <td>0.033716</td>
-      <td>2.459580</td>
-      <td>69.990</td>
-      <td>77.499</td>
-      <td>73.404000</td>
-      <td>77.2775</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.446797</td>
-      <td>-1.393255</td>
-      <td>2.119726</td>
-      <td>-0.293317</td>
-      <td>-0.165417</td>
-      <td>0.465555</td>
-      <td>0.047749</td>
-      <td>-0.148364</td>
-      <td>-1.316515</td>
-      <td>1.130634</td>
-      <td>...</td>
-      <td>0.127582</td>
-      <td>0.087063</td>
-      <td>-0.282800</td>
-      <td>-1.026684</td>
-      <td>1.725478</td>
-      <td>56.896</td>
-      <td>59.324</td>
-      <td>67.090000</td>
-      <td>76.0900</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>-0.674155</td>
-      <td>0.218311</td>
-      <td>1.371651</td>
-      <td>-0.042564</td>
-      <td>0.355613</td>
-      <td>-0.015103</td>
-      <td>-2.321784</td>
-      <td>-0.083754</td>
-      <td>1.426572</td>
-      <td>-0.234787</td>
-      <td>...</td>
-      <td>-0.473600</td>
-      <td>-1.808716</td>
-      <td>-0.045958</td>
-      <td>2.225453</td>
-      <td>-0.274968</td>
-      <td>69.620</td>
-      <td>68.650</td>
-      <td>70.911333</td>
-      <td>71.5705</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-0.346350</td>
-      <td>-0.570436</td>
-      <td>-0.621543</td>
-      <td>-0.275586</td>
-      <td>-0.507535</td>
-      <td>-0.373869</td>
-      <td>-0.570436</td>
-      <td>1.705804</td>
-      <td>2.236534</td>
-      <td>-0.676582</td>
-      <td>...</td>
-      <td>-0.589720</td>
-      <td>-0.373020</td>
-      <td>1.954726</td>
-      <td>1.983512</td>
-      <td>-0.769114</td>
-      <td>51.206</td>
-      <td>70.368</td>
-      <td>64.402000</td>
-      <td>67.1805</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>-1.822832</td>
-      <td>0.149141</td>
-      <td>0.513707</td>
-      <td>-0.066285</td>
-      <td>0.099427</td>
-      <td>1.822832</td>
-      <td>0.911416</td>
-      <td>-1.408552</td>
-      <td>-0.430851</td>
-      <td>0.231997</td>
-      <td>...</td>
-      <td>1.900087</td>
-      <td>0.389216</td>
-      <td>-1.637632</td>
-      <td>0.297993</td>
-      <td>0.268536</td>
-      <td>57.180</td>
-      <td>59.744</td>
-      <td>65.210000</td>
-      <td>69.8100</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 29 columns</p>
-</div></div></div>
+<span class="ne">TypeError</span>: remove: path should be string, bytes or os.PathLike, not NoneType
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Exception ignored in: &#39;scipy._lib.messagestream.MessageStream.__dealloc__&#39;
+Traceback (most recent call last):
+  File &quot;messagestream.pyx&quot;, line 91, in scipy._lib.messagestream.MessageStream.close
+TypeError: remove: path should be string, bytes or os.PathLike, not NoneType
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="classification-models">
@@ -868,19 +686,6 @@ Compiling functions ...
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.90      0.86      0.88       298
-           1       0.87      0.90      0.89       302
-
-    accuracy                           0.88       600
-   macro avg       0.88      0.88      0.88       600
-weighted avg       0.88      0.88      0.88       600
-</pre></div>
-</div>
-<img alt="_images/fb3fe1ec2b006a8eb72356ad961f6ad32cf2fe7c31acec02f6db69010165bc5f.png" src="_images/fb3fe1ec2b006a8eb72356ad961f6ad32cf2fe7c31acec02f6db69010165bc5f.png" />
-</div>
 </div>
 <p>Here are the results of the random forest</p>
 <div class="cell tag_show-output tag_show-input docutils container">
@@ -890,19 +695,6 @@ weighted avg       0.88      0.88      0.88       600
 <span class="n">model_Evaluate</span><span class="p">(</span><span class="n">baseline_RF</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.91      0.90      0.91       298
-           1       0.90      0.91      0.91       302
-
-    accuracy                           0.91       600
-   macro avg       0.91      0.91      0.91       600
-weighted avg       0.91      0.91      0.91       600
-</pre></div>
-</div>
-<img alt="_images/dd8f0dbd03615139df09b3ec0f74b77b529eb9e7fe6fd2c2dfe48debfe1ab57f.png" src="_images/dd8f0dbd03615139df09b3ec0f74b77b529eb9e7fe6fd2c2dfe48debfe1ab57f.png" />
 </div>
 </div>
 </section>
@@ -973,176 +765,6 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[31, 23, 22, 24, 22, 46, 24, 31, 29, 22]
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>V1</th>
-      <th>V2</th>
-      <th>V3</th>
-      <th>V4</th>
-      <th>V5</th>
-      <th>V6</th>
-      <th>V7</th>
-      <th>V8</th>
-      <th>V9</th>
-      <th>V10</th>
-      <th>...</th>
-      <th>P5</th>
-      <th>P6</th>
-      <th>P7</th>
-      <th>P8</th>
-      <th>P9</th>
-      <th>P10</th>
-      <th>MP5</th>
-      <th>MP10</th>
-      <th>MP15</th>
-      <th>MP20</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1.058615</td>
-      <td>-1.059609</td>
-      <td>-0.322889</td>
-      <td>-0.837226</td>
-      <td>-0.608632</td>
-      <td>-0.546514</td>
-      <td>0.057273</td>
-      <td>-0.332828</td>
-      <td>0.110694</td>
-      <td>2.481117</td>
-      <td>...</td>
-      <td>-0.313571</td>
-      <td>-0.390272</td>
-      <td>-0.272901</td>
-      <td>-0.510596</td>
-      <td>0.075056</td>
-      <td>2.841118</td>
-      <td>54.9306</td>
-      <td>60.7143</td>
-      <td>60.7143</td>
-      <td>60.7143</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.297282</td>
-      <td>-0.299891</td>
-      <td>-0.052026</td>
-      <td>-0.948517</td>
-      <td>-0.221096</td>
-      <td>-0.493487</td>
-      <td>-0.628118</td>
-      <td>2.228860</td>
-      <td>1.582844</td>
-      <td>-0.871287</td>
-      <td>...</td>
-      <td>-0.219659</td>
-      <td>-0.564626</td>
-      <td>-0.639599</td>
-      <td>2.209631</td>
-      <td>1.647841</td>
-      <td>-0.900765</td>
-      <td>57.9418</td>
-      <td>69.9330</td>
-      <td>69.9330</td>
-      <td>69.9330</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>-0.315399</td>
-      <td>-0.524015</td>
-      <td>-1.064477</td>
-      <td>-0.154813</td>
-      <td>-0.756404</td>
-      <td>-0.778721</td>
-      <td>-0.056812</td>
-      <td>1.792111</td>
-      <td>2.012857</td>
-      <td>-0.154328</td>
-      <td>...</td>
-      <td>-0.808625</td>
-      <td>-0.304950</td>
-      <td>-0.290136</td>
-      <td>2.051852</td>
-      <td>1.790089</td>
-      <td>0.068707</td>
-      <td>53.5506</td>
-      <td>80.4082</td>
-      <td>80.4082</td>
-      <td>80.4082</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-0.035014</td>
-      <td>-0.192421</td>
-      <td>-0.538841</td>
-      <td>0.176928</td>
-      <td>-0.759460</td>
-      <td>-0.958388</td>
-      <td>-0.734051</td>
-      <td>-0.177548</td>
-      <td>2.703503</td>
-      <td>0.515292</td>
-      <td>...</td>
-      <td>-0.827160</td>
-      <td>-0.875832</td>
-      <td>-0.594335</td>
-      <td>0.029275</td>
-      <td>2.580715</td>
-      <td>1.019987</td>
-      <td>61.9572</td>
-      <td>78.8108</td>
-      <td>78.8108</td>
-      <td>78.8108</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1.320579</td>
-      <td>-0.068657</td>
-      <td>0.890645</td>
-      <td>-1.103718</td>
-      <td>-1.511872</td>
-      <td>1.745779</td>
-      <td>0.231539</td>
-      <td>-0.269419</td>
-      <td>-0.711664</td>
-      <td>-0.523213</td>
-      <td>...</td>
-      <td>-1.648871</td>
-      <td>2.167209</td>
-      <td>0.013477</td>
-      <td>-0.391777</td>
-      <td>-0.368717</td>
-      <td>-0.440355</td>
-      <td>68.3258</td>
-      <td>71.4361</td>
-      <td>71.4361</td>
-      <td>71.4361</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 28 columns</p>
-</div></div></div>
 </div>
 <p>Now that the data are read and transformed, we gather the observations by the number of points <span class="math notranslate nohighlight">\(N\)</span> and then create the models inputs for each value of <span class="math notranslate nohighlight">\(N\)</span> using the function <em>models_input(N)</em>. This task takes so much time to be executed that we got a time-out error on the GitHub server. That’s why we prepared locally, for each value of <span class="math notranslate nohighlight">\(N\)</span>, a file containing the data created locally, and we  read the files directly.</p>
 <section id="n-31">
@@ -1169,21 +791,6 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 31
-------------------
-Logistic Regression Results
-0 [0.64423014 0.35576986]
-1 [0.08019266 0.91980734]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.65 0.35]
-1 [0.23 0.77]
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="n-23">
@@ -1205,19 +812,6 @@ Random Forest Results
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
 <span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X23_train</span><span class="p">,</span> <span class="n">y23_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 23
-------------------
-Logistic Regression Results
-1 [0.06596102 0.93403898]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.39 0.61]
 </pre></div>
 </div>
 </div>
@@ -1249,23 +843,6 @@ Random Forest Results
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 22
-------------------
-Logistic Regression Results
-1 [0.18127125 0.81872875]
-1 [0.01796698 0.98203302]
-1 [0.02466654 0.97533346]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.76 0.24]
-1 [0.2 0.8]
-0 [0.58 0.42]
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="n-24">
@@ -1289,21 +866,6 @@ Random Forest Results
 <span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X24_train</span><span class="p">,</span> <span class="n">y24_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 24
-------------------
-Logistic Regression Results
-1 [0.44707948 0.55292052]
-1 [0.44709033 0.55290967]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.38 0.62]
-1 [0.24 0.76]
 </pre></div>
 </div>
 </div>
@@ -1331,19 +893,6 @@ Random Forest Results
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 46
-------------------
-Logistic Regression Results
-1 [0.45965142 0.54034858]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.35 0.65]
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="n-29">
@@ -1368,19 +917,6 @@ Random Forest Results
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 29
-------------------
-Logistic Regression Results
-1 [0.0175506 0.9824494]
-------------------
-Random Forest Results
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.26 0.74]
-</pre></div>
-</div>
-</div>
 </div>
 <p>We can notice that the classification results are mostly positive, which means that the majority of the samples taken from the CARTORADIO data can be decided as repulsive configurations which is consistent with our starting hypothesis. For the configurations whose results were as non-repulsive, we can say that this is due to one of the two following reasons:</p>
 <ul class="simple">
@@ -1392,57 +928,65 @@ Random Forest Results
 </section>
 <section id="conclusion">
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
-<p>In this paper it has been shown numerically (based on the theoretical results in <span id="id16">[<a class="reference internal" href="#id24" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification models described earlier.</p>
+<p>In this paper it has been shown numerically (based on the theoretical results in <span id="id19">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification models described earlier.</p>
 <p>Once the models are trained and tested on the data created, they are tested after that on real data, which are the positions of a mobile phone base stations in PARIS. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained models.</p>
 </section>
 <section id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this heading">#</a></h2>
-<div class="docutils container" id="id17">
-<div class="citation" id="id21" role="doc-biblioentry">
+<div class="docutils container" id="id20">
+<div class="citation" id="id24" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. <em>Foundations and Trends® in Networking</em>, 3(3–4):249–449, 2008. <a class="reference external" href="https://doi.org/10.1561/1300000006">doi:10.1561/1300000006</a>.</p>
 </div>
-<div class="citation" id="id20" role="doc-biblioentry">
+<div class="citation" id="id23" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
 <p>ANFR. Https://www.cartoradio.fr. URL: <a class="reference external" href="https://www.cartoradio.fr">https://www.cartoradio.fr</a>.</p>
 </div>
-<div class="citation" id="id23" role="doc-biblioentry">
+<div class="citation" id="id26" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
 <p>Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. <em>IEEE Transactions on Wireless Communications</em>, 2015. <a class="reference external" href="https://arxiv.org/abs/1401.3677v1">arXiv:1401.3677v1</a>.</p>
 </div>
-<div class="citation" id="id27" role="doc-biblioentry">
+<div class="citation" id="id30" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
 <p>Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. <em>IEICE Transactions on Communications</em>, E99.B(11):2247–2255, 2016. <a class="reference external" href="https://doi.org/10.1587/transcom.2016nei0001">doi:10.1587/transcom.2016nei0001</a>.</p>
 </div>
-<div class="citation" id="id25" role="doc-biblioentry">
+<div class="citation" id="id28" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
 <p>Jean-Sébastien Gomez, Aurélien Vasseur, Anaïs Vergne, Philippe Martins, Laurent Decreusefond, and Wei Chen. A case study on regularity in cellular network deployment. <em>IEEE Wireless Communications Letters, IEEE, 2015, pp.4</em>, 2015. <a class="reference external" href="https://arxiv.org/abs/1505.06073v1">arXiv:1505.06073v1</a>.</p>
 </div>
-<div class="citation" id="id24" role="doc-biblioentry">
+<div class="citation" id="id27" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id13">2</a>,<a role="doc-backlink" href="#id15">3</a>,<a role="doc-backlink" href="#id16">4</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id8">2</a>,<a role="doc-backlink" href="#id16">3</a>,<a role="doc-backlink" href="#id18">4</a>,<a role="doc-backlink" href="#id19">5</a>)</span>
 <p>André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. <em>The Annals of Applied Probability</em>, 20(1):90–128, February 2010. <a class="reference external" href="https://arxiv.org/abs/math/0610243">arXiv:math/0610243</a>, <a class="reference external" href="https://doi.org/10.1214/09-AAP620">doi:10.1214/09-AAP620</a>.</p>
 </div>
-<div class="citation" id="id30" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">7</a><span class="fn-bracket">]</span></span>
-<p>D. J. Daley and D. Vere-Jones. <em>An introduction to the theory of point processes. Vol. I</em>. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.</p>
+<div class="citation" id="id36" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id7">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
+<p><strong>missing year in Taylor2012</strong></p>
 </div>
-<div class="citation" id="id31" role="doc-biblioentry">
+<div class="citation" id="id35" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
-<p>Hans-Otto Georgii and Hyun Jae Yoo. Conditional intensity and Gibbsianness of determinantal point processes. <em>Journal of Statistical Physics</em>, 118(1-2):55–84, 2005. <a class="reference external" href="https://doi.org/10.1007/s10955-004-8777-5">doi:10.1007/s10955-004-8777-5</a>.</p>
-</div>
-<div class="citation" id="id26" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id10">1</a>,<a role="doc-backlink" href="#id11">2</a>)</span>
-<p>J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. <em>Probability Surveys</em>, 3:206–229 (electronic), 2006.</p>
-</div>
-<div class="citation" id="id32" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">10</a><span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id10">1</a>,<a role="doc-backlink" href="#id15">2</a>)</span>
 <p>Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. <em>Mod. Stoch. Theory Appl.</em>, 8(2):209–237, 2021.</p>
 </div>
-<div class="citation" id="id22" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">11</a><span class="fn-bracket">]</span></span>
+<div class="citation" id="id37" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">9</a><span class="fn-bracket">]</span></span>
+<p>L. Decreusefond and A. Vasseur. Asymptotics of superposition of point processes. In <em>Geometry of Science Information</em>. Palaiseau, October 2015.</p>
+</div>
+<div class="citation" id="id33" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">10</a><span class="fn-bracket">]</span></span>
+<p>D. J. Daley and D. Vere-Jones. <em>An introduction to the theory of point processes. Vol. I</em>. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.</p>
+</div>
+<div class="citation" id="id38" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">11</a><span class="fn-bracket">]</span></span>
+<p>L. Decreusefond, I. Flint, and A. Vergne. A note on the simulation of the Ginibre point process. <em>Journal of Applied Probability</em>, 52(04):1003–1012, dec 2015. <a class="reference external" href="https://arxiv.org/abs/1310.0800v2">arXiv:1310.0800v2</a>, <a class="reference external" href="https://doi.org/10.1239/jap/1450802749">doi:10.1239/jap/1450802749</a>.</p>
+</div>
+<div class="citation" id="id29" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">12</a><span class="fn-bracket">]</span></span>
+<p>J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. <em>Probability Surveys</em>, 3:206–229 (electronic), 2006.</p>
+</div>
+<div class="citation" id="id25" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">13</a><span class="fn-bracket">]</span></span>
 <p>F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume II Applications. <em>Foundations and Trends® in Networking</em>, 4(1–2):1–312, 2009. <a class="reference external" href="https://doi.org/10.1561/1300000026">doi:10.1561/1300000026</a>.</p>
 </div>
 </div>
