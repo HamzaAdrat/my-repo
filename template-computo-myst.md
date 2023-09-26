@@ -87,7 +87,7 @@ $$
 $$
 
 When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of $\mathbb{R}^{2}$ when the point process is taken under its Palm distribution {cite}`goldman_palm_2010`, {cite}`BaccelliStochasticGeometryWireless2009`. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form {eq}`correlation_functions_determinantal` with $K$ being $K_{R}$ with the first term removed). 
-We denote by $\mathcal{C}_p$ (respectively $C_{G}$) the typical cell of the Voronoi tessellation associated to a stationary Poisson process in $\mathbb{C}$  with
+We denote by $\mathcal{C}_p$ (respectively $\mathcal{C}_{G}$) the typical cell of the Voronoi tessellation associated to a stationary Poisson process in $\mathbb{C}$  with
 intensity $\lambda$ (respectively to the Ginibre point process of intensity $\rho$). One of the main theorems of {cite}`goldman_palm_2010` is the following.
 
 **Theorem 1.**
