@@ -40,7 +40,7 @@ the result of {cite}`goldman_palm_2010` by saying that the Voronoi cells of a Gi
 
 However, for the application we have in mind, which is to decide for one single map  which model is the most pertinent, we cannot use this criterion based on probability. That is why we resort to an ML model. After several tries, we concluded that the most efficient algorithm was to use Logistic Regression. In a first step, we trained it on simulations of Ginibre and Poisson point processes. The advantage of the Ginibre process is that we have efficient algorithm to simulate it {cite}`MR4279876` and it does not seem to alter the accuracy of our algorithm to use one single class of repulsive point process. We remarked that we obtain a much better discrimination by considering the mean value of $R$ for the five most central cells instead of just the most central one. We can even improve our discrimination rate by adding to the input vector the value of each of the five ratios.
 
-Furthermore, the repulsion in the Ginibre class of point processes can be also modulated by making a $\beta$-thinning (to weaken the repulsion) and then a $\beta^{-1/2}$-dilation (to keep the same intensity of points per surface unit) to obtain what is called a $\beta$-Ginibre. For $\beta=1$, we have the original Ginibre process and when $\beta$ goes to $0$, it tends in law to a Poisson process (see {cite}`DecreusefondAsymptoticssuperpositionpoint2015`) so that we have a full scale of point processes with intermediate repulsion between $0$ and $1$. We show that our logistic regression algorithm can still accurately discriminate between Poisson and $\beta$-repulsive point processes for $\beta$ up to $0.7$.
+Furthermore, the repulsion in the Ginibre class of point processes can be also modulated by making a $\beta$-thinning (to weaken the repulsion) and then a $\sqrt{\beta}$-dilation (to keep the same intensity of points per surface unit) to obtain what is called a $\beta$-Ginibre. For $\beta=1$, we have the original Ginibre process and when $\beta$ goes to $0$, it tends in law to a Poisson process (see {cite}`DecreusefondAsymptoticssuperpositionpoint2015`) so that we have a full scale of point processes with intermediate repulsion between $0$ and $1$. We show that our logistic regression algorithm can still accurately discriminate between Poisson and $\beta$-repulsive point processes for $\beta$ up to $0.7$.
 
 The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel.
 
@@ -50,36 +50,36 @@ We consider finite point processes on a bounded window $E$. The law of a such a 
 details we refer to {cite}`Daley2003`[Chapter 5]). These are symmetric functions $(\rho_{k},k\ge 1)$ such that for any bounded function $f$, we can write:
 
 $$
- \mathbf{E}\left[ \sum_{\alpha \subset N} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{E^k} f(\{x_1, \dots, x_k\}) \rho_{k}(x_1, \dots, x_k) \, \dif x_1 \ldots \dif x_k .
+ \mathbb{E}\left[ \sum_{\alpha \subset N} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{E^k} f(\{x_1, \dots, x_k\}) \rho_{k}(x_1, \dots, x_k) \, \dif x_1 \ldots \dif x_k .
 $$
 
-Intuitively speaking, $\rho_{k}(x_{1},\cdots,x_{k})\dif x_{1}\ldots \dif x_{k}$ represents the probability to observe in $N$, at least $k$ points located around the 
-$x_{j}$'s. For a Poisson point process of control measure $m(x)\dif x$, we have
+Intuitively speaking, $\rho_{k}(x_{1}, \dots, x_{k})\dif x_{1} \dots \dif x_{k}$ represents the probability to observe in $N$, at least $k$ points located around the 
+point $x_{j}$. For a Poisson point process of control measure $m(x) \, \dif x$, we have
 
 $$
-\rho_{k}(x_{1},\cdots,x_{k})=\prod_{j=1}^{k}m(x_{j}).
+\rho_{k}(x_{1}, \dots,x_{k}) = \prod_{j=1}^{k} m(x_{j}).
 $$
 
-The **Ginibre point process**, restricted to $E=B(0,r)$, with intensity $\rho = \frac{\lambda}{\pi}$ (with $\lambda > 0)$ has correlation functions (see {cite}`Decreusefond_2015`)
+The **Ginibre point process**, restricted to $E=B(0,r)$, with intensity $\rho = \frac{\lambda}{\pi}$ (with $\lambda > 0$) has correlation functions (see {cite}`Decreusefond_2015`)
 
 ```{math}
 :label: correlation_functions_determinantal
-\rho_{k}(x_1, \dots, x_k) = \det(K(x_i, x_j), \; 1\le i,j \le k)
+\rho_{k}(x_1, \dots, x_k) = \det(K(x_i, x_j), \; 1 \le i,j \le k)
 ```
 where $K$ is given by
 
 ```{math}
-:label: eq_main:1
+:label: eq_main
 K_r(x,y)=\sum_{j=1}^\infty \frac{\gamma(j+1,r^2)}{j!} \phi_j(x)\phi_j(\bar y)
 ```
 with
 $$
-\phi_j(x)=\sqrt{\frac{\rho}{\gamma(j+1,r^2)}} \left(\sqrt{\lambda}x\right)^j\, e^{-\frac{\lambda}{2} |x|^2}
+\phi_j(x) = \sqrt{\frac{\rho}{\gamma(j+1,r^2)}} \left(\sqrt{\lambda} x \right)^j \, e^{-\frac{\lambda}{2} |x|^2}
 $$
 
 and $\gamma(n,x)$ is the lower incomplete Gamma function. The simulation of such a point process is a delicate matter, first solved in {cite}`HoughDeterminantalprocessesindependence2006`. It remains costly because the algorithm contains complex calculations and some rejections. In order to fasten the procedure, an approximate algorithm, with error estimates, has been given in {cite}`MR4279876` (see the bibliography therein to get the URL of the Python code).
 
-For an at most denumerable set of points $\{x_{n}, \, n\ge 1\}$, the Voronoi cells are defined as the convex sets
+For an at most denumerable set of points $\{x_{n}, \, n \ge 1\}$, the Voronoi cells are defined as the convex sets
 $$
 \mathcal{C}(x_{i})=\{z\in \C,\ |z-x_{i}|\le |z-x_{j}|  \text{ for all }j\neq i\}.
 $$
