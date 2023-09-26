@@ -1,4 +1,7 @@
 ---
+title: "Point process discrimination according to repulsion"
+# subtitle: "Example based on the myst system"
+author: "Hamza ADRAT and Laurent DECREUSEFOND"
 jupytext:
   text_representation:
     extension: .md
@@ -29,104 +32,61 @@ Left: Antennas in Paris. Right: Antennas in one frequency  band only.
 
 In previous papers, point processes with repulsion have been used to model such systems {cite}`Deng2014`, {cite}`Miyoshi2016`, {cite}`Gomez2015` for no reason but a mere resemblance between the pictures like the right picture in {numref}`paris-orange-fig` and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.
 
-The rationale behind our work comes from {cite}`goldman_palm_2010`. It is shown there  that the Voronoi cells of the Ginibre point process (a particular point process with repulsion, see below for the exact definition) are in some sense more regular (closer to a circle) than those of a Poisson process (see {eq}`theorem_goldman` in Theorem 1.). By simulation, this feature seem to persist for other point processes with repulsion, like Gibbs processes. It is this aspect that we use to construct our classification algorithm.
-We will simulate several configurations (repulsive and non-repulsive) with the same given  number of points $N$. For each configuration, we will compute the Voronoi diagrams and construct two vectors which will represent the input of our algorithm; an area vector containing the areas of the $10$ innermost Voronoi cells in order to avoid edge effects, plus $4$ other average areas from $20$ cells to have more information on the configuration. And a second perimeter vector which is constructed in the same way, containing the squared perimeters of the corresponding Voronoi cells.
-The choice of areas and square perimeters as aspects to our classification task is based on the *isoperimetric inequality in $\mathbf{R}^2$ that states, for the length $P$ of a closed curve and the area $A$ of the planar region that it encloses, that
-```{math}
-:label: isoperimetric_inequality
-P^2 \ge 4 \pi A
-```
-and that equality holds if and only if the curve is a circle. After normalization, we test some classical ML models (logistic regression, random forest, support vector machine, XGBoost) to classify between repulsive and neutral point processes. The results are surprisingly good even though we trained our models only on Ginibre point processes to represent the whole family of point processes with repulsion.
+The rationale behind our work comes from {cite}`goldman_palm_2010`. It is shown there that the Voronoi cells of the Ginibre point process (a particular point
+process with repulsion, see below for the exact definition) are in some sense more regular (closer to a circle) than those of a Poisson process (see {eq}`theorem_goldman` in Theorem 1.). By simulation, this feature seems to persist for other point processes with repulsion, like Gibbs processes. In {cite}`Taylor2012`, the surface of Voronoi cells is claimed to be a good discrepancy indicator between Poisson process and several processes with repulsion (Gibbs processes, Strauss processes with repulsion and the Geyer saturation model). For any of these models, we do not have any closed formula on the surface of the Voronoi cells so the procedure proposed in this paper is to simulate a large number of realizations of each of these processes and compute the empirical mean and variance of the Voronoi cells area. They obtain mixed conclusions as this sole indicator does not enable to rule out the Poisson hypothesis for many situations.
 
-This paper is organized as follows. We first recall the theoretical notions that we will need in the rest of this paper. We will also briefly define the Papangelou intensity which is at the core of the definition of repulsion. In section 3 we show numerically, and based on two Machine Learning classification models, how the locations of antennas in Paris can be considered as repulsive configurations.
+Our contribution is to consider the ratio of the surface by the squared perimeter instead of the surface of the Voronoi cells alone. Actually, we can interpret
+the result of {cite}`goldman_palm_2010` by saying that the Voronoi cells of a Ginibre point process are more circular than those of a Poisson point process. The isoperimetric inequality stands for any regular enough domain in the plane, $R = \dfrac{4 \pi S}{P^2}$ is less than $1$ and the equality is obtained for disks. It is thus sensible to think that the ratio $R$ will be closer to $1$ for repulsive processes than for neutral point processes. Following the procedure of {cite}`Taylor2012`, we show that we get a much better indicator by using $R$ instead $S$ alone to discriminate between repulsive and neutral point processes.
+
+However, for the application we have in mind, which is to decide for one single map  which model is the most pertinent, we cannot use this criterion based on probability. That is why we resort to an ML model. After several tries, we concluded that the most efficient algorithm was to use Logistic Regression. In a first step, we trained it on simulations of Ginibre and Poisson point processes. The advantage of the Ginibre process is that we have efficient algorithm to simulate it {cite}`MR4279876` and it does not seem to alter the accuracy of our algorithm to use one single class of repulsive point process. We remarked that we obtain a much better discrimination by considering the mean value of $R$ for the five most central cells instead of just the most central one. We can even improve our discrimination rate by adding to the input vector the value of each of the five ratios.
+
+Furthermore, the repulsion in the Ginibre class of point processes can be also modulated by making a $\beta$-thinning (to weaken the repulsion) and then a $\beta^{-1/2}$-dilation (to keep the same intensity of points per surface unit) to obtain what is called a $\beta$-Ginibre. For $\beta=1$, we have the original Ginibre process and when $\beta$ goes to $0$, it tends in law to a Poisson process (see {cite}`DecreusefondAsymptoticssuperpositionpoint2015`) so that we have a full scale of point processes with intermediate repulsion between $0$ and $1$. We show that our logistic regression algorithm can still accurately discriminate between Poisson and $\beta$-repulsive point processes for $\beta$ up to $0.7$.
+
+The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel.
 
 ## Preliminaries
 
- A configuration on $E=\mathbf R^2$ is a locally finite (respectively finite) subset of $E$. The space of configurations (respectively finite configurations) is denoted $\mathfrak N$ (respectively $\mathfrak N_{f}$). We equip $\mathfrak N$ with the topology of vague convergence, under which it is a complete, separable, metric space. We denote by $\mathcal B(\mathfrak N)$ the Borelean $\sigma$-field on $\mathfrak N$. A locally finite (respectively finite) point process is a random variable with values in $\mathfrak N$ (respectively $\mathfrak N_{f}$).
-
- **Definition 1.**
- Let $\Phi$ be a locally finite point process on $E$. Its *correlation functions* $\rho^{(k)} \colon \mathfrak N_{f} \to \mathbb R_+$ are given for any measurable function $f \colon \mathfrak N_{f} \to \mathbb R_+ $ by:
+We consider finite point processes on a bounded window $E$. The law of a such a point process $N$ can be  characterized by its correlation functions (for
+details we refer to {cite}`Daley2003`[Chapter 5]). These are symmetric functions $(\rho_{k},k\ge 1)$ such that for any bounded function $f$, we can write:
 
 $$
-\mathbb{E}\left[ \sum_{\substack{\alpha \in \mathfrak N_{f} \\ \alpha \subset \Phi}} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{(E)^k} f(\{x_1, \dots, x_k\}) \rho^{(k)}(\{x_1, \dots, x_k\}) \, d x_1 \ldots d x_k .
+ \mathbf{E}\left[ \sum_{\alpha \subset N} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{E^k} f(\{x_1, \dots, x_k\}) \rho_{k}(x_1, \dots, x_k) \, \dif x_1 \ldots \dif x_k .
 $$
 
-It is however easier to work with the so-called Janossy measures, whose links with correlation functions are given in {cite}`Daley2003`.
-
-**Definition 2.**
-Let $\Phi$ be a finite point process on $E$. Its *Janossy measure* $J$ is given for any $A \in \mathcal B(\mathfrak N_f)$ by:
+Intuitively speaking, $\rho_{k}(x_{1},\cdots,x_{k})\dif x_{1}\ldots \dif x_{k}$ represents the probability to observe in $N$, at least $k$ points located around the 
+$x_{j}$'s. For a Poisson point process of control measure $m(x)\dif x$, we have
 
 $$
-\mathbb{P}(\Phi \in A) = \sum_{k=1}^{+ \infty} \frac{1}{k!} J(A^{(k)}),
+\rho_{k}(x_{1},\cdots,x_{k})=\prod_{j=1}^{k}m(x_{j}).
 $$
 
-where, for any $k \in \mathbb N^*, \; A^{(k)} = \{ \phi \in A,\; \phi(E) = k \}$.
-
-**Definition 3.**
-Let $\Phi$ be a finite point process on $E$. It is said to be regular if there exist *Janossy functions* $(j^{(k)}, k\ge 0)$ such that for any measurable $f \, \colon \, \mathfrak N_{f}\to \mathbb R^{+}$, we have
-
-```{math}
-:label: janossy_functions
-E[ f(\Phi) ] =  \sum_{n\ge 0} \frac{1}{n!} \int_{E^n} f(\{x_1,\dots,x_n\}) \, j^{(n)}(\{x_1,\dots,x_n\}) d x_1 \ldots d x_n.
-```
-
-With this definition in hand, we can define the concept of repulsion , following {cite}`Georgii2005`.
-
-**Definition 4.**
-For $\Phi$  a finite point regular process on $E$ with Janossy functions $(j^{(k)},\, k \ge 0)$, its Papangelou intensity $c$ is given for any $x \in E$ and $\phi \in \mathfrak N_{f}$ by:
-
-$$
-c(x, \phi) = \frac{j^{(k+1)}(\{x\}\cup \phi)}{j^{(k)}(\phi)} \, \mathbf{1}_{\{j^{(k)}(\phi) \ne 0\} } \text{ if } \phi(E)=k.
-$$
-
-The quantity $c(x,\phi)$ can be intuitively thought as the probability to have a particle at $x$ given the observation $\phi$. Intuitively a point process shows repulsion when $\phi \mapsto c(x,\phi)$ is, in some sense, decreasing:
-
-**Definition 5.**
-A point process $\Phi$ on $E$ with a version $c$ of its Papangelou intensity is said to be *repulsive* if, for any $\omega, \phi \in \mathfrak N_{f}$ such that $\omega \subset \phi$ and any $x \in E$,
-
-$$
-c(x,\phi) \le c(x, \omega).
-$$
-
-With this definition, it is not hard to see that Gibbs point processes, determinantal point processes are repulsive (see {cite}`Georgii2005`, {cite}`HoughDeterminantalprocessesindependence2006`). We will not dwell into the vast literature about determinantal point processes, we only focus on the so-called Ginibre point process. It has the interesting feature that we know its distribution when restricted to a compact ball in $E$. For reasons which will be self-evident, we identify hereafter $\mathbb R^{2}$ and $\mathbb C$.
-
-**Definition 6.**
-The *Ginibre point process* with intensity $\rho = \frac{\lambda}{\pi}$ (with $\lambda > 0$) is a locally finite point process on $\mathbb C$ that can be defined by its correlation functions:
+The **Ginibre point process**, restricted to $E=B(0,r)$, with intensity $\rho = \frac{\lambda}{\pi}$ (with $\lambda > 0)$ has correlation functions (see {cite}`Decreusefond_2015`)
 
 ```{math}
 :label: correlation_functions_determinantal
-\rho^{(k)}(x_1, \dots, x_k) = \det(K(x_i, x_j), \; 1\le i,j \le k)
+\rho_{k}(x_1, \dots, x_k) = \det(K(x_i, x_j), \; 1\le i,j \le k)
 ```
-where $K$ is given by:
-
-$$
-K(x,y) = \rho \, e^{-\frac{\lambda}{2}(|x|^2 + |y|^2)}e^{\lambda x \bar{y}},\ \forall \, (x,y) \in \mathbb C^2.
-$$
-
-When restricted to the $B(0,R)$, the Ginibre point process admits correlation functions of the form {eq}`correlation_functions_determinantal` with $K=K_R$ given by:
+where $K$ is given by
 
 ```{math}
 :label: eq_main:1
-K_R(x,y)=\sum_{j=1}^{+\infty} \frac{\gamma(j+1,R^2)}{j!} \phi_j(x)\phi_j(\bar y)
+K_r(x,y)=\sum_{j=1}^\infty \frac{\gamma(j+1,r^2)}{j!} \phi_j(x)\phi_j(\bar y)
 ```
 with
-
 $$
-\phi_j(x)=\sqrt{\frac{\rho}{\gamma(j+1,R^2)}} \left(\sqrt{\lambda}x\right)^j\, e^{-\frac{\lambda}{2} |x|^2},
+\phi_j(x)=\sqrt{\frac{\rho}{\gamma(j+1,r^2)}} \left(\sqrt{\lambda}x\right)^j\, e^{-\frac{\lambda}{2} |x|^2}
 $$
 
-and $\gamma(n,x)$ is the lower incomplete Gamma function.
-
-The simulation of such a point process is a delicate matter, first solved in {cite}`HoughDeterminantalprocessesindependence2006`. It remains costly because the algorithm contains complex calculations and some rejections. In order to fasten the procedure, an approximate algorithm has been given in {cite}`MR4279876` (see the bibliography therein to get the URL of the Python code).
+and $\gamma(n,x)$ is the lower incomplete Gamma function. The simulation of such a point process is a delicate matter, first solved in {cite}`HoughDeterminantalprocessesindependence2006`. It remains costly because the algorithm contains complex calculations and some rejections. In order to fasten the procedure, an approximate algorithm, with error estimates, has been given in {cite}`MR4279876` (see the bibliography therein to get the URL of the Python code).
 
 For an at most denumerable set of points $\{x_{n}, \, n\ge 1\}$, the Voronoi cells are defined as the convex sets
-
 $$
-\mathcal{C}(x_{i})=\{z\in \mathbb C,\ |z-x_{i}|\le |z-x_{j}|  \text{ for all }j\neq i\}.
+\mathcal{C}(x_{i})=\{z\in \C,\ |z-x_{i}|\le |z-x_{j}|  \text{ for all }j\neq i\}.
 $$
 
-When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of $\mathbb R^{2}$ when the point process is taken under its Palm distribution {cite}`goldman_palm_2010`, {cite}`BaccelliStochasticGeometryWireless2009`. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form {eq}`correlation_functions_determinantal` with $K$ being $K_{R}$ with the first term removed).
-We denote by $\mathcal{C}_p$ (respectively $C_{G}$) the typical cell of the Voronoi tessellation associated to a stationary Poisson process in $\mathbb C$ with intensity $\lambda$ (respectively to the Ginibre point process of intensity $\rho$). One of the main theorems of {cite}`goldman_palm_2010` is the following.
+When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of $\R^{2}$ when the point process is taken under its Palm distribution {cite}`goldman_palm_2010`, {cite}`BaccelliStochasticGeometryWireless2009`. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form {eq}`correlation_functions_determinantal` with $K$ being $K_{R}$ with the first term removed). 
+We denote by $\mathcal{C}_p$ (respectively $C_{G}$) the typical cell of the Voronoi tessellation associated to a stationary Poisson process in $\mathbb{C}$  with
+intensity $\lambda$ (respectively to the Ginibre point process of intensity $\rho$). One of the main theorems of {cite}`goldman_palm_2010` is the following.
 
 **Theorem 1.**
 When $r \to 0,$
