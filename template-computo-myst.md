@@ -312,7 +312,7 @@ Here is an example of the data created with $5$ cells. We generate datas of $N_{
 ```{code-cell} ipython3
 :tags: [show-output, show-input]
 
-N = 64
+N = 50
 observations = 1000
 
 df_1cell = dataframe_1cell(N, observations)

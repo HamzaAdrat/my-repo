@@ -7,4 +7,3 @@ seaborn
 scikit-learn
 sklearn
 numba
-argparse
