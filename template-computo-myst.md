@@ -306,22 +306,21 @@ def data_5cells(N, observations):
     return df
 ```
 
-Here are some examples of the datas created. We generate datas of $N_{exp} = 5,000$ ($2,500$ repulsive and $2,500$ non-repulsive) observations of $N = 50$ points using the central cell as well as the five central cells.
+Here is an example of the data created with $5$ cells. We generate datas of $N_{exp} = 4000$ ($2000$ repulsive and $2000$ non-repulsive) observations of $N = 50$ points.
 
 ```{code-cell} ipython3
 :tags: [show-output, hide-input]
 
-N, observations = 50, 2500
+N = 50
+observations = 2000
 
 df_1cell = dataframe_1cell(N, observations)
 df_1cell['R1'] = list(4*np.pi*df_1cell.A1/(df_1cell.P1)**2)
 df_1cell = df_1cell[['A1', 'P1', 'R1', 'process']]
-print(df_1cell.head())
 
 ddf_1cell = data_1cell(N, observations)
 ddf_1cell['R1'] = list(4*np.pi*ddf_1cell.A1/(ddf_1cell.P1)**2)
 ddf_1cell = ddf_1cell[['A1', 'P1', 'R1', 'process']]
-print(ddf_1cell.head())
 
 df_5cells = dataframe_5cells(N, observations)
 df_5cells['R1'] = list(4*np.pi*df_5cells.A1/(df_5cells.P1)**2)
@@ -330,7 +329,6 @@ df_5cells['R3'] = list(4*np.pi*df_5cells.A3/(df_5cells.P3)**2)
 df_5cells['R4'] = list(4*np.pi*df_5cells.A4/(df_5cells.P4)**2)
 df_5cells['R5'] = list(4*np.pi*df_5cells.A5/(df_5cells.P5)**2)
 df_5cells = df_5cells[['A1', 'P1', 'R1', 'A2', 'P2', 'R2', 'A3', 'P3', 'R3', 'A4', 'P4', 'R4', 'A5', 'P5', 'R5', 'process']]
-print(df_5cells.head())
 
 ddf_5cells = data_5cells(N, observations)
 ddf_5cells['R1'] = list(4*np.pi*ddf_5cells.A1/(ddf_5cells.P1)**2)
@@ -339,7 +337,8 @@ ddf_5cells['R3'] = list(4*np.pi*ddf_5cells.A3/(ddf_5cells.P3)**2)
 ddf_5cells['R4'] = list(4*np.pi*ddf_5cells.A4/(ddf_5cells.P4)**2)
 ddf_5cells['R5'] = list(4*np.pi*ddf_5cells.A5/(ddf_5cells.P5)**2)
 ddf_5cells = ddf_5cells[['A1', 'P1', 'R1', 'A2', 'P2', 'R2', 'A3', 'P3', 'R3', 'A4', 'P4', 'R4', 'A5', 'P5', 'R5', 'process']]
-print(ddf_5cells.head())
+
+ddf_5cells.head()
 ```
 
 
