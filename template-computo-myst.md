@@ -134,7 +134,7 @@ Given a circular domain with $N$ points, we want to decide whether the points ex
 The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes.
 
 ```{code-cell} ipython3
-:tags: [hide-output, show-input]
+:tags: [show-output, hide-input]
 
 def in_box(towers, bounding_box):
     return np.logical_and(np.logical_and(bounding_box[0] <= towers[:, 0], towers[:, 0] <= bounding_box[1]),
@@ -172,7 +172,18 @@ def voronoi(towers, bounding_box, N):
 def central_area_perim(vor):  
     return ConvexHull(vor.vertices[vor.filtered_regions[0], :]).volume, ConvexHull(vor.vertices[vor.filtered_regions[0], :]).area
 
-def ginibre(N):
+def area_perim(vor):
+    area, perimeter = [], []
+    for i in range(5):
+        if len(vor.filtered_regions) >= i:
+            area.append(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).volume)
+            perimeter.append(ConvexHull(vor.vertices[vor.filtered_regions[i], :]).area)
+        else:
+            area.append(np.mean(area))
+            perimeter.append(np.mean(perimeter))
+    return area, perimeter
+
+def ginibre(N, cells):
     radius = (np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
     args = [radius, N, kernels['ginibre'], precision, error, quiet, output]
     
@@ -182,13 +193,16 @@ def ginibre(N):
     ginibre_points = np.array([X_ginibre, Y_ginibre]).T
     indices = np.argsort((ginibre_points[:,0])**2 + ((ginibre_points[:,1])**2))
     ginibre_points = ginibre_points[indices]
-    
     ginibre_vor = voronoi(ginibre_points, (-np.sqrt(N)-.1, np.sqrt(N)+.1, -np.sqrt(N)-.1, np.sqrt(N)+.1), len(ginibre_points))
-    vor_area, vor_perim = central_area_perim(ginibre_vor)
+    
+    if cells == 1:
+        vor_area, vor_perim = central_area_perim(ginibre_vor)
+    else:
+        vor_area, vor_perim = area_perim(ginibre_vor)
     
     return vor_area, vor_perim
 
-def beta_ginibre(N, beta):
+def beta_ginibre(N, beta, cells):
     radius = (np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
     args = [radius, N, kernels['ginibre'], precision, error, quiet, output]
     
@@ -203,11 +217,15 @@ def beta_ginibre(N, beta):
     beta_ginibre_vor = voronoi(beta_ginibre_points, 
                                (-np.sqrt(N*beta)-.1, np.sqrt(N*beta)+.1, -np.sqrt(N*beta)-.1, np.sqrt(N*beta)+.1), 
                                len(beta_ginibre_points))
-    vor_area, vor_perim = central_area_perim(beta_ginibre_vor)
+    
+    if cells == 1:
+        vor_area, vor_perim = central_area_perim(beta_ginibre_vor)
+    else:
+        vor_area, vor_perim = area_perim(beta_ginibre_vor)
     
     return vor_area, vor_perim
 
-def poisson(N):
+def poisson(N, cells):
     radius = np.sqrt(N)
     alpha = 2 * np.pi * scipy.stats.uniform.rvs(0,1,N)
     r = radius * np.sqrt(scipy.stats.uniform.rvs(0,1,N))
@@ -217,23 +235,26 @@ def poisson(N):
     
     indices = np.argsort((poisson_points[:,0])**2 + ((poisson_points[:,1])**2))
     poisson_points = poisson_points[indices]
-    
     poisson_vor = voronoi(poisson_points, (-radius -.1, radius +.1, -radius -.1, radius +.1), len(poisson_points))
-    vor_area, vor_perim = central_area_perim(poisson_vor)
     
+    if cells == 1:
+        vor_area, vor_perim = central_area_perim(poisson_vor)
+    else:
+        vor_area, vor_perim = area_perim(poisson_vor)
+        
     return vor_area, vor_perim
 
-def ratio_ginibre(N):
-    G = ginibre(N)
-    return 4*np.pi*G[0]/(G[1])**2
+def ratio_ginibre(N, cells):
+    G = ginibre(N, cells)
+    return np.mean(4*np.pi*np.array(G)[0]/(np.array(G)[1])**2)
 
-def ratio_beta_ginibre(N, beta):
-    beta_G = beta_ginibre(N, beta)
-    return 4*np.pi*beta_G[0]/(beta_G[1])**2
+def ratio_beta_ginibre(N, beta, cells):
+    beta_G = beta_ginibre(N, beta, cells)
+    return np.mean(4*np.pi*np.array(beta_G)[0]/(np.array(beta_G)[1])**2)
 
-def ratio_poisson(N):
-    P = poisson(N)
-    return 4*np.pi*P[0]/(P[1])**2
+def ratio_poisson(N, cells):
+    P = poisson(N, cells)
+    return np.mean(4*np.pi*np.array(P)[0]/(np.array(P)[1])**2)
 
 %run -i Moroz_dpp.py
 ```
