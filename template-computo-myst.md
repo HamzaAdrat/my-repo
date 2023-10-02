@@ -117,8 +117,7 @@ When it comes to assess the type of point process we should consider in this sit
 
 In the following sections, we will use Python code that assumes that the following packages have been loaded:
 
-```{python3}
-
+```{python}
 import numpy as np
 import pandas as pd
 import scipy.stats
