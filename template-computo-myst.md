@@ -279,7 +279,7 @@ def dataframe_1cell(N, observations):
     for i in range(observations):
         list_df.append(list(beta_ginibre(N, 0.7, cells=1)) + [1])
         list_df.append(list(poisson(N, cells=1)) + [0])
-    df = pd.DataFrame(list_df, columns = ['A1', 'P1', 'process'])
+    df = pd.DataFrame(list_df, columns = ['S1', 'P1', 'process'])
     return df
 
 def data_1cell(N, observations):
@@ -287,7 +287,7 @@ def data_1cell(N, observations):
     for i in range(observations):
         list_df.append(list(ginibre(N, cells=1)) + [1])
         list_df.append(list(poisson(N, cells=1)) + [0])
-    df = pd.DataFrame(list_df, columns = ['A1', 'P1', 'process'])
+    df = pd.DataFrame(list_df, columns = ['S1', 'P1', 'process'])
     return df
 
 def dataframe_5cells(N, observations):
@@ -295,7 +295,7 @@ def dataframe_5cells(N, observations):
     for i in range(observations):
         list_df.append(sum(list(beta_ginibre(N, 0.7, cells=5)), []) + [1])
         list_df.append(sum(list(poisson(N, cells=5)), []) + [0])
-    df = pd.DataFrame(list_df, columns = ['A1', 'A2', 'A3', 'A4', 'A5', 'P1', 'P2', 'P3', 'P4', 'P5', 'process'])
+    df = pd.DataFrame(list_df, columns = ['S1', 'S2', 'S3', 'S4', 'S5', 'P1', 'P2', 'P3', 'P4', 'P5', 'process'])
     return df
 
 def data_5cells(N, observations):
@@ -303,10 +303,11 @@ def data_5cells(N, observations):
     for i in range(observations):
         list_df.append(sum(list(ginibre(N, cells=5)), []) + [1])
         list_df.append(sum(list(poisson(N, cells=5)), []) + [0])
-    df = pd.DataFrame(list_df, columns = ['A1', 'A2', 'A3', 'A4', 'A5', 'P1', 'P2', 'P3', 'P4', 'P5', 'process'])
+    df = pd.DataFrame(list_df, columns = ['S1', 'S2', 'S3', 'S4', 'S5', 'P1', 'P2', 'P3', 'P4', 'P5', 'process'])
     return df
 ```
 As the generation of data requires considerable execution time, we will prepare the data locally (using the previous code), by generating, for each classification, a sample of $N_{exp} = 5000$ ($2500$ repulsive and $2500$ non-repulsive) observations of $N = 50$ points. Then we read them directly as follows:
+
 ```{code-cell} ipython3
 :tags: [show-output, hide-input]
 
@@ -318,8 +319,9 @@ ginibre_data_2 = pd.read_csv('ginibre_5cells.csv', sep=',')
 ```
 
 Here is an example of the data created of configurations of $0.7$-Ginibre and poisson processes with $5$ cells:
+
 ```{code-cell} ipython3
-:tags: [show-output, hide-input]
+:tags: [show-output, show-input]
 
 beta_ginibre_data_2.head(6)
 ```
