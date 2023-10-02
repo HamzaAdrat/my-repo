@@ -30,7 +30,7 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['N = 100', 'observations = 2000', '', 'df_1cell = dataframe_1cell(N, observations)', "df_1cell['R1'] = list(4*np.pi*df_1cell.A1/(df_1cell.P1)**2)"]
+['N = 50', 'observations = 2000', '', 'df_1cell = dataframe_1cell(N, observations)', "df_1cell['R1'] = list(4*np.pi*df_1cell.A1/(df_1cell.P1)**2)"]
 ...
 ["ddf_5cells['R4'] = list(4*np.pi*ddf_5cells.A4/(ddf_5cells.P4)**2)", "ddf_5cells['R5'] = list(4*np.pi*ddf_5cells.A5/(ddf_5cells.P5)**2)", "ddf_5cells = ddf_5cells[['A1', 'P1', 'R1', 'A2', 'P2', 'R2', 'A3', 'P3', 'R3', 'A4', 'P4', 'R4', 'A5', 'P5', 'R5', 'process']]", '', 'ddf_5cells.head()']
 -------------------

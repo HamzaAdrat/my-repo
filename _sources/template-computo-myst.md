@@ -199,7 +199,8 @@ def beta_ginibre(N, beta, cells):
     radius = (np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
     args = [radius, N, kernels['ginibre'], precision, error, quiet, output]
     
-    sample_beta_ginibre = (sample(*args))*(bernoulli.rvs(beta, size=N))
+    sample_init = sample(*args)
+    sample_beta_ginibre = sample_init*(bernoulli.rvs(beta, size=N))
     sample_beta_ginibre = np.array([a for a in sample_beta_ginibre if a != 0])*(np.sqrt(beta))
     X_beta_ginibre, Y_beta_ginibre = sample_beta_ginibre.real, sample_beta_ginibre.imag
     
@@ -311,7 +312,7 @@ Here is an example of the data created with $5$ cells. We generate datas of $N_{
 ```{code-cell} ipython3
 :tags: [show-output, hide-input]
 
-N = 100
+N = 50
 observations = 2000
 
 df_1cell = dataframe_1cell(N, observations)
