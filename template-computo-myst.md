@@ -122,19 +122,9 @@ import numpy as np
 import pandas as pd
 import scipy.stats
 from scipy.stats import bernoulli
+from scipy.spatial import Voronoi, ConvexHull
 import matplotlib.pyplot as plt
 import seaborn as sns
-from scipy.spatial import Voronoi, ConvexHull
-
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, classification_report, roc_curve, roc_auc_score
-
 font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 11,}
 ```
 
