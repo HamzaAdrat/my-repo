@@ -27,7 +27,6 @@ name: paris-orange-fig
 Left: Antennas in Paris. Right: Antennas in one frequency  band only.
 
 ```
-
 In previous papers, point processes with repulsion have been used to model such systems {cite}`Deng2014`, {cite}`Miyoshi2016`, {cite}`Gomez2015` for no reason but a mere resemblance between the pictures like the right picture in {numref}`paris-orange-fig` and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.
 
 The rationale behind our work comes from {cite}`goldman_palm_2010`. It is shown there that the Voronoi cells of the Ginibre point process (a particular point
@@ -43,7 +42,6 @@ Furthermore, the repulsion in the Ginibre class of point processes can be also m
 The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel.
 
 # Preliminaries
-
 We consider finite point processes on a bounded window $E$. The law of a such a point process $N$ can be  characterized by its correlation functions (for
 details we refer to {cite}`Daley2003`[Chapter 5]). These are symmetric functions $(\rho_{k},k\ge 1)$ such that for any bounded function $f$, we can write:
 
@@ -108,7 +106,6 @@ On the left, Voronoi cells associated to a realization of a Ginibre process. On 
 As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.
 
 # Classification of CARTORADIO data
-
 The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km$^2$). Hence there is no need to  construct models for these regions.  On the contrary, in big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is  where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure {numref}`paris-orange-fig`.
 
 When it comes to assess the type of point process we should consider in this situation, we cannot consider the city as a whole: the geography (notably the Seine river in Paris, the parks, etc.), the non uniformity of demands (the traffic is heavier aroung railway stations or touristic sites,  for instance) which entails a higher density of antennas,  ruin any kind of invariance a statistician  could hope for. That means, we should restrict our expectations to local models of  the size of a district or a bit more. Since interference, which are the main annoyance to be dealt with, are a local phenomenon, working on a partial part of the whole domain is sufficient to predict the behavior and dimension a wireless network.
@@ -255,9 +252,9 @@ def ratio_poisson(N, cells):
 %run -i Moroz_dpp.py
 ```
 
-The simulation algorithm, as presented in Figure ..., provides a method for computing the quantity $\mathbb{P} \left( \frac{4 \pi A}{P^2} \le r \right)$ as a function of $r$ for the Ginibres processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the varibale $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously.
+The simulation algorithm, as presented in Figure ..., provides a method for computing the quantity $\mathbb{P} \left( \frac{4 \pi S}{P^2} \le r \right)$ as a function of $r$ for the Ginibres processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the varibale $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously.
 
-Figure {numref}`simulation-fig` shows the results of the simulations, where we compare the confidence intervals of the poisson process and the Ginibre process, using first the central cell and then the five central cells. 
+Figure {numref}`simulation-fig` shows the results of the simulations, where we compare the confidence intervals of the poisson process with the Ginibre process and the $0.7$-Ginibre process, using first the central cell and then the five central cells.
 
 ```{figure} /simulation.png
 ---
@@ -265,10 +262,12 @@ name: simulation-fig
 ---
 Simulation results using the central cell (up) and the five central cells (down).
 ```
+The limitation of the statistical approach using only the central cell is the presence of some overlap between the confidence intervals of the Poisson process and the $0.7$-Ginibre process. Consequently, in specific cases, it may not be possible to determine the true nature of some processes based on the previous statistical test. However, we can notice that using the five central cells, there is no overlap among the various curves. This is a result of averaging the ratios of the first five central cells instead of restricting the analysis to the first cell alone, a decision that provides more insights about the circular behavior of the cells for each process.
+
+This approach shows that the chosen ratio variable represents a good repulsion criterion. On the other hand, our objective is to decide for a single map which model is the most pertinent, that is why we cannot use this approach and we will use a Machine Learning approach instead.
 
 
-
-## Model training
+## Machine Learning approach
 
 Given a circular domain with $N$ points, we want to decide whether the points exhibit  repulsion or not. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a  Ginibre point process of intensity $1$  with $N$ points occupies roughly a disk with this radius. We train our models on datas issued from drawings of Ginibre configuration and from drawings of $N$ points independently and uniformly scattered in $B(0,\sqrt{N})$.
 
