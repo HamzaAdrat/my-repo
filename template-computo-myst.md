@@ -251,6 +251,8 @@ def ratio_beta_ginibre(N, beta, cells):
 def ratio_poisson(N, cells):
     P = poisson(N, cells)
     return np.mean(4*np.pi*np.array(P)[0]/(np.array(P)[1])**2)
+
+%run -i Moroz_dpp.py
 ```
 
 The simulation algorithm, as presented in Figure ..., provides a method for computing the quantity $\mathbb{P} \left( \frac{4 \pi S}{P^2} \le r \right)$ as a function of $r$ for the Ginibres processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the varibale $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously.
