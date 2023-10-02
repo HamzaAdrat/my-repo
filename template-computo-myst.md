@@ -14,12 +14,10 @@ kernelspec:
   name: python3
 ---
 
-# Point process discrimination according to repulsion
-
-## Abstract
+# Abstract
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
 
-## Introduction
+# Introduction
 In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see {cite}`BaccelliStochasticGeometryWireless2008`). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see {cite}`ANFR`, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see {numref}`paris-orange-fig` (left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see {numref}`paris-orange-fig`, right picture).
 
 ```{figure} /paris-orange.png
@@ -44,7 +42,7 @@ Furthermore, the repulsion in the Ginibre class of point processes can be also m
 
 The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel.
 
-## Preliminaries
+# Preliminaries
 
 We consider finite point processes on a bounded window $E$. The law of a such a point process $N$ can be  characterized by its correlation functions (for
 details we refer to {cite}`Daley2003`[Chapter 5]). These are symmetric functions $(\rho_{k},k\ge 1)$ such that for any bounded function $f$, we can write:
@@ -109,7 +107,7 @@ On the left, Voronoi cells associated to a realization of a Ginibre process. On 
 
 As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.
 
-## Classification of CARTORADIO data
+# Classification of CARTORADIO data
 
 The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km$^2$). Hence there is no need to  construct models for these regions.  On the contrary, in big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is  where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure {numref}`paris-orange-fig`.
 
@@ -117,7 +115,9 @@ When it comes to assess the type of point process we should consider in this sit
 
 In the following sections, we will use Python code that assumes that the following packages have been loaded:
 
-```{python}
+```{code-cell} ipython3
+:tags: [hide-output, show-input]
+
 import numpy as np
 import pandas as pd
 import scipy.stats
@@ -138,22 +138,126 @@ from sklearn.metrics import confusion_matrix, classification_report, roc_curve, 
 font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 11,}
 ```
 
-### Statistical approach
+## Statistical approach
 Given a circular domain with $N$ points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will calculate, for Poisson processes as well as for Ginibres and $\beta$-Ginibres processes, the probability that the ratio $\frac{4 \pi A}{P^2}$ of the central cell is less than or equal to $r$, for values of $r$ ranging from $0$ to $1$. Then, we will calculate $95$% confidence intervals for each of these processes.
 
 The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes.
 
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+def in_box(towers, bounding_box):
+    return np.logical_and(np.logical_and(bounding_box[0] <= towers[:, 0], towers[:, 0] <= bounding_box[1]),
+                          np.logical_and(bounding_box[2] <= towers[:, 1], towers[:, 1] <= bounding_box[3]))
 
 
+def voronoi(towers, bounding_box, N):
+    # Select towers inside the bounding box
+    i = in_box(towers, bounding_box)
+    # Mirror points
+    points_center = towers[i, :]
+    points_left = np.copy(points_center)
+    points_left[:, 0] = bounding_box[0] - (points_left[:, 0] - bounding_box[0])
+    points_right = np.copy(points_center)
+    points_right[:, 0] = bounding_box[1] + (bounding_box[1] - points_right[:, 0])
+    points_down = np.copy(points_center)
+    points_down[:, 1] = bounding_box[2] - (points_down[:, 1] - bounding_box[2])
+    points_up = np.copy(points_center)
+    points_up[:, 1] = bounding_box[3] + (bounding_box[3] - points_up[:, 1])
+    points = np.append(points_center,
+                       np.append(np.append(points_left, points_right, axis=0),
+                                 np.append(points_down, points_up, axis=0),
+                                 axis=0),
+                       axis=0)
+    # Compute Voronoi
+    vor = Voronoi(points)
+    # Filter regions
+    # regions = []
+    # [vor.point_region[i] for i in range(N)]
 
+    vor.filtered_points = points_center
+    vor.filtered_regions = [vor.regions[vor.point_region[i]] for i in range(len(points_center))]
+    return vor
 
+def central_area_perim(vor):  
+    return ConvexHull(vor.vertices[vor.filtered_regions[0], :]).volume, ConvexHull(vor.vertices[vor.filtered_regions[0], :]).area
 
+def ginibre(N):
+    radius = (np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
+    args = [radius, N, kernels['ginibre'], precision, error, quiet, output]
+    
+    sample_ginibre = sample(*args)
+    X_ginibre, Y_ginibre = sample_ginibre.real, sample_ginibre.imag
+    
+    ginibre_points = np.array([X_ginibre, Y_ginibre]).T
+    indices = np.argsort((ginibre_points[:,0])**2 + ((ginibre_points[:,1])**2))
+    ginibre_points = ginibre_points[indices]
+    
+    ginibre_vor = voronoi(ginibre_points, (-np.sqrt(N)-.1, np.sqrt(N)+.1, -np.sqrt(N)-.1, np.sqrt(N)+.1), len(ginibre_points))
+    vor_area, vor_perim = central_area_perim(ginibre_vor)
+    
+    return vor_area, vor_perim
 
+def beta_ginibre(N, beta):
+    radius = (np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
+    args = [radius, N, kernels['ginibre'], precision, error, quiet, output]
+    
+    sample_beta_ginibre = (sample(*args))*(bernoulli.rvs(beta, size=N))
+    sample_beta_ginibre = np.array([a for a in sample_beta_ginibre if a != 0])*(np.sqrt(beta))
+    X_beta_ginibre, Y_beta_ginibre = sample_beta_ginibre.real, sample_beta_ginibre.imag
+    
+    beta_ginibre_points = np.array([X_beta_ginibre, Y_beta_ginibre]).T
+    indices = np.argsort((beta_ginibre_points[:,0])**2 + ((beta_ginibre_points[:,1])**2))
+    beta_ginibre_points = beta_ginibre_points[indices]
+    
+    beta_ginibre_vor = voronoi(beta_ginibre_points, 
+                               (-np.sqrt(N*beta)-.1, np.sqrt(N*beta)+.1, -np.sqrt(N*beta)-.1, np.sqrt(N*beta)+.1), 
+                               len(beta_ginibre_points))
+    vor_area, vor_perim = central_area_perim(beta_ginibre_vor)
+    
+    return vor_area, vor_perim
 
+def poisson(N):
+    radius = np.sqrt(N)
+    alpha = 2 * np.pi * scipy.stats.uniform.rvs(0,1,N)
+    r = radius * np.sqrt(scipy.stats.uniform.rvs(0,1,N))
+    
+    X_poisson, Y_poisson = r*np.cos(alpha), r*np.sin(alpha)
+    poisson_points = np.array([X_poisson, Y_poisson]).T
+    
+    indices = np.argsort((poisson_points[:,0])**2 + ((poisson_points[:,1])**2))
+    poisson_points = poisson_points[indices]
+    
+    poisson_vor = voronoi(poisson_points, (-radius -.1, radius +.1, -radius -.1, radius +.1), len(poisson_points))
+    vor_area, vor_perim = central_area_perim(poisson_vor)
+    
+    return vor_area, vor_perim
 
+def ratio_ginibre(N):
+    G = ginibre(N)
+    return 4*np.pi*G[0]/(G[1])**2
 
+def ratio_beta_ginibre(N, beta):
+    beta_G = beta_ginibre(N, beta)
+    return 4*np.pi*beta_G[0]/(beta_G[1])**2
 
+def ratio_poisson(N):
+    P = poisson(N)
+    return 4*np.pi*P[0]/(P[1])**2
 
+%run -i Moroz_dpp.py
+```
+
+The simulation algorithm, as presented in Figure ..., provides a method for computing the quantity $\mathbb{P}\left( \frac{4 \pi A}{P^2} \le r \right)$ as a function of $r$ for the Ginibres processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the varibale $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously.
+
+Figure ... shows the results of the simulations, where we compare the confidence intervals of the poisson process and the Ginibre process, using first the central cell and then the five central cells. 
+
+```{figure} /simulation.png
+---
+name: simulation-fig
+---
+Simulation results using the central cell (up) and the five central cells (down).
+```
 
 
 
