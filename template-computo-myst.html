@@ -444,7 +444,12 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <h2>Statistical approach<a class="headerlink" href="#statistical-approach" title="Permalink to this heading">#</a></h2>
 <p>Given a circular domain with <span class="math notranslate nohighlight">\(N\)</span> points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will first calculate, for Poisson processes as well as for Ginibres and <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibres processes, the probability that the ratio <span class="math notranslate nohighlight">\(R = \frac{4 \pi S}{P^2}\)</span> of the central cell is less than or equal to <span class="math notranslate nohighlight">\(r\)</span>, for values of <span class="math notranslate nohighlight">\(r\)</span> ranging from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(1\)</span>. And then we will apply the same approach using the mean ratio of the five central cells. Finally, we will calculate <span class="math notranslate nohighlight">\(95\)</span>% confidence intervals for each of these processes.</p>
 <p>The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points <span class="math notranslate nohighlight">\(N\)</span> and the parameter <span class="math notranslate nohighlight">\(\beta\)</span> for <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre processes.</p>
-<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">in_box</span><span class="p">(</span><span class="n">towers</span><span class="p">,</span> <span class="n">bounding_box</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">towers</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">towers</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
@@ -566,6 +571,7 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Importing libraries ...
 Compiling functions ...
