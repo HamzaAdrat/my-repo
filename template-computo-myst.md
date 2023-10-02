@@ -309,39 +309,6 @@ def data_5cells(N, observations):
 
 Here is an example of the data created with $5$ cells. We generate datas of $N_{exp} = 4000$ ($2000$ repulsive and $2000$ non-repulsive) observations of $N = 50$ points.
 
-```{code-cell} ipython3
-:tags: [show-output, show-input]
-
-N = 100
-observations = 2000
-
-df_1cell = dataframe_1cell(N, observations)
-df_1cell['R1'] = list(4*np.pi*df_1cell.A1/(df_1cell.P1)**2)
-df_1cell = df_1cell[['A1', 'P1', 'R1', 'process']]
-
-ddf_1cell = data_1cell(N, observations)
-ddf_1cell['R1'] = list(4*np.pi*ddf_1cell.A1/(ddf_1cell.P1)**2)
-ddf_1cell = ddf_1cell[['A1', 'P1', 'R1', 'process']]
-
-df_5cells = dataframe_5cells(N, observations)
-df_5cells['R1'] = list(4*np.pi*df_5cells.A1/(df_5cells.P1)**2)
-df_5cells['R2'] = list(4*np.pi*df_5cells.A2/(df_5cells.P2)**2)
-df_5cells['R3'] = list(4*np.pi*df_5cells.A3/(df_5cells.P3)**2)
-df_5cells['R4'] = list(4*np.pi*df_5cells.A4/(df_5cells.P4)**2)
-df_5cells['R5'] = list(4*np.pi*df_5cells.A5/(df_5cells.P5)**2)
-df_5cells = df_5cells[['A1', 'P1', 'R1', 'A2', 'P2', 'R2', 'A3', 'P3', 'R3', 'A4', 'P4', 'R4', 'A5', 'P5', 'R5', 'process']]
-
-ddf_5cells = data_5cells(N, observations)
-ddf_5cells['R1'] = list(4*np.pi*ddf_5cells.A1/(ddf_5cells.P1)**2)
-ddf_5cells['R2'] = list(4*np.pi*ddf_5cells.A2/(ddf_5cells.P2)**2)
-ddf_5cells['R3'] = list(4*np.pi*ddf_5cells.A3/(ddf_5cells.P3)**2)
-ddf_5cells['R4'] = list(4*np.pi*ddf_5cells.A4/(ddf_5cells.P4)**2)
-ddf_5cells['R5'] = list(4*np.pi*ddf_5cells.A5/(ddf_5cells.P5)**2)
-ddf_5cells = ddf_5cells[['A1', 'P1', 'R1', 'A2', 'P2', 'R2', 'A3', 'P3', 'R3', 'A4', 'P4', 'R4', 'A5', 'P5', 'R5', 'process']]
-
-ddf_5cells.head()
-```
-
 ## Classification models
 
 In this section, we  train and test some Machine Learning models using the data we've created in the previous section. For a start we  select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). Note that  we  only use baseline models, i.e. all the hyperparameters' values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).
