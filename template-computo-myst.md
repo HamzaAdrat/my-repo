@@ -14,6 +14,8 @@ kernelspec:
   name: python3
 ---
 
+# Point process discrimination according to repulsion
+
 # Abstract
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
 
@@ -128,7 +130,7 @@ font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 11,}
 ## Statistical approach
 Given a circular domain with $N$ points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will first calculate, for Poisson processes as well as for Ginibres and $\beta$-Ginibres processes, the probability that the ratio $R = \frac{4 \pi S}{P^2}$ of the central cell is less than or equal to $r$, for values of $r$ ranging from $0$ to $1$. And then we will apply the same approach using the mean ratio of the five central cells. Finally, we will calculate $95$% confidence intervals for each of these processes.
 
-The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes.
+The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes. The Ginibre and $\beta$-Ginibre processes are generated using the "sample" function given in the python code of {cite}`MR4279876`.
 
 ```{code-cell} ipython3
 :tags: [show-output, hide-input]
@@ -249,8 +251,6 @@ def ratio_beta_ginibre(N, beta, cells):
 def ratio_poisson(N, cells):
     P = poisson(N, cells)
     return np.mean(4*np.pi*np.array(P)[0]/(np.array(P)[1])**2)
-
-%run -i Moroz_dpp.py
 ```
 
 The simulation algorithm, as presented in Figure ..., provides a method for computing the quantity $\mathbb{P} \left( \frac{4 \pi S}{P^2} \le r \right)$ as a function of $r$ for the Ginibres processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the varibale $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously.
