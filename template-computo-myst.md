@@ -312,8 +312,8 @@ Here is an example of the data created with $5$ cells. We generate datas of $N_{
 ```{code-cell} ipython3
 :tags: [show-output, show-input]
 
-N = 70
-observations = 2000
+N = 64
+observations = 1000
 
 df_1cell = dataframe_1cell(N, observations)
 df_1cell['R1'] = list(4*np.pi*df_1cell.A1/(df_1cell.P1)**2)
