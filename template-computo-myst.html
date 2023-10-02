@@ -562,8 +562,16 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Importing libraries ...
-Compiling functions ...
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">File</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">repo</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">repo</span><span class="o">/</span><span class="n">Moroz_dpp</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">15</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="ne">---&gt; </span><span class="mi">15</span> <span class="kn">import</span> <span class="nn">numba</span> <span class="k">as</span> <span class="nn">_nb</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">special</span> <span class="k">as</span> <span class="n">_special</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;numba&#39;
 </pre></div>
 </div>
 </div>
@@ -582,7 +590,7 @@ Compiling functions ...
 <section id="machine-learning-approach">
 <h2>Machine Learning approach<a class="headerlink" href="#machine-learning-approach" title="Permalink to this heading">#</a></h2>
 <p>In this approach, we will use the same circular domain with <span class="math notranslate nohighlight">\(N\)</span> points as in the statistical approach. Since the repulsion is not sensitive to scaling, we normalize the radius to <span class="math notranslate nohighlight">\(R=\sqrt{N}\)</span>. This is due to the fact that a cloud drawn from a Ginibre point process of intensity <span class="math notranslate nohighlight">\(1\)</span> with <span class="math notranslate nohighlight">\(N\)</span> points occupies roughly a disk with this radius. We begin by generating the data of the Ginibre process, the <span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre process and the poisson process on which we will train the classification model, which is Logistic Regression Classifier. Using only the central cell (respectively the five central cells), the initial variables in our database consist of the surface and perimeter of the central cell (respectively surfaces and perimeters of the five central cells) of each generated sample, along with a binary variable that takes the value <span class="math notranslate nohighlight">\(1\)</span> if the process is repulsive and <span class="math notranslate nohighlight">\(0\)</span> otherwise. Subsequently, we add the ratio variable <span class="math notranslate nohighlight">\(\frac{4 \pi S}{P^2}\)</span> of the central cell (respectively the five ratios of the five central celss) to provide the classification model with additional information on which to base its predictions.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_show-output tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
 <span class="collapsed">Show code cell source</span>
