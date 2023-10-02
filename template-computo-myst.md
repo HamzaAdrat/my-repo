@@ -14,8 +14,6 @@ kernelspec:
   name: python3
 ---
 
-# Point process discrimination according to repulsion
-
 # Abstract
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
 
@@ -274,7 +272,7 @@ This approach shows that the chosen ratio variable represents a good repulsion c
 In this approach, we will use the same circular domain with $N$ points as in the statistical approach. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a Ginibre point process of intensity $1$ with $N$ points occupies roughly a disk with this radius. We begin by generating the data of the Ginibre process, the $0.7$-Ginibre process and the poisson process on which we will train the classification model, which is Logistic Regression Classifier. Using only the central cell (respectively the five central cells), the initial variables in our database consist of the surface and perimeter of the central cell (respectively surfaces and perimeters of the five central cells) of each generated sample, along with a binary variable that takes the value $1$ if the process is repulsive and $0$ otherwise. Subsequently, we add the ratio variable $\frac{4 \pi S}{P^2}$ of the central cell (respectively the five ratios of the five central celss) to provide the classification model with additional information on which to base its predictions.
 
 ```{code-cell} ipython3
-:tags: [hide-output, hide-input]
+:tags: [show-output, hide-input]
 
 def dataframe_1cell(N, observations):
     list_df = []
@@ -323,7 +321,7 @@ ginibre_data_2 = pd.read_csv('ginibre_5cells.csv', sep=',')
 Here is an example of the data created of configurations of $0.7$-Ginibre and poisson processes with $5$ cells:
 
 ```{code-cell} ipython3
-:tags: [show-output, show-input]
+:tags: [show-output, hide-input]
 
 beta_ginibre_data_2.head(6)
 ```
