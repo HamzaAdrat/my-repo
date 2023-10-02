@@ -96,7 +96,7 @@ When $r \to 0,$
 ```
 where $W$ is a positive random variable.
 
-This theorem shows that near the germs of the cells a more important part of the area is captured in the Ginibre–Voronoi tessellation than in the Poisson–Voronoi tessellation. This is an indication that the Voronoi cells of the Ginibre point process are more circular than those given by the Poisson process. This can be corroborated by simulation as shows the {numref}`voronoi-fig`
+This theorem shows that near the germs of the cells a more important part of the area is captured in the Ginibre–Voronoi tessellation than in the Poisson–Voronoi tessellation. This is an indication that the Voronoi cells of the Ginibre point process are more circular than those given by the Poisson process. This can be corroborated by simulation as shows the Figure {numref}`voronoi-fig`
 
 ```{figure} /Voronoi.png
 ---
@@ -116,7 +116,7 @@ When it comes to assess the type of point process we should consider in this sit
 In the following sections, we will use Python code that assumes that the following packages have been loaded:
 
 ```{code-cell} ipython3
-:tags: [hide-output, show-input]
+:tags: [show-output, show-input]
 
 import numpy as np
 import pandas as pd
@@ -139,12 +139,12 @@ font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 11,}
 ```
 
 ## Statistical approach
-Given a circular domain with $N$ points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will calculate, for Poisson processes as well as for Ginibres and $\beta$-Ginibres processes, the probability that the ratio $\frac{4 \pi A}{P^2}$ of the central cell is less than or equal to $r$, for values of $r$ ranging from $0$ to $1$. Then, we will calculate $95$% confidence intervals for each of these processes.
+Given a circular domain with $N$ points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will first calculate, for Poisson processes as well as for Ginibres and $\beta$-Ginibres processes, the probability that the ratio $R = \frac{4 \pi S}{P^2}$ of the central cell is less than or equal to $r$, for values of $r$ ranging from $0$ to $1$. And then we will apply the same approach using the mean ratio of the five central cells. Finally, we will calculate $95$% confidence intervals for each of these processes.
 
 The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes.
 
 ```{code-cell} ipython3
-:tags: [show-output, hide-input]
+:tags: [show-output, show-input]
 
 def in_box(towers, bounding_box):
     return np.logical_and(np.logical_and(bounding_box[0] <= towers[:, 0], towers[:, 0] <= bounding_box[1]),
@@ -248,9 +248,9 @@ def ratio_poisson(N):
 %run -i Moroz_dpp.py
 ```
 
-The simulation algorithm, as presented in Figure ..., provides a method for computing the quantity $\mathbb{P}\left( \frac{4 \pi A}{P^2} \le r \right)$ as a function of $r$ for the Ginibres processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the varibale $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously.
+The simulation algorithm, as presented in Figure ..., provides a method for computing the quantity $\mathbb{P} \left( \frac{4 \pi A}{P^2} \le r \right)$ as a function of $r$ for the Ginibres processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the varibale $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously.
 
-Figure ... shows the results of the simulations, where we compare the confidence intervals of the poisson process and the Ginibre process, using first the central cell and then the five central cells. 
+Figure {numref}`simulation-fig` shows the results of the simulations, where we compare the confidence intervals of the poisson process and the Ginibre process, using first the central cell and then the five central cells. 
 
 ```{figure} /simulation.png
 ---
