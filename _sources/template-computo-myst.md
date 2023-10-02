@@ -116,7 +116,7 @@ When it comes to assess the type of point process we should consider in this sit
 In the following sections, we will use Python code that assumes that the following packages have been loaded:
 
 ```{code-cell} ipython3
-:tags: [show-output, show-input]
+:tags: [hide-output, hide-input]
 
 import numpy as np
 import pandas as pd
@@ -134,7 +134,7 @@ Given a circular domain with $N$ points, we want to decide whether the points ex
 The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes.
 
 ```{code-cell} ipython3
-:tags: [show-output, show-input]
+:tags: [hide-output, show-input]
 
 def in_box(towers, bounding_box):
     return np.logical_and(np.logical_and(bounding_box[0] <= towers[:, 0], towers[:, 0] <= bounding_box[1]),
