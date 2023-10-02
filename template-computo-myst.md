@@ -315,13 +315,13 @@ Here is an example of the data created with $5$ cells. We generate datas of $N_{
 N = 50
 observations = 2000
 
-df_1cell = dataframe_1cell(N, observations)
-df_1cell['R1'] = list(4*np.pi*df_1cell.A1/(df_1cell.P1)**2)
-df_1cell = df_1cell[['A1', 'P1', 'R1', 'process']]
-
 ddf_1cell = data_1cell(N, observations)
 ddf_1cell['R1'] = list(4*np.pi*ddf_1cell.A1/(ddf_1cell.P1)**2)
 ddf_1cell = ddf_1cell[['A1', 'P1', 'R1', 'process']]
+
+df_1cell = dataframe_1cell(N, observations)
+df_1cell['R1'] = list(4*np.pi*df_1cell.A1/(df_1cell.P1)**2)
+df_1cell = df_1cell[['A1', 'P1', 'R1', 'process']]
 
 df_5cells = dataframe_5cells(N, observations)
 df_5cells['R1'] = list(4*np.pi*df_5cells.A1/(df_5cells.P1)**2)
