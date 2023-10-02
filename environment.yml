@@ -2,7 +2,7 @@ name: computo
 channels:
     - default
 dependencies:
-    - python
+    - python==3.7
     - pandas==1.3.5
     - pip
     - pip:
