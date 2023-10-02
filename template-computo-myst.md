@@ -199,8 +199,8 @@ def beta_ginibre(N, beta, cells):
     radius = (np.sqrt(N)) ; precision = 2**-53 ; error = False ; quiet=True ; output=None 
     args = [radius, N, kernels['ginibre'], precision, error, quiet, output]
     
-    sample_beta_ginibre = sample(*args)
-    sample_beta_ginibre = sample_beta_ginibre*(bernoulli.rvs(beta, size=N))
+    sample_0 = sample(*args)
+    sample_beta_ginibre = sample_0*(bernoulli.rvs(beta, size=N))
     sample_beta_ginibre = np.array([a for a in sample_beta_ginibre if a != 0])*(np.sqrt(beta))
     X_beta_ginibre, Y_beta_ginibre = sample_beta_ginibre.real, sample_beta_ginibre.imag
     
