@@ -315,6 +315,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">Preliminaries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of CARTORADIO data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-training">Model training</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-models">Classification models</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-on-cartoradio-data">Testing on CARTORADIO data</a><ul class="nav section-nav flex-column">
@@ -349,7 +350,7 @@ document.write(`
 </section>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
-<p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id24" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id23" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>(left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>, right picture).</p>
+<p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id24" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id23" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a> (left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>, right picture).</p>
 <figure class="align-default" id="paris-orange-fig">
 <img alt="_images/paris-orange.png" src="_images/paris-orange.png" />
 <figcaption>
@@ -417,6 +418,12 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <h2>Classification of CARTORADIO data<a class="headerlink" href="#classification-of-cartoradio-data" title="Permalink to this heading">#</a></h2>
 <p>The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km<span class="math notranslate nohighlight">\(^2\)</span>). Hence there is no need to  construct models for these regions.  On the contrary, in big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is  where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>.</p>
 <p>When it comes to assess the type of point process we should consider in this situation, we cannot consider the city as a whole: the geography (notably the Seine river in Paris, the parks, etc.), the non uniformity of demands (the traffic is heavier aroung railway stations or touristic sites,  for instance) which entails a higher density of antennas,  ruin any kind of invariance a statistician  could hope for. That means, we should restrict our expectations to local models of  the size of a district or a bit more. Since interference, which are the main annoyance to be dealt with, are a local phenomenon, working on a partial part of the whole domain is sufficient to predict the behavior and dimension a wireless network.</p>
+<p>In the following sections, we will use Python code that assumes that the following packages have been loaded:</p>
+<section id="statistical-approach">
+<h3>Statistical approach<a class="headerlink" href="#statistical-approach" title="Permalink to this heading">#</a></h3>
+<p>Given a circular domain with <span class="math notranslate nohighlight">\(N\)</span> points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will calculate, for Poisson processes as well as for Ginibres and <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibres processes, the probability that the ratio <span class="math notranslate nohighlight">\(\frac{4 \pi A}{P^2}\)</span> of the central cell is less than or equal to <span class="math notranslate nohighlight">\(r\)</span>, for values of <span class="math notranslate nohighlight">\(r\)</span> ranging from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(1\)</span>. Then, we will calculate <span class="math notranslate nohighlight">\(95\)</span>% confidence intervals for each of these processes.</p>
+<p>The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points <span class="math notranslate nohighlight">\(N\)</span> and the parameter <span class="math notranslate nohighlight">\(\beta\)</span> for <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre processes.</p>
+</section>
 <section id="model-training">
 <h3>Model training<a class="headerlink" href="#model-training" title="Permalink to this heading">#</a></h3>
 <p>Given a circular domain with <span class="math notranslate nohighlight">\(N\)</span> points, we want to decide whether the points exhibit  repulsion or not. Since the repulsion is not sensitive to scaling, we normalize the radius to <span class="math notranslate nohighlight">\(R=\sqrt{N}\)</span>. This is due to the fact that a cloud drawn from a  Ginibre point process of intensity <span class="math notranslate nohighlight">\(1\)</span>  with <span class="math notranslate nohighlight">\(N\)</span> points occupies roughly a disk with this radius. We train our models on datas issued from drawings of Ginibre configuration and from drawings of <span class="math notranslate nohighlight">\(N\)</span> points independently and uniformly scattered in <span class="math notranslate nohighlight">\(B(0,\sqrt{N})\)</span>.</p>
@@ -590,55 +597,172 @@ Compiling functions ...
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ddf</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">ddf_transformed</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">ddf</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">ddf_transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="nn">Cell In[1], line 95,</span> in <span class="ni">create_dataframe</span><span class="nt">(N, observations)</span>
-<span class="g g-Whitespace">     </span><span class="mi">93</span> <span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">observations</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">95</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpp_Moroz</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_process</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">97</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">,</span> <span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">])</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="nn">Cell In[1], line 72,</span> in <span class="ni">dpp_Moroz</span><span class="nt">(N)</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="n">dpp_Mz_points</span> <span class="o">=</span> <span class="n">dpp_Mz_points</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
-<span class="g g-Whitespace">     </span><span class="mi">71</span> <span class="n">dpp_Mz_vor</span> <span class="o">=</span> <span class="n">voronoi</span><span class="p">(</span><span class="n">dpp_Mz_points</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mf">.1</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="mf">.1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">dpp_Mz_points</span><span class="p">))</span>
-<span class="ne">---&gt; </span><span class="mi">72</span> <span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span> <span class="o">=</span> <span class="n">extract_Voronoi_areas</span><span class="p">(</span><span class="n">dpp_Mz_vor</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">74</span> <span class="k">return</span> <span class="p">[</span><span class="n">Voronoi_areas</span><span class="p">,</span> <span class="n">Voronoi_perim</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-
-<span class="nn">Cell In[1], line 22,</span> in <span class="ni">extract_Voronoi_areas</span><span class="nt">(vor)</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="n">perim</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">)):</span>
-<span class="ne">---&gt; </span><span class="mi">22</span>     <span class="n">areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">volume</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="n">perim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">vor</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">vor</span><span class="o">.</span><span class="n">filtered_regions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="k">return</span> <span class="n">areas</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">perim</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-
-<span class="nn">File _qhull.pyx:2433,</span> in <span class="ni">scipy.spatial._qhull.ConvexHull.__init__</span><span class="nt">()</span>
-
-<span class="nn">File _qhull.pyx:1540,</span> in <span class="ni">scipy.spatial._qhull._QhullUser.__init__</span><span class="nt">()</span>
-
-<span class="nn">File _qhull.pyx:2466,</span> in <span class="ni">scipy.spatial._qhull.ConvexHull._update</span><span class="nt">()</span>
-
-<span class="nn">File _qhull.pyx:1569,</span> in <span class="ni">scipy.spatial._qhull._QhullUser._update</span><span class="nt">()</span>
-
-<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/numpy/core/_methods.py:43,</span> in <span class="ni">_amin</span><span class="nt">(a, axis, out, keepdims, initial, where)</span>
-<span class="g g-Whitespace">     </span><span class="mi">39</span> <span class="k">def</span> <span class="nf">_amax</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">40</span>           <span class="n">initial</span><span class="o">=</span><span class="n">_NoValue</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">41</span>     <span class="k">return</span> <span class="n">umr_maximum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">,</span> <span class="n">initial</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">43</span> <span class="k">def</span> <span class="nf">_amin</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">44</span>           <span class="n">initial</span><span class="o">=</span><span class="n">_NoValue</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">45</span>     <span class="k">return</span> <span class="n">umr_minimum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">,</span> <span class="n">initial</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">47</span> <span class="k">def</span> <span class="nf">_sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">48</span>          <span class="n">initial</span><span class="o">=</span><span class="n">_NoValue</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
-</div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>V3</th>
+      <th>V4</th>
+      <th>V5</th>
+      <th>V6</th>
+      <th>V7</th>
+      <th>V8</th>
+      <th>V9</th>
+      <th>V10</th>
+      <th>...</th>
+      <th>P6</th>
+      <th>P7</th>
+      <th>P8</th>
+      <th>P9</th>
+      <th>P10</th>
+      <th>MP5</th>
+      <th>MP10</th>
+      <th>MP15</th>
+      <th>MP20</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.417341</td>
+      <td>0.615401</td>
+      <td>0.007074</td>
+      <td>-0.679064</td>
+      <td>-0.912492</td>
+      <td>-0.537592</td>
+      <td>-1.329833</td>
+      <td>1.648144</td>
+      <td>-0.855903</td>
+      <td>1.626923</td>
+      <td>...</td>
+      <td>-0.580429</td>
+      <td>-1.389244</td>
+      <td>2.000458</td>
+      <td>-0.431566</td>
+      <td>1.440911</td>
+      <td>76.132</td>
+      <td>82.099</td>
+      <td>80.294000</td>
+      <td>79.1060</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.119197</td>
+      <td>-0.457715</td>
+      <td>2.598487</td>
+      <td>-0.505394</td>
+      <td>-0.328983</td>
+      <td>1.025091</td>
+      <td>-1.082305</td>
+      <td>-0.448179</td>
+      <td>-0.390965</td>
+      <td>-0.290840</td>
+      <td>...</td>
+      <td>0.855539</td>
+      <td>-1.193618</td>
+      <td>-0.014202</td>
+      <td>-0.612872</td>
+      <td>0.091414</td>
+      <td>68.632</td>
+      <td>62.295</td>
+      <td>68.158000</td>
+      <td>82.7870</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.681692</td>
+      <td>-0.750997</td>
+      <td>0.664539</td>
+      <td>-0.606901</td>
+      <td>-0.776426</td>
+      <td>-1.047667</td>
+      <td>0.215297</td>
+      <td>0.291584</td>
+      <td>-1.234145</td>
+      <td>1.563024</td>
+      <td>...</td>
+      <td>-1.035441</td>
+      <td>0.373429</td>
+      <td>0.851769</td>
+      <td>-1.129666</td>
+      <td>1.919805</td>
+      <td>75.170</td>
+      <td>79.517</td>
+      <td>83.682000</td>
+      <td>78.0070</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.836864</td>
+      <td>0.432826</td>
+      <td>-0.117676</td>
+      <td>1.453023</td>
+      <td>-1.360094</td>
+      <td>-1.339892</td>
+      <td>0.266160</td>
+      <td>1.352013</td>
+      <td>-1.137873</td>
+      <td>-0.385352</td>
+      <td>...</td>
+      <td>-1.444442</td>
+      <td>0.897056</td>
+      <td>1.536029</td>
+      <td>-1.249803</td>
+      <td>-0.383157</td>
+      <td>74.490</td>
+      <td>70.511</td>
+      <td>76.583333</td>
+      <td>69.7155</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.129903</td>
+      <td>0.953052</td>
+      <td>1.223148</td>
+      <td>1.428936</td>
+      <td>-0.101607</td>
+      <td>-0.307395</td>
+      <td>-1.156267</td>
+      <td>-1.645012</td>
+      <td>-1.053374</td>
+      <td>0.528616</td>
+      <td>...</td>
+      <td>-0.646364</td>
+      <td>-1.474755</td>
+      <td>-0.839447</td>
+      <td>-1.214715</td>
+      <td>0.544060</td>
+      <td>79.250</td>
+      <td>69.922</td>
+      <td>75.127333</td>
+      <td>77.3375</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div></div></div>
 </div>
 </section>
 <section id="classification-models">
@@ -723,6 +847,19 @@ Compiling functions ...
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           0       0.89      0.86      0.88       298
+           1       0.87      0.90      0.88       302
+
+    accuracy                           0.88       600
+   macro avg       0.88      0.88      0.88       600
+weighted avg       0.88      0.88      0.88       600
+</pre></div>
+</div>
+<img alt="_images/a4649b5a9801cc8dfb959b9090e7fae840708f62ef9c04fe2ae6ccedc1a39957.png" src="_images/a4649b5a9801cc8dfb959b9090e7fae840708f62ef9c04fe2ae6ccedc1a39957.png" />
+</div>
 </div>
 <p>Here are the results of the random forest</p>
 <div class="cell tag_show-output tag_show-input docutils container">
@@ -732,6 +869,19 @@ Compiling functions ...
 <span class="n">model_Evaluate</span><span class="p">(</span><span class="n">baseline_RF</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           0       0.90      0.87      0.88       298
+           1       0.87      0.91      0.89       302
+
+    accuracy                           0.89       600
+   macro avg       0.89      0.89      0.89       600
+weighted avg       0.89      0.89      0.89       600
+</pre></div>
+</div>
+<img alt="_images/bb20082daf4e8d3c07eee369183f69f4b68fc0ea38e663ef79630195f564eb2b.png" src="_images/bb20082daf4e8d3c07eee369183f69f4b68fc0ea38e663ef79630195f564eb2b.png" />
 </div>
 </div>
 </section>
@@ -802,6 +952,176 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[31, 23, 22, 24, 22, 46, 24, 31, 29, 22]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>V3</th>
+      <th>V4</th>
+      <th>V5</th>
+      <th>V6</th>
+      <th>V7</th>
+      <th>V8</th>
+      <th>V9</th>
+      <th>V10</th>
+      <th>...</th>
+      <th>P5</th>
+      <th>P6</th>
+      <th>P7</th>
+      <th>P8</th>
+      <th>P9</th>
+      <th>P10</th>
+      <th>MP5</th>
+      <th>MP10</th>
+      <th>MP15</th>
+      <th>MP20</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.058615</td>
+      <td>-1.059609</td>
+      <td>-0.322889</td>
+      <td>-0.837226</td>
+      <td>-0.608632</td>
+      <td>-0.546514</td>
+      <td>0.057273</td>
+      <td>-0.332828</td>
+      <td>0.110694</td>
+      <td>2.481117</td>
+      <td>...</td>
+      <td>-0.313571</td>
+      <td>-0.390272</td>
+      <td>-0.272901</td>
+      <td>-0.510596</td>
+      <td>0.075056</td>
+      <td>2.841118</td>
+      <td>54.9306</td>
+      <td>60.7143</td>
+      <td>60.7143</td>
+      <td>60.7143</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.297282</td>
+      <td>-0.299891</td>
+      <td>-0.052026</td>
+      <td>-0.948517</td>
+      <td>-0.221096</td>
+      <td>-0.493487</td>
+      <td>-0.628118</td>
+      <td>2.228860</td>
+      <td>1.582844</td>
+      <td>-0.871287</td>
+      <td>...</td>
+      <td>-0.219659</td>
+      <td>-0.564626</td>
+      <td>-0.639599</td>
+      <td>2.209631</td>
+      <td>1.647841</td>
+      <td>-0.900765</td>
+      <td>57.9418</td>
+      <td>69.9330</td>
+      <td>69.9330</td>
+      <td>69.9330</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.315399</td>
+      <td>-0.524015</td>
+      <td>-1.064477</td>
+      <td>-0.154813</td>
+      <td>-0.756404</td>
+      <td>-0.778721</td>
+      <td>-0.056812</td>
+      <td>1.792111</td>
+      <td>2.012857</td>
+      <td>-0.154328</td>
+      <td>...</td>
+      <td>-0.808625</td>
+      <td>-0.304950</td>
+      <td>-0.290136</td>
+      <td>2.051852</td>
+      <td>1.790089</td>
+      <td>0.068707</td>
+      <td>53.5506</td>
+      <td>80.4082</td>
+      <td>80.4082</td>
+      <td>80.4082</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.035014</td>
+      <td>-0.192421</td>
+      <td>-0.538841</td>
+      <td>0.176928</td>
+      <td>-0.759460</td>
+      <td>-0.958388</td>
+      <td>-0.734051</td>
+      <td>-0.177548</td>
+      <td>2.703503</td>
+      <td>0.515292</td>
+      <td>...</td>
+      <td>-0.827160</td>
+      <td>-0.875832</td>
+      <td>-0.594335</td>
+      <td>0.029275</td>
+      <td>2.580715</td>
+      <td>1.019987</td>
+      <td>61.9572</td>
+      <td>78.8108</td>
+      <td>78.8108</td>
+      <td>78.8108</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.320579</td>
+      <td>-0.068657</td>
+      <td>0.890645</td>
+      <td>-1.103718</td>
+      <td>-1.511872</td>
+      <td>1.745779</td>
+      <td>0.231539</td>
+      <td>-0.269419</td>
+      <td>-0.711664</td>
+      <td>-0.523213</td>
+      <td>...</td>
+      <td>-1.648871</td>
+      <td>2.167209</td>
+      <td>0.013477</td>
+      <td>-0.391777</td>
+      <td>-0.368717</td>
+      <td>-0.440355</td>
+      <td>68.3258</td>
+      <td>71.4361</td>
+      <td>71.4361</td>
+      <td>71.4361</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 28 columns</p>
+</div></div></div>
 </div>
 <p>Now that the data are read and transformed, we gather the observations by the number of points <span class="math notranslate nohighlight">\(N\)</span> and then create the models inputs for each value of <span class="math notranslate nohighlight">\(N\)</span> using the function <em>models_input(N)</em>. This task takes so much time to be executed that we got a time-out error on the GitHub server. That’s why we prepared locally, for each value of <span class="math notranslate nohighlight">\(N\)</span>, a file containing the data created locally, and we  read the files directly.</p>
 <section id="n-31">
@@ -828,6 +1148,21 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 31
+------------------
+Logistic Regression Results
+0 [0.64423014 0.35576986]
+1 [0.08019266 0.91980734]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.66 0.34]
+1 [0.24 0.76]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="n-23">
@@ -849,6 +1184,19 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
 <span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X23_train</span><span class="p">,</span> <span class="n">y23_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 23
+------------------
+Logistic Regression Results
+1 [0.06596102 0.93403898]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.47 0.53]
 </pre></div>
 </div>
 </div>
@@ -880,6 +1228,23 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 22
+------------------
+Logistic Regression Results
+1 [0.18127125 0.81872875]
+1 [0.01796698 0.98203302]
+1 [0.02466654 0.97533346]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [0.72 0.28]
+1 [0.18 0.82]
+0 [0.57 0.43]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="n-24">
@@ -903,6 +1268,21 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 <span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X24_train</span><span class="p">,</span> <span class="n">y24_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 24
+------------------
+Logistic Regression Results
+1 [0.44707948 0.55292052]
+1 [0.44709033 0.55290967]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.42 0.58]
+1 [0.23 0.77]
 </pre></div>
 </div>
 </div>
@@ -930,6 +1310,19 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 46
+------------------
+Logistic Regression Results
+1 [0.45965142 0.54034858]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.39 0.61]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="n-29">
@@ -951,6 +1344,19 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
 <span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X29_train</span><span class="p">,</span> <span class="n">y29_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 29
+------------------
+Logistic Regression Results
+1 [0.0175506 0.9824494]
+------------------
+Random Forest Results
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 [0.29 0.71]
 </pre></div>
 </div>
 </div>
@@ -1080,6 +1486,7 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">Preliminaries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of CARTORADIO data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-training">Model training</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-models">Classification models</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-on-cartoradio-data">Testing on CARTORADIO data</a><ul class="nav section-nav flex-column">
