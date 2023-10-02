@@ -268,20 +268,81 @@ This approach shows that the chosen ratio variable represents a good repulsion c
 
 
 ## Machine Learning approach
+In this approach, we will use the same circular domain with $N$ points as in the statistical approach. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a Ginibre point process of intensity $1$ with $N$ points occupies roughly a disk with this radius. We begin by generating the data of the Ginibre process, the $0.7$-Ginibre process and the poisson process on which we will train the classification model, which is Logistic Regression Classifier. Using only the central cell (respectively the five central cells), the initial variables in our database consist of the surface and perimeter of the central cell (respectively surfaces and perimeters of the five central cells) of each generated sample, along with a binary variable that takes the value $1$ if the process is repulsive and $0$ otherwise. Subsequently, we add the ratio variable $\frac{4 \pi S}{P^2}$ of the central cell (respectively the five ratios of the five central celss) to provide the classification model with additional information on which to base its predictions.
 
-Given a circular domain with $N$ points, we want to decide whether the points exhibit  repulsion or not. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a  Ginibre point process of intensity $1$  with $N$ points occupies roughly a disk with this radius. We train our models on datas issued from drawings of Ginibre configuration and from drawings of $N$ points independently and uniformly scattered in $B(0,\sqrt{N})$.
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
 
-For each of the previous samples, we compute the Voronoi diagrams and retain only the $10$ cells which are the closest to the barycenter of the configuration in order to avoid side effects. We then  extract the areas and the perimeters  of these cells. In principle, this should be enough to have a good classification algorithm. We noticed that in addition to thes quantities, it dramatically improves the results of the classification of we add  the mean of the first $5$, $10$, $15$ and $20$ cells' areas in order to have a more global information.
+def dataframe_1cell(N, observations):
+    list_df = []
+    for i in range(observations):
+        list_df.append(list(beta_ginibre(N, 0.7, cells=1)) + [1])
+        list_df.append(list(poisson(N, cells=1)) + [0])
+    df = pd.DataFrame(list_df, columns = ['A1', 'P1', 'process'])
+    return df
 
-The final data will be a set of observations where each one contains $29$ columns described as follow:
-- For $1 \le i \le 10, \; \mathrm{V}_i$ is the area of the $i^{\mathrm{th}}$ Voronoi cell.
-- For $1 \le j \le 10, \; \mathrm{P}_j$ is the square perimeter of the $j^{\mathrm{th}}$ Voronoi cell.
-- For $k \in \{5, 10, 15, 20\}, \; \mathrm{MV}_{k}$ (respectively $\mathrm{MP}_{k}$) is the average area (respectively square perimeter) of the first $k$ Voronoi cells.
-- A binary column that represent the type of the initial configuration ($1$ for repulsive/Ginibre - $0$ for non-repulsive/Poisson).
+def data_1cell(N, observations):
+    list_df = []
+    for i in range(observations):
+        list_df.append(list(ginibre(N, cells=1)) + [1])
+        list_df.append(list(poisson(N, cells=1)) + [0])
+    df = pd.DataFrame(list_df, columns = ['A1', 'P1', 'process'])
+    return df
 
-The final column will be the target variable for our classification models.
+def dataframe_5cells(N, observations):
+    list_df = []
+    for i in range(observations):
+        list_df.append(sum(list(beta_ginibre(N, 0.7, cells=5)), []) + [1])
+        list_df.append(sum(list(poisson(N, cells=5)), []) + [0])
+    df = pd.DataFrame(list_df, columns = ['A1', 'A2', 'A3', 'A4', 'A5', 'P1', 'P2', 'P3', 'P4', 'P5', 'process'])
+    return df
 
-Here is an example of the data created. We generate a data of $2,000$ observations of configurations ($1,000$ repulsive and $1,000$ non repulsive) of $N = 24$ points.
+def data_5cells(N, observations):
+    list_df = []
+    for i in range(observations):
+        list_df.append(sum(list(ginibre(N, cells=5)), []) + [1])
+        list_df.append(sum(list(poisson(N, cells=5)), []) + [0])
+    df = pd.DataFrame(list_df, columns = ['A1', 'A2', 'A3', 'A4', 'A5', 'P1', 'P2', 'P3', 'P4', 'P5', 'process'])
+    return df
+```
+
+Here are some examples of the datas created. We generate datas of $N_{exp} = 5,000$ ($2,500$ repulsive and $2,500$ non-repulsive) observations of $N = 50$ points using the central cell as well as the five central cells.
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+N, observations = 50, 2500
+
+df_1cell = dataframe_1cell(N, observations)
+df_1cell['R1'] = list(4*np.pi*df_1cell.A1/(df_1cell.P1)**2)
+df_1cell = df_1cell[['A1', 'P1', 'R1', 'process']]
+print(df_1cell.head())
+
+ddf_1cell = data_1cell(N, observations)
+ddf_1cell['R1'] = list(4*np.pi*ddf_1cell.A1/(ddf_1cell.P1)**2)
+ddf_1cell = ddf_1cell[['A1', 'P1', 'R1', 'process']]
+print(ddf_1cell.head())
+
+df_5cells = dataframe_5cells(N, observations)
+df_5cells['R1'] = list(4*np.pi*df_5cells.A1/(df_5cells.P1)**2)
+df_5cells['R2'] = list(4*np.pi*df_5cells.A2/(df_5cells.P2)**2)
+df_5cells['R3'] = list(4*np.pi*df_5cells.A3/(df_5cells.P3)**2)
+df_5cells['R4'] = list(4*np.pi*df_5cells.A4/(df_5cells.P4)**2)
+df_5cells['R5'] = list(4*np.pi*df_5cells.A5/(df_5cells.P5)**2)
+df_5cells = df_5cells[['A1', 'P1', 'R1', 'A2', 'P2', 'R2', 'A3', 'P3', 'R3', 'A4', 'P4', 'R4', 'A5', 'P5', 'R5', 'process']]
+print(df_5cells.head())
+
+ddf_5cells = data_5cells(N, observations)
+ddf_5cells['R1'] = list(4*np.pi*ddf_5cells.A1/(ddf_5cells.P1)**2)
+ddf_5cells['R2'] = list(4*np.pi*ddf_5cells.A2/(ddf_5cells.P2)**2)
+ddf_5cells['R3'] = list(4*np.pi*ddf_5cells.A3/(ddf_5cells.P3)**2)
+ddf_5cells['R4'] = list(4*np.pi*ddf_5cells.A4/(ddf_5cells.P4)**2)
+ddf_5cells['R5'] = list(4*np.pi*ddf_5cells.A5/(ddf_5cells.P5)**2)
+ddf_5cells = ddf_5cells[['A1', 'P1', 'R1', 'A2', 'P2', 'R2', 'A3', 'P3', 'R3', 'A4', 'P4', 'R4', 'A5', 'P5', 'R5', 'process']]
+print(ddf_5cells.head())
+```
+
+
 
 ## Classification models
 
