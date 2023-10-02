@@ -6,4 +6,3 @@ scipy
 seaborn
 scikit-learn
 sklearn
-numba
