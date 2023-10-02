@@ -321,7 +321,7 @@ ginibre_data_2 = pd.read_csv('ginibre_5cells.csv', sep=',')
 Here is an example of the data created of configurations of $0.7$-Ginibre and poisson processes with $5$ cells:
 
 ```{code-cell} ipython3
-:tags: [show-output, hide-input]
+:tags: [show-output, show-input]
 
 beta_ginibre_data_2.head(6)
 ```
