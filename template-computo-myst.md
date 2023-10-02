@@ -134,7 +134,7 @@ Given a circular domain with $N$ points, we want to decide whether the points ex
 The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes.
 
 ```{code-cell} ipython3
-:tags: [show-output, show-input]
+:tags: [show-output, hide-input]
 
 def in_box(towers, bounding_box):
     return np.logical_and(np.logical_and(bounding_box[0] <= towers[:, 0], towers[:, 0] <= bounding_box[1]),
