@@ -309,38 +309,314 @@ def data_5cells(N, observations):
 
 Here is an example of the data created with $5$ cells. We generate datas of $N_{exp} = 4000$ ($2000$ repulsive and $2000$ non-repulsive) observations of $N = 50$ points.
 
+## Classification models
+
+In this section, we  train and test some Machine Learning models using the data we've created in the previous section. For a start we  select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). Note that  we  only use baseline models, i.e. all the hyperparameters' values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).
+
+The models we use in this paper are:
+- Logistic regression, which is a classification algorithm, used when the value of the target variable is categorical in nature. Logistic regression is most commonly used when the data in question has binary output, so when it belongs to one class or another, or is either a $0$ or $1$.
+- Random forest, a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the accuracy and control over-fitting.
+
+Two other classification models (Support Vector Machine and XGBoost) have been tested but did not yield more significant results than those two models.
+
 ```{code-cell} ipython3
 :tags: [show-output, show-input]
 
-N = 50
-observations = 2000
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
-df_1cell = dataframe_1cell(N, observations)
-df_1cell['R1'] = list(4*np.pi*df_1cell.A1/(df_1cell.P1)**2)
-df_1cell = df_1cell[['A1', 'P1', 'R1', 'process']]
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 
-ddf_1cell = data_1cell(N, observations)
-ddf_1cell['R1'] = list(4*np.pi*ddf_1cell.A1/(ddf_1cell.P1)**2)
-ddf_1cell = ddf_1cell[['A1', 'P1', 'R1', 'process']]
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, classification_report, roc_curve, roc_auc_score
 
-df_5cells = dataframe_5cells(N, observations)
-df_5cells['R1'] = list(4*np.pi*df_5cells.A1/(df_5cells.P1)**2)
-df_5cells['R2'] = list(4*np.pi*df_5cells.A2/(df_5cells.P2)**2)
-df_5cells['R3'] = list(4*np.pi*df_5cells.A3/(df_5cells.P3)**2)
-df_5cells['R4'] = list(4*np.pi*df_5cells.A4/(df_5cells.P4)**2)
-df_5cells['R5'] = list(4*np.pi*df_5cells.A5/(df_5cells.P5)**2)
-df_5cells = df_5cells[['A1', 'P1', 'R1', 'A2', 'P2', 'R2', 'A3', 'P3', 'R3', 'A4', 'P4', 'R4', 'A5', 'P5', 'R5', 'process']]
+# Useful function for evaluating our models:
 
-ddf_5cells = data_5cells(N, observations)
-ddf_5cells['R1'] = list(4*np.pi*ddf_5cells.A1/(ddf_5cells.P1)**2)
-ddf_5cells['R2'] = list(4*np.pi*ddf_5cells.A2/(ddf_5cells.P2)**2)
-ddf_5cells['R3'] = list(4*np.pi*ddf_5cells.A3/(ddf_5cells.P3)**2)
-ddf_5cells['R4'] = list(4*np.pi*ddf_5cells.A4/(ddf_5cells.P4)**2)
-ddf_5cells['R5'] = list(4*np.pi*ddf_5cells.A5/(ddf_5cells.P5)**2)
-ddf_5cells = ddf_5cells[['A1', 'P1', 'R1', 'A2', 'P2', 'R2', 'A3', 'P3', 'R3', 'A4', 'P4', 'R4', 'A5', 'P5', 'R5', 'process']]
+def model_Evaluate(model, x_tt, y_tt):
+    y_pred = model.predict(x_tt)
+    print(classification_report(y_tt, y_pred))
+    
+    cf_matrix = confusion_matrix(y_tt, y_pred)
+    categories  = ['Negative','Positive']
+    group_names = ['True Neg','False Pos', 'False Neg','True Pos']
+    group_percentages = ['{0:.2%}'.format(value) for value in cf_matrix.flatten() / np.sum(cf_matrix)]
 
-ddf_5cells.head()
+    labels = [f'{v1}\n{v2}' for v1, v2 in zip(group_names,group_percentages)]
+    labels = np.asarray(labels).reshape(2,2)
+    
+    logit_roc_auc = roc_auc_score(y_tt, model.predict(x_tt))
+    fpr, tpr, thresholds = roc_curve(y_tt, model.predict_proba(x_tt)[:,1])
+    
+    fig = plt.figure(figsize=(12, 5))
+    # Adds subplot on position 1
+    ax = fig.add_subplot(121)
+    sns.heatmap(cf_matrix, annot = labels, cmap = 'Blues',fmt = '', xticklabels = categories, yticklabels = categories)
+    ax.set_title("Confusion Matrix", fontdict = {'size':18}, pad = 20)
+    ax.set(xlabel='Predicted values', ylabel='Actual values')
+
+    # Adds subplot on position 2
+    ax = fig.add_subplot(122)
+    ax.plot(fpr, tpr, label='area = %0.2f' % logit_roc_auc)
+    ax.plot([0, 1], [0, 1],'r--', label='Standard')
+    ax.set_xlim([-0.02, 1.02])
+    ax.set_ylim([0.0, 1.05])
+    
+    thresholds_rounded = [round(num, 1) for num in thresholds]
+    for threshold in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]:
+        if threshold in thresholds_rounded:
+            index = thresholds_rounded.index(threshold)
+            ax.annotate(threshold, (fpr[index], tpr[index]))
+
+    ax.set_title('Receiver Operating Characteristic (ROC)')
+    ax.set(xlabel='False Positive Rate (1-specificity)', ylabel='True Positive Rate (sensitivity)')
+    ax.legend(loc="lower right")
+    ax.grid()
+    plt.show()
+
+
+model_cols = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'MV5', 'MV10', 'MV15', 'MV20',
+             'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'MP5', 'MP10', 'MP15', 'MP20']
+X = ddf_transformed[model_cols].values
+y = ddf_transformed['type'].values
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle= True, random_state=7)
 ```
+
+Here are the results of the logistic regression
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+Baseline_LR = make_pipeline(StandardScaler(), LogisticRegression())
+Baseline_LR.fit(X_train, y_train)
+model_Evaluate(Baseline_LR, X_test, y_test)
+```
+
+Here are the results of the random forest
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+baseline_RF = RandomForestClassifier()
+baseline_RF.fit(X_train,y_train)
+model_Evaluate(baseline_RF, X_test, y_test)
+```
+
+### Testing on CARTORADIO data
+
+CARTORADIO data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification models already used, whether the configuration do present some repulsion.
+
+The initial data (positions of the  antennas) cover a large area of the city of Paris (see {numref}`cartoradio-fig`(right))
+With a real dataset,  we often encounter the problem of heterogeneity between the different parts of the configurations since they depend on the topology  of the space in which the antennas are placed.
+
+To cope with this problem, we  extract from each configuration a representative sample similar to the type of training data so that the tests make sense. {numref}`cartoradio-fig` (left) shows a sample extracted from a given configuration.
+
+```{figure} /cartoradio.png
+---
+name: cartoradio-fig
+---
+On the left, Initial cartoradio configuration. On the right, Sample extracted from it and scaled.
+```
+
+In the following, we  read the CARTORADIA directly from the "data_cartoradio.csv" file.
+
+```{code-cell} ipython3
+# Useful functions to transform the CARTORADIO data
+
+def update_df(odf): 
+    converted_V = odf['Voronoi_areas'].str[1:-1].str.split(',').tolist()
+    converted_P = odf['Voronoi_perim'].str[1:-1].str.split(',').tolist()
+    
+    list_V = [(np.float_(converted_V[i])).tolist() for i in range(odf.shape[0])]
+    list_P = [(np.float_(converted_P[i])).tolist() for i in range(odf.shape[0])]
+    
+    list_N = [len(list_V[i]) for i in range(odf.shape[0])]
+    
+    [MV5, MV10, MV15, MV20] = [compute_mean(list_V, n) for n in [5, 10, 15, 20]]
+    [MP5, MP10, MP15, MP20] = [compute_mean(list_P, n) for n in [5, 10, 15, 20]]
+    
+    normalized_V10 = [normalize(list_V[i][:10]) for i in range(odf.shape[0])]
+    normalized_P10 = [normalize(list_P[i][:10]) for i in range(odf.shape[0])]
+    
+    [V1, V2, V3, V4, V5, V6, V7, V8, V9, V10] = [single_area(normalized_V10, k) for k in range(10)]
+    [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10] = [single_area(normalized_P10, k) for k in range(10)]
+    
+    dict_df = {'V1':V1, 'V2':V2, 'V3':V3, 'V4':V4, 'V5':V5, 'V6':V6, 'V7':V7, 'V8':V8, 'V9':V9, 'V10':V10,
+               'MV5':MV5, 'MV10':MV10, 'MV15':MV15, 'MV20':MV20,
+               'P1':P1, 'P2':P2, 'P3':P3, 'P4':P4, 'P5':P5, 'P6':P6, 'P7':P7, 'P8':P8, 'P9':P9, 'P10':P10,
+               'MP5':MP5, 'MP10':MP10, 'MP15':MP15, 'MP20':MP20}
+    
+    return list_N, pd.DataFrame(dict_df)
+
+def models_input(N):
+    data0 = create_dataframe(N, observations = 1000)
+    data1 = transform_df(data0)
+    
+    model_cols = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'MV5', 'MV10', 'MV15', 'MV20',
+                  'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'MP5', 'MP10', 'MP15', 'MP20']
+
+    X = data1[model_cols].values
+    y = data1['type'].values
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=True, random_state=7)
+    
+    return X_train, X_test, y_train, y_test
+```
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+data = pd.read_csv('data_voronoi_cartoradio.csv', sep=',')
+list_N, data_test = update_df(data)
+print(list_N)
+data_test.head()
+```
+
+Now that the data are read and transformed, we gather the observations by the number of points $N$ and then create the models inputs for each value of $N$ using the function *models_input(N)*. This task takes so much time to be executed that we got a time-out error on the GitHub server. That's why we prepared locally, for each value of $N$, a file containing the data created locally, and we  read the files directly.
+
+
+#### N = 31
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+data31 = pd.read_csv('data_31.csv', sep=',')
+X31 = data31[model_cols].values
+y31 = data31['type'].values
+X31_train, X31_test, y31_train, y31_test = train_test_split(X31, y31, test_size=0.3, shuffle=True, random_state=7)
+data_test_31 = data_test.iloc[[0, 7]]
+
+print('N = 31')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X31_train, y31_train)
+print(Baseline_LR.predict(data_test_31.values)[0], Baseline_LR.predict_proba(data_test_31.values)[0])
+print(Baseline_LR.predict(data_test_31.values)[1], Baseline_LR.predict_proba(data_test_31.values)[1])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X31_train, y31_train)
+print(baseline_RF.predict(data_test_31.values)[0], baseline_RF.predict_proba(data_test_31.values)[0])
+print(baseline_RF.predict(data_test_31.values)[1], baseline_RF.predict_proba(data_test_31.values)[1])
+```
+
+#### N = 23
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+data23 = pd.read_csv('data_23.csv', sep=',')
+X23 = data23[model_cols].values
+y23 = data23['type'].values
+X23_train, X23_test, y23_train, y23_test = train_test_split(X23, y23, test_size=0.3, shuffle=True, random_state=7)
+data_test_23 = data_test.iloc[[1]]
+
+print('N = 23')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X23_train, y23_train)
+print(Baseline_LR.predict(data_test_23.values)[0], Baseline_LR.predict_proba(data_test_23.values)[0])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X23_train, y23_train)
+print(baseline_RF.predict(data_test_23.values)[0], baseline_RF.predict_proba(data_test_23.values)[0])
+```
+
+#### N = 22
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+data22 = pd.read_csv('data_22.csv', sep=',')
+X22 = data22[model_cols].values
+y22 = data22['type'].values
+X22_train, X22_test, y22_train, y22_test = train_test_split(X22, y22, test_size=0.3, shuffle=True, random_state=7)
+data_test_22 = data_test.iloc[[2, 4, 9]]
+
+print('N = 22')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X22_train, y22_train)
+print(Baseline_LR.predict(data_test_22.values)[0], Baseline_LR.predict_proba(data_test_22.values)[0])
+print(Baseline_LR.predict(data_test_22.values)[1], Baseline_LR.predict_proba(data_test_22.values)[1])
+print(Baseline_LR.predict(data_test_22.values)[2], Baseline_LR.predict_proba(data_test_22.values)[2])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X22_train, y22_train)
+print(baseline_RF.predict(data_test_22.values)[0], baseline_RF.predict_proba(data_test_22.values)[0])
+print(baseline_RF.predict(data_test_22.values)[1], baseline_RF.predict_proba(data_test_22.values)[1])
+print(baseline_RF.predict(data_test_22.values)[2], baseline_RF.predict_proba(data_test_22.values)[2])
+```
+
+#### N = 24
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+data24 = pd.read_csv('data_24.csv', sep=',')
+X24 = data24[model_cols].values
+y24 = data24['type'].values
+X24_train, X24_test, y24_train, y24_test = train_test_split(X24, y24, test_size=0.3, shuffle=True, random_state=7)
+data_test_24 = data_test.iloc[[3, 6]]
+
+print('N = 24')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X24_train, y24_train)
+print(Baseline_LR.predict(data_test_24.values)[0], Baseline_LR.predict_proba(data_test_24.values)[0])
+print(Baseline_LR.predict(data_test_24.values)[1], Baseline_LR.predict_proba(data_test_24.values)[1])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X24_train, y24_train)
+print(baseline_RF.predict(data_test_24.values)[0], baseline_RF.predict_proba(data_test_24.values)[0])
+print(baseline_RF.predict(data_test_24.values)[1], baseline_RF.predict_proba(data_test_24.values)[1])
+```
+
+#### N = 46
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+data46 = pd.read_csv('data_46.csv', sep=',')
+X46 = data46[model_cols].values
+y46 = data46['type'].values
+X46_train, X46_test, y46_train, y46_test = train_test_split(X46, y46, test_size=0.3, shuffle=True, random_state=7)
+data_test_46 = data_test.iloc[[5]]
+
+print('N = 46')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X46_train, y46_train)
+print(Baseline_LR.predict(data_test_46.values)[0], Baseline_LR.predict_proba(data_test_46.values)[0])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X46_train, y46_train)
+print(baseline_RF.predict(data_test_46.values)[0], baseline_RF.predict_proba(data_test_46.values)[0])
+```
+
+#### N = 29
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+data29 = pd.read_csv('data_29.csv', sep=',')
+X29 = data29[model_cols].values
+y29 = data29['type'].values
+X29_train, X29_test, y29_train, y29_test = train_test_split(X29, y29, test_size=0.3, shuffle=True, random_state=7)
+data_test_29 = data_test.iloc[[8]]
+
+print('N = 29')
+print('------------------')
+print('Logistic Regression Results')
+Baseline_LR.fit(X29_train, y29_train)
+print(Baseline_LR.predict(data_test_29.values)[0], Baseline_LR.predict_proba(data_test_29.values)[0])
+print('------------------')
+print('Random Forest Results')
+baseline_RF.fit(X29_train, y29_train)
+print(baseline_RF.predict(data_test_29.values)[0], baseline_RF.predict_proba(data_test_29.values)[0])
+```
+
+We can notice that the classification results are mostly positive, which means that the majority of the samples taken from the CARTORADIO data can be decided as repulsive configurations which is consistent with our starting hypothesis. For the configurations whose results were as non-repulsive, we can say that this is due to one of the two following reasons:
+- As long as we are dealing with real data, these two samples may be a non-repulsive ones and the results are actually coherent.
+- It is sure that the accuracy of our models is very high, but we may have some classification errors, which means that even if the configuration is repulsive, the model decides that it is not.
 
 ## Conclusion
 
