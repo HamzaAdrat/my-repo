@@ -306,8 +306,23 @@ def data_5cells(N, observations):
     df = pd.DataFrame(list_df, columns = ['A1', 'A2', 'A3', 'A4', 'A5', 'P1', 'P2', 'P3', 'P4', 'P5', 'process'])
     return df
 ```
+As the generation of data requires considerable execution time, we will prepare the data locally (using the previous code), by generating, for each classification, a sample of $N_{exp} = 5000$ ($2500$ repulsive and $2500$ non-repulsive) observations of $N = 50$ points. Then we read them directly as follows:
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
 
-Here is an example of the data created with $5$ cells. We generate datas of $N_{exp} = 4000$ ($2000$ repulsive and $2000$ non-repulsive) observations of $N = 50$ points.
+beta_ginibre_data_1 = pd.read_csv('beta_ginibre_1cell.csv', sep=',')
+ginibre_data_1 = pd.read_csv('ginibre_1cell.csv', sep=',')
+
+beta_ginibre_data_2 = pd.read_csv('beta_ginibre_5cells.csv', sep=',')
+ginibre_data_2 = pd.read_csv('ginibre_5cells.csv', sep=',')
+```
+
+Here is an example of the data created of configurations of $0.7$-Ginibre and poisson processes with $5$ cells:
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+beta_ginibre_data_2.head(6)
+```
 
 ## Classification models
 
