@@ -161,10 +161,6 @@ def voronoi(towers, bounding_box, N):
                        axis=0)
     # Compute Voronoi
     vor = Voronoi(points)
-    # Filter regions
-    # regions = []
-    # [vor.point_region[i] for i in range(N)]
-
     vor.filtered_points = points_center
     vor.filtered_regions = [vor.regions[vor.point_region[i]] for i in range(len(points_center))]
     return vor
@@ -269,7 +265,6 @@ name: simulation-fig
 ---
 Simulation results using the central cell (up) and the five central cells (down).
 ```
-
 
 
 
