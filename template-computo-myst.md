@@ -308,6 +308,24 @@ def data_5cells(N, observations):
 ```
 As the generation of data requires considerable execution time, we will prepare the data locally (using the previous code), by generating, for each classification, a sample of $5000$ observations ($2500$ repulsive and $2500$ non-repulsive) of $N = 50$ points. Then we read them directly as follows:
 
+```{code-cell} ipython3
+:tags: [hide-output, show-input]
+
+beta_ginibre_data_1 = pd.read_csv('beta_ginibre_1cell.csv', sep=',')
+ginibre_data_1 = pd.read_csv('ginibre_1cell.csv', sep=',')
+
+beta_ginibre_data_2 = pd.read_csv('beta_ginibre_5cells.csv', sep=',')
+ginibre_data_2 = pd.read_csv('ginibre_5cells.csv', sep=',')
+```
+
+Here is an example of the data created of configurations of $0.7$-Ginibre and poisson processes with one cell:
+
+```{code-cell} ipython3
+:tags: [show-output, show-input]
+
+beta_ginibre_data_1.head()
+```
+
 ## Classification models
 
 In this section, we  train and test some Machine Learning models using the data we've created in the previous section. For a start we  select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). Note that  we  only use baseline models, i.e. all the hyperparameters' values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).
