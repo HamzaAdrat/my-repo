@@ -317,6 +317,18 @@ document.write(`
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of CARTORADIO data</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-approach">Machine Learning approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-models">Classification models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-on-cartoradio-data">Testing on CARTORADIO data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-31">N = 31</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-23">N = 23</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-22">N = 22</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-24">N = 24</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-46">N = 46</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-29">N = 29</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
@@ -339,26 +351,26 @@ document.write(`
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
-<p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id24" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id23" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a> (left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>, right picture).</p>
+<p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id25" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id24" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a> (left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>, right picture).</p>
 <figure class="align-default" id="paris-orange-fig">
 <img alt="_images/paris-orange.png" src="_images/paris-orange.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 1 </span><span class="caption-text">Left: Antennas in Paris. Right: Antennas in one frequency  band only.</span><a class="headerlink" href="#paris-orange-fig" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>In previous papers, point processes with repulsion have been used to model such systems <span id="id3">[<a class="reference internal" href="#id26" title="Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. IEEE Transactions on Wireless Communications, 2015. arXiv:1401.3677v1.">3</a>]</span>, <span id="id4">[<a class="reference internal" href="#id30" title="Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. IEICE Transactions on Communications, E99.B(11):2247–2255, 2016. doi:10.1587/transcom.2016nei0001.">4</a>]</span>, <span id="id5">[<a class="reference internal" href="#id28" title="Jean-Sébastien Gomez, Aurélien Vasseur, Anaïs Vergne, Philippe Martins, Laurent Decreusefond, and Wei Chen. A case study on regularity in cellular network deployment. IEEE Wireless Communications Letters, IEEE, 2015, pp.4, 2015. arXiv:1505.06073v1.">5</a>]</span> for no reason but a mere resemblance between the pictures like the right picture in <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a> and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a <em>neutral</em> point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.</p>
-<p>The rationale behind our work comes from <span id="id6">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>. It is shown there that the Voronoi cells of the Ginibre point process (a particular point
-process with repulsion, see below for the exact definition) are in some sense more regular (closer to a circle) than those of a Poisson process (see <a class="reference internal" href="#equation-theorem-goldman">(3)</a> in Theorem 1.). By simulation, this feature seems to persist for other point processes with repulsion, like Gibbs processes. In <span id="id7">[<a class="reference internal" href="#id36" title="D. B. Taylor, H. S. Dhillon, T. D. Novlan, and J. G. Andrews. Pairwise interaction processes for modeling cellular network topology. In Globecom. 2012. doi:10.1109/glocom.2012.6503831.">7</a>]</span>, the surface of Voronoi cells is claimed to be a good discrepancy indicator between Poisson process and several processes with repulsion (Gibbs processes, Strauss processes with repulsion and the Geyer saturation model). For any of these models, we do not have any closed formula on the surface of the Voronoi cells so the procedure proposed in this paper is to simulate a large number of realizations of each of these processes and compute the empirical mean and variance of the Voronoi cells area. They obtain mixed conclusions as this sole indicator does not enable to rule out the Poisson hypothesis for many situations.</p>
+<p>In previous papers, point processes with repulsion have been used to model such systems <span id="id3">[<a class="reference internal" href="#id27" title="Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. IEEE Transactions on Wireless Communications, 2015. arXiv:1401.3677v1.">3</a>]</span>, <span id="id4">[<a class="reference internal" href="#id31" title="Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. IEICE Transactions on Communications, E99.B(11):2247–2255, 2016. doi:10.1587/transcom.2016nei0001.">4</a>]</span>, <span id="id5">[<a class="reference internal" href="#id29" title="Jean-Sébastien Gomez, Aurélien Vasseur, Anaïs Vergne, Philippe Martins, Laurent Decreusefond, and Wei Chen. A case study on regularity in cellular network deployment. IEEE Wireless Communications Letters, IEEE, 2015, pp.4, 2015. arXiv:1505.06073v1.">5</a>]</span> for no reason but a mere resemblance between the pictures like the right picture in <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a> and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a <em>neutral</em> point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.</p>
+<p>The rationale behind our work comes from <span id="id6">[<a class="reference internal" href="#id28" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>. It is shown there that the Voronoi cells of the Ginibre point process (a particular point
+process with repulsion, see below for the exact definition) are in some sense more regular (closer to a circle) than those of a Poisson process (see <a class="reference internal" href="#equation-theorem-goldman">(3)</a> in Theorem 1.). By simulation, this feature seems to persist for other point processes with repulsion, like Gibbs processes. In <span id="id7">[<a class="reference internal" href="#id37" title="D. B. Taylor, H. S. Dhillon, T. D. Novlan, and J. G. Andrews. Pairwise interaction processes for modeling cellular network topology. In Globecom. 2012. doi:10.1109/glocom.2012.6503831.">7</a>]</span>, the surface of Voronoi cells is claimed to be a good discrepancy indicator between Poisson process and several processes with repulsion (Gibbs processes, Strauss processes with repulsion and the Geyer saturation model). For any of these models, we do not have any closed formula on the surface of the Voronoi cells so the procedure proposed in this paper is to simulate a large number of realizations of each of these processes and compute the empirical mean and variance of the Voronoi cells area. They obtain mixed conclusions as this sole indicator does not enable to rule out the Poisson hypothesis for many situations.</p>
 <p>Our contribution is to consider the ratio of the surface by the squared perimeter instead of the surface of the Voronoi cells alone. Actually, we can interpret
-the result of <span id="id8">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span> by saying that the Voronoi cells of a Ginibre point process are more circular than those of a Poisson point process. The isoperimetric inequality stands for any regular enough domain in the plane, <span class="math notranslate nohighlight">\(R = \frac{4 \pi S}{P^2}\)</span> is less than <span class="math notranslate nohighlight">\(1\)</span> and the equality is obtained for disks. It is thus sensible to think that the ratio <span class="math notranslate nohighlight">\(R\)</span> will be closer to <span class="math notranslate nohighlight">\(1\)</span> for repulsive processes than for neutral point processes. Following the procedure of <span id="id9">[<a class="reference internal" href="#id36" title="D. B. Taylor, H. S. Dhillon, T. D. Novlan, and J. G. Andrews. Pairwise interaction processes for modeling cellular network topology. In Globecom. 2012. doi:10.1109/glocom.2012.6503831.">7</a>]</span>, we show that we get a much better indicator by using <span class="math notranslate nohighlight">\(R\)</span> instead <span class="math notranslate nohighlight">\(S\)</span> alone to discriminate between repulsive and neutral point processes.</p>
-<p>However, for the application we have in mind, which is to decide for one single map  which model is the most pertinent, we cannot use this criterion based on probability. That is why we resort to an ML model. After several tries, we concluded that the most efficient algorithm was to use Logistic Regression. In a first step, we trained it on simulations of Ginibre and Poisson point processes. The advantage of the Ginibre process is that we have efficient algorithm to simulate it <span id="id10">[<a class="reference internal" href="#id35" title="Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. Mod. Stoch. Theory Appl., 8(2):209–237, 2021.">8</a>]</span> and it does not seem to alter the accuracy of our algorithm to use one single class of repulsive point process. We remarked that we obtain a much better discrimination by considering the mean value of <span class="math notranslate nohighlight">\(R\)</span> for the five most central cells instead of just the most central one. We can even improve our discrimination rate by adding to the input vector the value of each of the five ratios.</p>
-<p>Furthermore, the repulsion in the Ginibre class of point processes can be also modulated by making a <span class="math notranslate nohighlight">\(\beta\)</span>-thinning (to weaken the repulsion) and then a <span class="math notranslate nohighlight">\(\sqrt{\beta}\)</span>-dilation (to keep the same intensity of points per surface unit) to obtain what is called a <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre. For <span class="math notranslate nohighlight">\(\beta=1\)</span>, we have the original Ginibre process and when <span class="math notranslate nohighlight">\(\beta\)</span> goes to <span class="math notranslate nohighlight">\(0\)</span>, it tends in law to a Poisson process (see <span id="id11">[<a class="reference internal" href="#id37" title="L. Decreusefond and A. Vasseur. Asymptotics of superposition of point processes. In Geometry of Science Information. Palaiseau, October 2015.">9</a>]</span>) so that we have a full scale of point processes with intermediate repulsion between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>. We show that our logistic regression algorithm can still accurately discriminate between Poisson and <span class="math notranslate nohighlight">\(\beta\)</span>-repulsive point processes for <span class="math notranslate nohighlight">\(\beta\)</span> up to <span class="math notranslate nohighlight">\(0.7\)</span>.</p>
+the result of <span id="id8">[<a class="reference internal" href="#id28" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span> by saying that the Voronoi cells of a Ginibre point process are more circular than those of a Poisson point process. The isoperimetric inequality stands for any regular enough domain in the plane, <span class="math notranslate nohighlight">\(R = \frac{4 \pi S}{P^2}\)</span> is less than <span class="math notranslate nohighlight">\(1\)</span> and the equality is obtained for disks. It is thus sensible to think that the ratio <span class="math notranslate nohighlight">\(R\)</span> will be closer to <span class="math notranslate nohighlight">\(1\)</span> for repulsive processes than for neutral point processes. Following the procedure of <span id="id9">[<a class="reference internal" href="#id37" title="D. B. Taylor, H. S. Dhillon, T. D. Novlan, and J. G. Andrews. Pairwise interaction processes for modeling cellular network topology. In Globecom. 2012. doi:10.1109/glocom.2012.6503831.">7</a>]</span>, we show that we get a much better indicator by using <span class="math notranslate nohighlight">\(R\)</span> instead <span class="math notranslate nohighlight">\(S\)</span> alone to discriminate between repulsive and neutral point processes.</p>
+<p>However, for the application we have in mind, which is to decide for one single map  which model is the most pertinent, we cannot use this criterion based on probability. That is why we resort to an ML model. After several tries, we concluded that the most efficient algorithm was to use Logistic Regression. In a first step, we trained it on simulations of Ginibre and Poisson point processes. The advantage of the Ginibre process is that we have efficient algorithm to simulate it <span id="id10">[<a class="reference internal" href="#id36" title="Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. Mod. Stoch. Theory Appl., 8(2):209–237, 2021.">8</a>]</span> and it does not seem to alter the accuracy of our algorithm to use one single class of repulsive point process. We remarked that we obtain a much better discrimination by considering the mean value of <span class="math notranslate nohighlight">\(R\)</span> for the five most central cells instead of just the most central one. We can even improve our discrimination rate by adding to the input vector the value of each of the five ratios.</p>
+<p>Furthermore, the repulsion in the Ginibre class of point processes can be also modulated by making a <span class="math notranslate nohighlight">\(\beta\)</span>-thinning (to weaken the repulsion) and then a <span class="math notranslate nohighlight">\(\sqrt{\beta}\)</span>-dilation (to keep the same intensity of points per surface unit) to obtain what is called a <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre. For <span class="math notranslate nohighlight">\(\beta=1\)</span>, we have the original Ginibre process and when <span class="math notranslate nohighlight">\(\beta\)</span> goes to <span class="math notranslate nohighlight">\(0\)</span>, it tends in law to a Poisson process (see <span id="id11">[<a class="reference internal" href="#id38" title="L. Decreusefond and A. Vasseur. Asymptotics of superposition of point processes. In Geometry of Science Information. Palaiseau, October 2015.">9</a>]</span>) so that we have a full scale of point processes with intermediate repulsion between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>. We show that our logistic regression algorithm can still accurately discriminate between Poisson and <span class="math notranslate nohighlight">\(\beta\)</span>-repulsive point processes for <span class="math notranslate nohighlight">\(\beta\)</span> up to <span class="math notranslate nohighlight">\(0.7\)</span>.</p>
 <p>The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="preliminaries">
 <h1>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this heading">#</a></h1>
 <p>We consider finite point processes on a bounded window <span class="math notranslate nohighlight">\(E\)</span>. The law of a such a point process <span class="math notranslate nohighlight">\(N\)</span> can be  characterized by its correlation functions (for
-details we refer to <span id="id12">[<a class="reference internal" href="#id33" title="D. J. Daley and D. Vere-Jones. An introduction to the theory of point processes. Vol. I. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.">10</a>]</span>[Chapter 5]). These are symmetric functions <span class="math notranslate nohighlight">\((\rho_{k},k\ge 1)\)</span> such that for any bounded function <span class="math notranslate nohighlight">\(f\)</span>, we can write:</p>
+details we refer to <span id="id12">[<a class="reference internal" href="#id34" title="D. J. Daley and D. Vere-Jones. An introduction to the theory of point processes. Vol. I. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.">10</a>]</span>[Chapter 5]). These are symmetric functions <span class="math notranslate nohighlight">\((\rho_{k},k\ge 1)\)</span> such that for any bounded function <span class="math notranslate nohighlight">\(f\)</span>, we can write:</p>
 <div class="math notranslate nohighlight">
 \[
  \mathbb{E}\left[ \sum_{\alpha \subset N} f(\alpha) \right] = \sum_{k=1}^{+ \infty} \frac{1}{k!} \int_{E^k} f(\{x_1, \dots, x_k\}) \rho_{k}(x_1, \dots, x_k) \, d x_1 \dots d x_k .
@@ -369,7 +381,7 @@ point <span class="math notranslate nohighlight">\(x_{j}\)</span>. For a Poisson
 \[
 \rho_{k}(x_{1}, \dots, x_{k}) = \prod_{j=1}^{k} m(x_{j}).
 \]</div>
-<p>The <strong>Ginibre point process</strong>, restricted to <span class="math notranslate nohighlight">\(E=B(0,r)\)</span>, with intensity <span class="math notranslate nohighlight">\(\rho = \frac{\lambda}{\pi}\)</span> (with <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>) has correlation functions (see <span id="id13">[<a class="reference internal" href="#id38" title="L. Decreusefond, I. Flint, and A. Vergne. A note on the simulation of the Ginibre point process. Journal of Applied Probability, 52(04):1003–1012, dec 2015. arXiv:1310.0800v2, doi:10.1239/jap/1450802749.">11</a>]</span>)</p>
+<p>The <strong>Ginibre point process</strong>, restricted to <span class="math notranslate nohighlight">\(E=B(0,r)\)</span>, with intensity <span class="math notranslate nohighlight">\(\rho = \frac{\lambda}{\pi}\)</span> (with <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>) has correlation functions (see <span id="id13">[<a class="reference internal" href="#id39" title="L. Decreusefond, I. Flint, and A. Vergne. A note on the simulation of the Ginibre point process. Journal of Applied Probability, 52(04):1003–1012, dec 2015. arXiv:1310.0800v2, doi:10.1239/jap/1450802749.">11</a>]</span>)</p>
 <div class="math notranslate nohighlight" id="equation-correlation-functions-determinantal">
 <span class="eqno">(1)<a class="headerlink" href="#equation-correlation-functions-determinantal" title="Permalink to this equation">#</a></span>\[\rho_{k}(x_1, \dots, x_k) = \det(K(x_i, x_j), \; 1 \le i,j \le k)\]</div>
 <p>where <span class="math notranslate nohighlight">\(K\)</span> is given by</p>
@@ -380,15 +392,15 @@ point <span class="math notranslate nohighlight">\(x_{j}\)</span>. For a Poisson
 \[
 \phi_j(x) = \sqrt{\frac{\rho}{\gamma(j+1,r^2)}} \left(\sqrt{\lambda} x \right)^j \, e^{-\frac{\lambda}{2} |x|^2}
 \]</div>
-<p>and <span class="math notranslate nohighlight">\(\gamma(n,x)\)</span> is the lower incomplete Gamma function. The simulation of such a point process is a delicate matter, first solved in <span id="id14">[<a class="reference internal" href="#id29" title="J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. Probability Surveys, 3:206–229 (electronic), 2006.">12</a>]</span>. It remains costly because the algorithm contains complex calculations and some rejections. In order to fasten the procedure, an approximate algorithm, with error estimates, has been given in <span id="id15">[<a class="reference internal" href="#id35" title="Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. Mod. Stoch. Theory Appl., 8(2):209–237, 2021.">8</a>]</span> (see the bibliography therein to get the URL of the Python code).</p>
+<p>and <span class="math notranslate nohighlight">\(\gamma(n,x)\)</span> is the lower incomplete Gamma function. The simulation of such a point process is a delicate matter, first solved in <span id="id14">[<a class="reference internal" href="#id30" title="J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. Probability Surveys, 3:206–229 (electronic), 2006.">12</a>]</span>. It remains costly because the algorithm contains complex calculations and some rejections. In order to fasten the procedure, an approximate algorithm, with error estimates, has been given in <span id="id15">[<a class="reference internal" href="#id36" title="Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. Mod. Stoch. Theory Appl., 8(2):209–237, 2021.">8</a>]</span> (see the bibliography therein to get the URL of the Python code).</p>
 <p>For an at most denumerable set of points <span class="math notranslate nohighlight">\(\{x_{n}, \, n \ge 1\}\)</span>, the Voronoi cells are defined as the convex sets</p>
 <div class="math notranslate nohighlight">
 \[
 \mathcal{C}(x_{i})=\{z \in \mathbb{C},\ |z-x_{i}|\le |z-x_{j}|  \text{ for all }j\neq i\}.
 \]</div>
-<p>When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of <span class="math notranslate nohighlight">\(\mathbb{R}^{2}\)</span> when the point process is taken under its Palm distribution <span id="id16">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>, <span id="id17">[<a class="reference internal" href="#id25" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume II Applications. Foundations and Trends® in Networking, 4(1–2):1–312, 2009. doi:10.1561/1300000026.">13</a>]</span>. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form <a class="reference internal" href="#equation-correlation-functions-determinantal">(1)</a> with <span class="math notranslate nohighlight">\(K\)</span> being <span class="math notranslate nohighlight">\(K_{R}\)</span> with the first term removed).
+<p>When the points are drawn from a point process, we thus have a collection of random closed sets. When the process under consideration is stationary with respect to translations, it is customary to define the typical law of a Voronoi cell as the law of the cell containing the origin of <span class="math notranslate nohighlight">\(\mathbb{R}^{2}\)</span> when the point process is taken under its Palm distribution <span id="id16">[<a class="reference internal" href="#id28" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>, <span id="id17">[<a class="reference internal" href="#id26" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume II Applications. Foundations and Trends® in Networking, 4(1–2):1–312, 2009. doi:10.1561/1300000026.">13</a>]</span>. It turns out that we know the Palm distribution of the Poisson process (which is itself) and of the Ginibre point process (the correlation functions are of the form <a class="reference internal" href="#equation-correlation-functions-determinantal">(1)</a> with <span class="math notranslate nohighlight">\(K\)</span> being <span class="math notranslate nohighlight">\(K_{R}\)</span> with the first term removed).
 We denote by <span class="math notranslate nohighlight">\(\mathcal{C}_p\)</span> (respectively <span class="math notranslate nohighlight">\(\mathcal{C}_{G}\)</span>) the typical cell of the Voronoi tessellation associated to a stationary Poisson process in <span class="math notranslate nohighlight">\(\mathbb{C}\)</span>  with
-intensity <span class="math notranslate nohighlight">\(\lambda\)</span> (respectively to the Ginibre point process of intensity <span class="math notranslate nohighlight">\(\rho\)</span>). One of the main theorems of <span id="id18">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span> is the following.</p>
+intensity <span class="math notranslate nohighlight">\(\lambda\)</span> (respectively to the Ginibre point process of intensity <span class="math notranslate nohighlight">\(\rho\)</span>). One of the main theorems of <span id="id18">[<a class="reference internal" href="#id28" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span> is the following.</p>
 <p><strong>Theorem 1.</strong>
 When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <div class="math notranslate nohighlight" id="equation-theorem-goldman">
@@ -431,7 +443,7 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <section id="statistical-approach">
 <h2>Statistical approach<a class="headerlink" href="#statistical-approach" title="Permalink to this heading">#</a></h2>
 <p>Given a circular domain with <span class="math notranslate nohighlight">\(N\)</span> points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will first calculate, for Poisson processes as well as for Ginibres and <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibres processes, the probability that the ratio <span class="math notranslate nohighlight">\(R = \frac{4 \pi S}{P^2}\)</span> of the central cell is less than or equal to <span class="math notranslate nohighlight">\(r\)</span>, for values of <span class="math notranslate nohighlight">\(r\)</span> ranging from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(1\)</span>. And then we will apply the same approach using the mean ratio of the five central cells. Finally, we will calculate <span class="math notranslate nohighlight">\(95\)</span>% confidence intervals for each of these processes.</p>
-<p>The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points <span class="math notranslate nohighlight">\(N\)</span> and the parameter <span class="math notranslate nohighlight">\(\beta\)</span> for <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre processes.</p>
+<p>The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points <span class="math notranslate nohighlight">\(N\)</span> and the parameter <span class="math notranslate nohighlight">\(\beta\)</span> for <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre processes. The Ginibre and <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre processes are generated using the “sample” function given in the python code of <span id="id19">[<a class="reference internal" href="#id36" title="Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. Mod. Stoch. Theory Appl., 8(2):209–237, 2021.">8</a>]</span>.</p>
 <div class="cell tag_show-output tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -562,16 +574,8 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">File</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">repo</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">repo</span><span class="o">/</span><span class="n">Moroz_dpp</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">15</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">import</span> <span class="nn">sys</span> <span class="k">as</span> <span class="nn">_sys</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="ne">---&gt; </span><span class="mi">15</span> <span class="kn">import</span> <span class="nn">numba</span> <span class="k">as</span> <span class="nn">_nb</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">special</span> <span class="k">as</span> <span class="n">_special</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;numba&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Importing libraries ...
+Compiling functions ...
 </pre></div>
 </div>
 </div>
@@ -634,242 +638,404 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </details>
 </div>
 <p>As the generation of data requires considerable execution time, we will prepare the data locally (using the previous code), by generating, for each classification, a sample of <span class="math notranslate nohighlight">\(5000\)</span> observations (<span class="math notranslate nohighlight">\(2500\)</span> repulsive and <span class="math notranslate nohighlight">\(2500\)</span> non-repulsive) of <span class="math notranslate nohighlight">\(N = 50\)</span> points. Then we read them directly as follows:</p>
-<div class="cell tag_hide-output tag_show-input docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_ginibre_data_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;beta_ginibre_1cell.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
-<span class="n">ginibre_data_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ginibre_1cell.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
-
-<span class="n">beta_ginibre_data_2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;beta_ginibre_5cells.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
-<span class="n">ginibre_data_2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ginibre_5cells.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Here is an example of the data created of configurations of <span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre and poisson processes with <span class="math notranslate nohighlight">\(5\)</span> cells:</p>
+</section>
+<section id="classification-models">
+<h2>Classification models<a class="headerlink" href="#classification-models" title="Permalink to this heading">#</a></h2>
+<p>In this section, we  train and test some Machine Learning models using the data we’ve created in the previous section. For a start we  select all the columns as inputs to our models (this can lead to false predictions, especially if some columns share the same information). Note that  we  only use baseline models, i.e. all the hyperparameters’ values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters for each model).</p>
+<p>The models we use in this paper are:</p>
+<ul class="simple">
+<li><p>Logistic regression, which is a classification algorithm, used when the value of the target variable is categorical in nature. Logistic regression is most commonly used when the data in question has binary output, so when it belongs to one class or another, or is either a <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p>Random forest, a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the accuracy and control over-fitting.</p></li>
+</ul>
+<p>Two other classification models (Support Vector Machine and XGBoost) have been tested but did not yield more significant results than those two models.</p>
 <div class="cell tag_show-output tag_show-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_ginibre_data_2</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+
+<span class="c1"># Useful function for evaluating our models:</span>
+
+<span class="k">def</span> <span class="nf">model_Evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_tt</span><span class="p">,</span> <span class="n">y_tt</span><span class="p">):</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_tt</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+    
+    <span class="n">cf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">categories</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Negative&#39;</span><span class="p">,</span><span class="s1">&#39;Positive&#39;</span><span class="p">]</span>
+    <span class="n">group_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;True Neg&#39;</span><span class="p">,</span><span class="s1">&#39;False Pos&#39;</span><span class="p">,</span> <span class="s1">&#39;False Neg&#39;</span><span class="p">,</span><span class="s1">&#39;True Pos&#39;</span><span class="p">]</span>
+    <span class="n">group_percentages</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0:.2%}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cf_matrix</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cf_matrix</span><span class="p">)]</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">v1</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">v2</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">group_names</span><span class="p">,</span><span class="n">group_percentages</span><span class="p">)]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="n">logit_roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_tt</span><span class="p">))</span>
+    <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_tt</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="c1"># Adds subplot on position 1</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cf_matrix</span><span class="p">,</span> <span class="n">annot</span> <span class="o">=</span> <span class="n">labels</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Blues&#39;</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xticklabels</span> <span class="o">=</span> <span class="n">categories</span><span class="p">,</span> <span class="n">yticklabels</span> <span class="o">=</span> <span class="n">categories</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix&quot;</span><span class="p">,</span> <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span><span class="mi">18</span><span class="p">},</span> <span class="n">pad</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Predicted values&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Actual values&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Adds subplot on position 2</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;area = </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">logit_roc_auc</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Standard&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">])</span>
+    
+    <span class="n">thresholds_rounded</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">thresholds_rounded</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">thresholds_rounded</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span> <span class="p">(</span><span class="n">fpr</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">tpr</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Receiver Operating Characteristic (ROC)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;False Positive Rate (1-specificity)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;True Positive Rate (sensitivity)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="n">model_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;V1&#39;</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV5&#39;</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP5&#39;</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">ddf_transformed</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">ddf_transformed</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">56</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="n">model_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;V1&#39;</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV5&#39;</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span>              <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP5&#39;</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">]</span>
+<span class="ne">---&gt; </span><span class="mi">56</span> <span class="n">X</span> <span class="o">=</span> <span class="n">ddf_transformed</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ddf_transformed</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>S1</th>
-      <th>P1</th>
-      <th>R1</th>
-      <th>S2</th>
-      <th>P2</th>
-      <th>R2</th>
-      <th>S3</th>
-      <th>P3</th>
-      <th>R3</th>
-      <th>S4</th>
-      <th>P4</th>
-      <th>R4</th>
-      <th>S5</th>
-      <th>P5</th>
-      <th>R5</th>
-      <th>process</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2.080205</td>
-      <td>6.221117</td>
-      <td>0.675428</td>
-      <td>3.730102</td>
-      <td>8.004146</td>
-      <td>0.731645</td>
-      <td>2.745237</td>
-      <td>7.401389</td>
-      <td>0.629743</td>
-      <td>3.934326</td>
-      <td>7.639368</td>
-      <td>0.847160</td>
-      <td>3.776278</td>
-      <td>7.729107</td>
-      <td>0.794356</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3.569983</td>
-      <td>7.718189</td>
-      <td>0.753087</td>
-      <td>1.129645</td>
-      <td>4.562163</td>
-      <td>0.682041</td>
-      <td>3.352379</td>
-      <td>7.127083</td>
-      <td>0.829353</td>
-      <td>4.306987</td>
-      <td>8.659635</td>
-      <td>0.721746</td>
-      <td>3.358335</td>
-      <td>7.560833</td>
-      <td>0.738235</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2.926630</td>
-      <td>6.663067</td>
-      <td>0.828380</td>
-      <td>4.562685</td>
-      <td>8.368391</td>
-      <td>0.818741</td>
-      <td>4.889731</td>
-      <td>8.345868</td>
-      <td>0.882169</td>
-      <td>2.538108</td>
-      <td>6.144546</td>
-      <td>0.844774</td>
-      <td>3.510331</td>
-      <td>7.305256</td>
-      <td>0.826584</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>3.297613</td>
-      <td>7.501144</td>
-      <td>0.736469</td>
-      <td>4.871326</td>
-      <td>8.723252</td>
-      <td>0.804452</td>
-      <td>3.310295</td>
-      <td>7.323147</td>
-      <td>0.775677</td>
-      <td>1.448527</td>
-      <td>5.009157</td>
-      <td>0.725449</td>
-      <td>3.048245</td>
-      <td>6.917857</td>
-      <td>0.800418</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2.822352</td>
-      <td>6.531292</td>
-      <td>0.831425</td>
-      <td>2.364320</td>
-      <td>6.271192</td>
-      <td>0.755468</td>
-      <td>2.058343</td>
-      <td>6.708026</td>
-      <td>0.574828</td>
-      <td>3.225978</td>
-      <td>7.332627</td>
-      <td>0.753966</td>
-      <td>3.250892</td>
-      <td>7.530128</td>
-      <td>0.720456</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>3.679158</td>
-      <td>8.093276</td>
-      <td>0.705845</td>
-      <td>5.297203</td>
-      <td>9.136169</td>
-      <td>0.797495</td>
-      <td>4.501827</td>
-      <td>8.600952</td>
-      <td>0.764726</td>
-      <td>7.254663</td>
-      <td>10.633285</td>
-      <td>0.806292</td>
-      <td>2.190658</td>
-      <td>5.766929</td>
-      <td>0.827743</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="ne">NameError</span>: name &#39;ddf_transformed&#39; is not defined
+</pre></div>
 </div>
+</div>
+</div>
+<p>Here are the results of the logistic regression</p>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Baseline_LR</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the results of the random forest</p>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baseline_RF</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">baseline_RF</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="testing-on-cartoradio-data">
+<h3>Testing on CARTORADIO data<a class="headerlink" href="#testing-on-cartoradio-data" title="Permalink to this heading">#</a></h3>
+<p>CARTORADIO data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification models already used, whether the configuration do present some repulsion.</p>
+<p>The initial data (positions of the  antennas) cover a large area of the city of Paris (see <a class="reference internal" href="#cartoradio-fig"><span class="std std-numref">Fig. 4</span></a>(right))
+With a real dataset,  we often encounter the problem of heterogeneity between the different parts of the configurations since they depend on the topology  of the space in which the antennas are placed.</p>
+<p>To cope with this problem, we  extract from each configuration a representative sample similar to the type of training data so that the tests make sense. <a class="reference internal" href="#cartoradio-fig"><span class="std std-numref">Fig. 4</span></a> (left) shows a sample extracted from a given configuration.</p>
+<figure class="align-default" id="cartoradio-fig">
+<img alt="_images/cartoradio.png" src="_images/cartoradio.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">On the left, Initial cartoradio configuration. On the right, Sample extracted from it and scaled.</span><a class="headerlink" href="#cartoradio-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In the following, we  read the CARTORADIA directly from the “data_cartoradio.csv” file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Useful functions to transform the CARTORADIO data</span>
+
+<span class="k">def</span> <span class="nf">update_df</span><span class="p">(</span><span class="n">odf</span><span class="p">):</span> 
+    <span class="n">converted_V</span> <span class="o">=</span> <span class="n">odf</span><span class="p">[</span><span class="s1">&#39;Voronoi_areas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">converted_P</span> <span class="o">=</span> <span class="n">odf</span><span class="p">[</span><span class="s1">&#39;Voronoi_perim&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    
+    <span class="n">list_V</span> <span class="o">=</span> <span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">converted_V</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    <span class="n">list_P</span> <span class="o">=</span> <span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">converted_P</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    
+    <span class="n">list_N</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">list_V</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    
+    <span class="p">[</span><span class="n">MV5</span><span class="p">,</span> <span class="n">MV10</span><span class="p">,</span> <span class="n">MV15</span><span class="p">,</span> <span class="n">MV20</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_mean</span><span class="p">(</span><span class="n">list_V</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">]]</span>
+    <span class="p">[</span><span class="n">MP5</span><span class="p">,</span> <span class="n">MP10</span><span class="p">,</span> <span class="n">MP15</span><span class="p">,</span> <span class="n">MP20</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_mean</span><span class="p">(</span><span class="n">list_P</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">]]</span>
+    
+    <span class="n">normalized_V10</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalize</span><span class="p">(</span><span class="n">list_V</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    <span class="n">normalized_P10</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalize</span><span class="p">(</span><span class="n">list_P</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">odf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    
+    <span class="p">[</span><span class="n">V1</span><span class="p">,</span> <span class="n">V2</span><span class="p">,</span> <span class="n">V3</span><span class="p">,</span> <span class="n">V4</span><span class="p">,</span> <span class="n">V5</span><span class="p">,</span> <span class="n">V6</span><span class="p">,</span> <span class="n">V7</span><span class="p">,</span> <span class="n">V8</span><span class="p">,</span> <span class="n">V9</span><span class="p">,</span> <span class="n">V10</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">single_area</span><span class="p">(</span><span class="n">normalized_V10</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">P3</span><span class="p">,</span> <span class="n">P4</span><span class="p">,</span> <span class="n">P5</span><span class="p">,</span> <span class="n">P6</span><span class="p">,</span> <span class="n">P7</span><span class="p">,</span> <span class="n">P8</span><span class="p">,</span> <span class="n">P9</span><span class="p">,</span> <span class="n">P10</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">single_area</span><span class="p">(</span><span class="n">normalized_P10</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+    
+    <span class="n">dict_df</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;V1&#39;</span><span class="p">:</span><span class="n">V1</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">:</span><span class="n">V2</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">:</span><span class="n">V3</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">:</span><span class="n">V4</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">:</span><span class="n">V5</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">:</span><span class="n">V6</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">:</span><span class="n">V7</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">:</span><span class="n">V8</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">:</span><span class="n">V9</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">:</span><span class="n">V10</span><span class="p">,</span>
+               <span class="s1">&#39;MV5&#39;</span><span class="p">:</span><span class="n">MV5</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">:</span><span class="n">MV10</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">:</span><span class="n">MV15</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">:</span><span class="n">MV20</span><span class="p">,</span>
+               <span class="s1">&#39;P1&#39;</span><span class="p">:</span><span class="n">P1</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">:</span><span class="n">P2</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">:</span><span class="n">P3</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">:</span><span class="n">P4</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">:</span><span class="n">P5</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">:</span><span class="n">P6</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">:</span><span class="n">P7</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">:</span><span class="n">P8</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">:</span><span class="n">P9</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">:</span><span class="n">P10</span><span class="p">,</span>
+               <span class="s1">&#39;MP5&#39;</span><span class="p">:</span><span class="n">MP5</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">:</span><span class="n">MP10</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">:</span><span class="n">MP15</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">:</span><span class="n">MP20</span><span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">list_N</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dict_df</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">models_input</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">data0</span> <span class="o">=</span> <span class="n">create_dataframe</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">observations</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">data1</span> <span class="o">=</span> <span class="n">transform_df</span><span class="p">(</span><span class="n">data0</span><span class="p">)</span>
+    
+    <span class="n">model_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;V1&#39;</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV5&#39;</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP5&#39;</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">]</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_voronoi_cartoradio.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">list_N</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">update_df</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">list_N</span><span class="p">)</span>
+<span class="n">data_test</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that the data are read and transformed, we gather the observations by the number of points <span class="math notranslate nohighlight">\(N\)</span> and then create the models inputs for each value of <span class="math notranslate nohighlight">\(N\)</span> using the function <em>models_input(N)</em>. This task takes so much time to be executed that we got a time-out error on the GitHub server. That’s why we prepared locally, for each value of <span class="math notranslate nohighlight">\(N\)</span>, a file containing the data created locally, and we  read the files directly.</p>
+<section id="n-31">
+<h4>N = 31<a class="headerlink" href="#n-31" title="Permalink to this heading">#</a></h4>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data31</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_31.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X31</span> <span class="o">=</span> <span class="n">data31</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y31</span> <span class="o">=</span> <span class="n">data31</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X31_train</span><span class="p">,</span> <span class="n">X31_test</span><span class="p">,</span> <span class="n">y31_train</span><span class="p">,</span> <span class="n">y31_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X31</span><span class="p">,</span> <span class="n">y31</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_31</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 31&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X31_train</span><span class="p">,</span> <span class="n">y31_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X31_train</span><span class="p">,</span> <span class="n">y31_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_31</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="n-23">
+<h4>N = 23<a class="headerlink" href="#n-23" title="Permalink to this heading">#</a></h4>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data23</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_23.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X23</span> <span class="o">=</span> <span class="n">data23</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y23</span> <span class="o">=</span> <span class="n">data23</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X23_train</span><span class="p">,</span> <span class="n">X23_test</span><span class="p">,</span> <span class="n">y23_train</span><span class="p">,</span> <span class="n">y23_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X23</span><span class="p">,</span> <span class="n">y23</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_23</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">1</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 23&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X23_train</span><span class="p">,</span> <span class="n">y23_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X23_train</span><span class="p">,</span> <span class="n">y23_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_23</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="n-22">
+<h4>N = 22<a class="headerlink" href="#n-22" title="Permalink to this heading">#</a></h4>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data22</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_22.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X22</span> <span class="o">=</span> <span class="n">data22</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y22</span> <span class="o">=</span> <span class="n">data22</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X22_train</span><span class="p">,</span> <span class="n">X22_test</span><span class="p">,</span> <span class="n">y22_train</span><span class="p">,</span> <span class="n">y22_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X22</span><span class="p">,</span> <span class="n">y22</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_22</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 22&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X22_train</span><span class="p">,</span> <span class="n">y22_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X22_train</span><span class="p">,</span> <span class="n">y22_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_22</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="n-24">
+<h4>N = 24<a class="headerlink" href="#n-24" title="Permalink to this heading">#</a></h4>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data24</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_24.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X24</span> <span class="o">=</span> <span class="n">data24</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y24</span> <span class="o">=</span> <span class="n">data24</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X24_train</span><span class="p">,</span> <span class="n">X24_test</span><span class="p">,</span> <span class="n">y24_train</span><span class="p">,</span> <span class="n">y24_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X24</span><span class="p">,</span> <span class="n">y24</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_24</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 24&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X24_train</span><span class="p">,</span> <span class="n">y24_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X24_train</span><span class="p">,</span> <span class="n">y24_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_24</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="n-46">
+<h4>N = 46<a class="headerlink" href="#n-46" title="Permalink to this heading">#</a></h4>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data46</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_46.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X46</span> <span class="o">=</span> <span class="n">data46</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y46</span> <span class="o">=</span> <span class="n">data46</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X46_train</span><span class="p">,</span> <span class="n">X46_test</span><span class="p">,</span> <span class="n">y46_train</span><span class="p">,</span> <span class="n">y46_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X46</span><span class="p">,</span> <span class="n">y46</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_46</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">5</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 46&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X46_train</span><span class="p">,</span> <span class="n">y46_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_46</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_46</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X46_train</span><span class="p">,</span> <span class="n">y46_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_46</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_46</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="n-29">
+<h4>N = 29<a class="headerlink" href="#n-29" title="Permalink to this heading">#</a></h4>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data29</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_29.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">X29</span> <span class="o">=</span> <span class="n">data29</span><span class="p">[</span><span class="n">model_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y29</span> <span class="o">=</span> <span class="n">data29</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X29_train</span><span class="p">,</span> <span class="n">X29_test</span><span class="p">,</span> <span class="n">y29_train</span><span class="p">,</span> <span class="n">y29_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X29</span><span class="p">,</span> <span class="n">y29</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test_29</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">8</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N = 29&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logistic Regression Results&#39;</span><span class="p">)</span>
+<span class="n">Baseline_LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X29_train</span><span class="p">,</span> <span class="n">y29_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Baseline_LR</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Random Forest Results&#39;</span><span class="p">)</span>
+<span class="n">baseline_RF</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X29_train</span><span class="p">,</span> <span class="n">y29_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">baseline_RF</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data_test_29</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can notice that the classification results are mostly positive, which means that the majority of the samples taken from the CARTORADIO data can be decided as repulsive configurations which is consistent with our starting hypothesis. For the configurations whose results were as non-repulsive, we can say that this is due to one of the two following reasons:</p>
+<ul class="simple">
+<li><p>As long as we are dealing with real data, these two samples may be a non-repulsive ones and the results are actually coherent.</p></li>
+<li><p>It is sure that the accuracy of our models is very high, but we may have some classification errors, which means that even if the configuration is repulsive, the model decides that it is not.</p></li>
+</ul>
+</section>
+</section>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="conclusion">
 <h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h1>
-<p>In this paper it has been shown numerically (based on the theoretical results in <span id="id19">[<a class="reference internal" href="#id27" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification models described earlier.</p>
+<p>In this paper it has been shown numerically (based on the theoretical results in <span id="id20">[<a class="reference internal" href="#id28" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification models described earlier.</p>
 <p>Once the models are trained and tested on the data created, they are tested after that on real data, which are the positions of a mobile phone base stations in PARIS. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained models.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="bibliography">
 <h1>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this heading">#</a></h1>
-<div class="docutils container" id="id20">
-<div class="citation" id="id24" role="doc-biblioentry">
+<div class="docutils container" id="id21">
+<div class="citation" id="id25" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. <em>Foundations and Trends® in Networking</em>, 3(3–4):249–449, 2008. <a class="reference external" href="https://doi.org/10.1561/1300000006">doi:10.1561/1300000006</a>.</p>
 </div>
-<div class="citation" id="id23" role="doc-biblioentry">
+<div class="citation" id="id24" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
 <p>ANFR. Https://www.cartoradio.fr. URL: <a class="reference external" href="https://www.cartoradio.fr">https://www.cartoradio.fr</a>.</p>
 </div>
-<div class="citation" id="id26" role="doc-biblioentry">
+<div class="citation" id="id27" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
 <p>Na Deng, Wuyang Zhou, and Martin Haenggi. The ginibre point process as a model for wireless networks with repulsion. <em>IEEE Transactions on Wireless Communications</em>, 2015. <a class="reference external" href="https://arxiv.org/abs/1401.3677v1">arXiv:1401.3677v1</a>.</p>
 </div>
-<div class="citation" id="id30" role="doc-biblioentry">
+<div class="citation" id="id31" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
 <p>Naoto Miyoshi and Tomoyuki Shirai. Spatial modeling and analysis of cellular networks using the Ginibre point process: a tutorial. <em>IEICE Transactions on Communications</em>, E99.B(11):2247–2255, 2016. <a class="reference external" href="https://doi.org/10.1587/transcom.2016nei0001">doi:10.1587/transcom.2016nei0001</a>.</p>
 </div>
-<div class="citation" id="id28" role="doc-biblioentry">
+<div class="citation" id="id29" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
 <p>Jean-Sébastien Gomez, Aurélien Vasseur, Anaïs Vergne, Philippe Martins, Laurent Decreusefond, and Wei Chen. A case study on regularity in cellular network deployment. <em>IEEE Wireless Communications Letters, IEEE, 2015, pp.4</em>, 2015. <a class="reference external" href="https://arxiv.org/abs/1505.06073v1">arXiv:1505.06073v1</a>.</p>
 </div>
-<div class="citation" id="id27" role="doc-biblioentry">
+<div class="citation" id="id28" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id8">2</a>,<a role="doc-backlink" href="#id16">3</a>,<a role="doc-backlink" href="#id18">4</a>,<a role="doc-backlink" href="#id19">5</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id8">2</a>,<a role="doc-backlink" href="#id16">3</a>,<a role="doc-backlink" href="#id18">4</a>,<a role="doc-backlink" href="#id20">5</a>)</span>
 <p>André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. <em>The Annals of Applied Probability</em>, 20(1):90–128, February 2010. <a class="reference external" href="https://arxiv.org/abs/math/0610243">arXiv:math/0610243</a>, <a class="reference external" href="https://doi.org/10.1214/09-AAP620">doi:10.1214/09-AAP620</a>.</p>
 </div>
-<div class="citation" id="id36" role="doc-biblioentry">
+<div class="citation" id="id37" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id7">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
 <p>D. B. Taylor, H. S. Dhillon, T. D. Novlan, and J. G. Andrews. Pairwise interaction processes for modeling cellular network topology. In <em>Globecom</em>. 2012. <a class="reference external" href="https://doi.org/10.1109/glocom.2012.6503831">doi:10.1109/glocom.2012.6503831</a>.</p>
 </div>
-<div class="citation" id="id35" role="doc-biblioentry">
+<div class="citation" id="id36" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id10">1</a>,<a role="doc-backlink" href="#id15">2</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id10">1</a>,<a role="doc-backlink" href="#id15">2</a>,<a role="doc-backlink" href="#id19">3</a>)</span>
 <p>Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. <em>Mod. Stoch. Theory Appl.</em>, 8(2):209–237, 2021.</p>
 </div>
-<div class="citation" id="id37" role="doc-biblioentry">
+<div class="citation" id="id38" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">9</a><span class="fn-bracket">]</span></span>
 <p>L. Decreusefond and A. Vasseur. Asymptotics of superposition of point processes. In <em>Geometry of Science Information</em>. Palaiseau, October 2015.</p>
 </div>
-<div class="citation" id="id33" role="doc-biblioentry">
+<div class="citation" id="id34" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">10</a><span class="fn-bracket">]</span></span>
 <p>D. J. Daley and D. Vere-Jones. <em>An introduction to the theory of point processes. Vol. I</em>. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.</p>
 </div>
-<div class="citation" id="id38" role="doc-biblioentry">
+<div class="citation" id="id39" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">11</a><span class="fn-bracket">]</span></span>
 <p>L. Decreusefond, I. Flint, and A. Vergne. A note on the simulation of the Ginibre point process. <em>Journal of Applied Probability</em>, 52(04):1003–1012, dec 2015. <a class="reference external" href="https://arxiv.org/abs/1310.0800v2">arXiv:1310.0800v2</a>, <a class="reference external" href="https://doi.org/10.1239/jap/1450802749">doi:10.1239/jap/1450802749</a>.</p>
 </div>
-<div class="citation" id="id29" role="doc-biblioentry">
+<div class="citation" id="id30" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">12</a><span class="fn-bracket">]</span></span>
 <p>J. B. Hough, M. Krishnapur, Y. Peres, and B. Virág. Determinantal processes and independence. <em>Probability Surveys</em>, 3:206–229 (electronic), 2006.</p>
 </div>
-<div class="citation" id="id25" role="doc-biblioentry">
+<div class="citation" id="id26" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">13</a><span class="fn-bracket">]</span></span>
 <p>F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume II Applications. <em>Foundations and Trends® in Networking</em>, 4(1–2):1–312, 2009. <a class="reference external" href="https://doi.org/10.1561/1300000026">doi:10.1561/1300000026</a>.</p>
 </div>
@@ -928,6 +1094,18 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of CARTORADIO data</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-approach">Machine Learning approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-models">Classification models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-on-cartoradio-data">Testing on CARTORADIO data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-31">N = 31</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-23">N = 23</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-22">N = 22</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-24">N = 24</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-46">N = 46</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#n-29">N = 29</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
