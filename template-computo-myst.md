@@ -14,6 +14,8 @@ kernelspec:
   name: python3
 ---
 
+# Point process discrimination according to repulsion
+
 # Abstract
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
 
@@ -321,9 +323,32 @@ ginibre_data_2 = pd.read_csv('ginibre_5cells.csv', sep=',')
 Here is an example of the data created of configurations of $0.7$-Ginibre and poisson processes with one cell:
 
 ```{code-cell} ipython3
-:tags: [show-output, show-input]
+:tags: [show-output, hide-input]
 
 beta_ginibre_data_1.head()
+```
+Before starting the model's training using the data generated, we will scale the data in order to avoir the concern of overfitting. Here is an example of the scaling of the previous data:
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+b_ginibre_1 = beta_ginibre_data_1.copy()
+for col in beta_ginibre_data_1.columns[:-1]:
+    b_ginibre_1[col] = (b_ginibre_1[col] - b_ginibre_1[col].mean()) / b_ginibre_1[col].std()
+
+ginibre_1 = ginibre_data_1.copy()
+for col in ginibre_data_1.columns[:-1]:
+    ginibre_1[col] = (ginibre_1[col] - ginibre_1[col].mean()) / ginibre_1[col].std()
+
+b_ginibre_2 = beta_ginibre_data_2.copy()
+for col in beta_ginibre_data_2.columns[:-1]:
+    b_ginibre_2[col] = (b_ginibre_2[col] - b_ginibre_2[col].mean()) / b_ginibre_2[col].std()
+
+ginibre_2 = ginibre_data_2.copy()
+for col in ginibre_data_2.columns[:-1]:
+    ginibre_2[col] = (ginibre_2[col] - ginibre_2[col].mean()) / ginibre_2[col].std()
+    
+b_ginibre_1.head()
 ```
 
 ## Classification models
