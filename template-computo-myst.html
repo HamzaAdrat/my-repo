@@ -638,6 +638,89 @@ Compiling functions ...
 </details>
 </div>
 <p>As the generation of data requires considerable execution time, we will prepare the data locally (using the previous code), by generating, for each classification, a sample of <span class="math notranslate nohighlight">\(5000\)</span> observations (<span class="math notranslate nohighlight">\(2500\)</span> repulsive and <span class="math notranslate nohighlight">\(2500\)</span> non-repulsive) of <span class="math notranslate nohighlight">\(N = 50\)</span> points. Then we read them directly as follows:</p>
+<div class="cell tag_hide-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_ginibre_data_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;beta_ginibre_1cell.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">ginibre_data_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ginibre_1cell.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+<span class="n">beta_ginibre_data_2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;beta_ginibre_5cells.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">ginibre_data_2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ginibre_5cells.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here is an example of the data created of configurations of <span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre and poisson processes with one cell:</p>
+<div class="cell tag_show-output tag_show-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_ginibre_data_1</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>S1</th>
+      <th>P1</th>
+      <th>R1</th>
+      <th>process</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.282609</td>
+      <td>6.851499</td>
+      <td>0.878735</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.229371</td>
+      <td>7.052515</td>
+      <td>0.815905</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.542461</td>
+      <td>9.335383</td>
+      <td>0.799187</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.409986</td>
+      <td>8.318448</td>
+      <td>0.619267</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.336329</td>
+      <td>8.748695</td>
+      <td>0.711944</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 </section>
 <section id="classification-models">
 <h2>Classification models<a class="headerlink" href="#classification-models" title="Permalink to this heading">#</a></h2>
@@ -714,7 +797,7 @@ Compiling functions ...
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">56</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">56</span>
 <span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="n">model_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;V1&#39;</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV5&#39;</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">,</span>
 <span class="g g-Whitespace">     </span><span class="mi">55</span>              <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP5&#39;</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">]</span>
