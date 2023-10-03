@@ -1047,11 +1047,13 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 <span class="n">cartoradio</span><span class="p">[</span><span class="s1">&#39;R5&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">cartoradio</span><span class="o">.</span><span class="n">A5</span><span class="o">/</span><span class="p">(</span><span class="n">cartoradio</span><span class="o">.</span><span class="n">P5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="n">cartoradio</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;A1&#39;</span><span class="p">:</span> <span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">:</span> <span class="s1">&#39;S2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">:</span><span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="s1">&#39;A4&#39;</span><span class="p">:</span><span class="s1">&#39;S4&#39;</span><span class="p">,</span> <span class="s1">&#39;A5&#39;</span><span class="p">:</span><span class="s1">&#39;S5&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cartoradio</span> <span class="o">=</span> <span class="n">cartoradio</span><span class="p">[[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;R1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;R2&#39;</span><span class="p">,</span> <span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;R3&#39;</span><span class="p">,</span> <span class="s1">&#39;S4&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;R4&#39;</span><span class="p">,</span> <span class="s1">&#39;S5&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;R5&#39;</span><span class="p">]]</span>
 
 <span class="n">cartoradio_scaled</span> <span class="o">=</span> <span class="n">cartoradio</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cartoradio</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
     <span class="n">cartoradio_scaled</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cartoradio_scaled</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">cartoradio_scaled</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">cartoradio_scaled</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 
+<span class="n">cartoradio_scaled_1</span> <span class="o">=</span> <span class="n">cartoradio_scaled</span><span class="p">[[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;R1&#39;</span><span class="p">]]</span>
 <span class="n">cartoradio_scaled</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1077,19 +1079,19 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
     <tr style="text-align: right;">
       <th></th>
       <th>S1</th>
-      <th>S2</th>
-      <th>S3</th>
-      <th>S4</th>
-      <th>S5</th>
       <th>P1</th>
-      <th>P2</th>
-      <th>P3</th>
-      <th>P4</th>
-      <th>P5</th>
       <th>R1</th>
+      <th>S2</th>
+      <th>P2</th>
       <th>R2</th>
+      <th>S3</th>
+      <th>P3</th>
       <th>R3</th>
+      <th>S4</th>
+      <th>P4</th>
       <th>R4</th>
+      <th>S5</th>
+      <th>P5</th>
       <th>R5</th>
     </tr>
   </thead>
@@ -1097,96 +1099,229 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
     <tr>
       <th>0</th>
       <td>0.666867</td>
-      <td>-1.320617</td>
-      <td>-0.096326</td>
-      <td>-0.669259</td>
-      <td>-0.308449</td>
       <td>0.552371</td>
-      <td>-0.826125</td>
-      <td>-0.168613</td>
-      <td>-0.213674</td>
-      <td>0.204442</td>
       <td>0.771643</td>
+      <td>-1.320617</td>
+      <td>-0.826125</td>
       <td>-0.776361</td>
+      <td>-0.096326</td>
+      <td>-0.168613</td>
       <td>0.404993</td>
+      <td>-0.669259</td>
+      <td>-0.213674</td>
       <td>-1.681895</td>
+      <td>-0.308449</td>
+      <td>0.204442</td>
       <td>0.710274</td>
     </tr>
     <tr>
       <th>1</th>
       <td>-0.671167</td>
-      <td>0.190101</td>
-      <td>0.631242</td>
-      <td>-1.348825</td>
-      <td>0.554746</td>
       <td>-0.539183</td>
-      <td>0.256283</td>
-      <td>0.372228</td>
-      <td>-1.325250</td>
-      <td>0.445616</td>
       <td>-0.749317</td>
+      <td>0.190101</td>
+      <td>0.256283</td>
       <td>-0.237297</td>
+      <td>0.631242</td>
+      <td>0.372228</td>
       <td>1.268942</td>
+      <td>-1.348825</td>
+      <td>-1.325250</td>
       <td>-1.007578</td>
+      <td>0.554746</td>
+      <td>0.445616</td>
       <td>0.792127</td>
     </tr>
     <tr>
       <th>2</th>
       <td>-0.217555</td>
-      <td>0.020793</td>
-      <td>-1.264007</td>
-      <td>0.778718</td>
-      <td>-0.540157</td>
       <td>-0.375224</td>
-      <td>-0.495321</td>
-      <td>-1.425377</td>
-      <td>0.508199</td>
-      <td>-0.839995</td>
       <td>0.929404</td>
+      <td>0.020793</td>
+      <td>-0.495321</td>
       <td>1.305963</td>
+      <td>-1.264007</td>
+      <td>-1.425377</td>
       <td>-0.384128</td>
+      <td>0.778718</td>
+      <td>0.508199</td>
       <td>1.288062</td>
+      <td>-0.540157</td>
+      <td>-0.839995</td>
       <td>0.838547</td>
     </tr>
     <tr>
       <th>3</th>
       <td>0.022384</td>
-      <td>0.718430</td>
-      <td>-0.191550</td>
-      <td>0.982122</td>
-      <td>-0.600881</td>
       <td>0.160723</td>
-      <td>0.472801</td>
-      <td>-0.088225</td>
-      <td>0.780987</td>
-      <td>-1.105307</td>
       <td>-0.473342</td>
+      <td>0.718430</td>
+      <td>0.472801</td>
       <td>0.225675</td>
+      <td>-0.191550</td>
+      <td>-0.088225</td>
       <td>-0.237366</td>
+      <td>0.982122</td>
+      <td>0.780987</td>
       <td>1.037943</td>
+      <td>-0.600881</td>
+      <td>-1.105307</td>
       <td>0.877342</td>
     </tr>
     <tr>
       <th>4</th>
       <td>2.098913</td>
-      <td>1.381928</td>
-      <td>1.978979</td>
-      <td>-0.502795</td>
-      <td>-1.050843</td>
       <td>1.686911</td>
-      <td>1.424882</td>
-      <td>1.785494</td>
-      <td>-0.128419</td>
-      <td>-1.077248</td>
       <td>1.622808</td>
+      <td>1.381928</td>
+      <td>1.424882</td>
       <td>-0.729521</td>
+      <td>1.978979</td>
+      <td>1.785494</td>
       <td>0.952267</td>
+      <td>-0.502795</td>
+      <td>-0.128419</td>
       <td>-1.289489</td>
+      <td>-1.050843</td>
+      <td>-1.077248</td>
       <td>0.791146</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
+</div>
+<p>Here are the results of the tests on the cartoradio data using each model already trained, showing the classification value and its probability for each observation.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre Vs Poisson using the central cell:</p></li>
+</ul>
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classification results:&#39;</span><span class="p">,</span> <span class="n">beta_LR1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cartoradio_scaled_1</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classification probabilities:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">beta_LR1</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cartoradio_scaled_1</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classification results: [0 0 1 0 0 0 0 1 1 1]
+Classification probabilities:
+ [[0.50899884 0.49100116]
+ [0.50682787 0.49317213]
+ [0.32945666 0.67054334]
+ [0.56881892 0.43118108]
+ [0.70288621 0.29711379]
+ [0.82576939 0.17423061]
+ [0.59513612 0.40486388]
+ [0.48556473 0.51443527]
+ [0.26548525 0.73451475]
+ [0.32048159 0.67951841]]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Ginibre Vs Poisson using the central cell:</p></li>
+</ul>
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classification results:&#39;</span><span class="p">,</span> <span class="n">LR1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cartoradio_scaled_1</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classification probabilities:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">LR1</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cartoradio_scaled_1</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classification results: [0 0 1 0 0 0 0 1 1 1]
+Classification probabilities:
+ [[0.53921238 0.46078762]
+ [0.51718021 0.48281979]
+ [0.21820399 0.78179601]
+ [0.63275798 0.36724202]
+ [0.86608324 0.13391676]
+ [0.94844677 0.05155323]
+ [0.67866702 0.32133298]
+ [0.47846419 0.52153581]
+ [0.13668011 0.86331989]
+ [0.20397696 0.79602304]]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre Vs Poisson using the five central cell:</p></li>
+</ul>
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classification results:&#39;</span><span class="p">,</span> <span class="n">beta_LR2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cartoradio_scaled</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classification probabilities:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">beta_LR2</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cartoradio_scaled</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classification results: [1 0 1 0 0 0 1 1 1 1]
+Classification probabilities:
+ [[0.09840518 0.90159482]
+ [0.51964363 0.48035637]
+ [0.26732353 0.73267647]
+ [0.64571589 0.35428411]
+ [0.78607822 0.21392178]
+ [0.84358136 0.15641864]
+ [0.26659285 0.73340715]
+ [0.23202252 0.76797748]
+ [0.17172631 0.82827369]
+ [0.07726097 0.92273903]]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Ginibre Vs Poisson using the five central cell:</p></li>
+</ul>
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classification results:&#39;</span><span class="p">,</span> <span class="n">LR2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cartoradio_scaled</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classification probabilities:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">LR2</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cartoradio_scaled</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classification results: [1 0 1 0 0 0 1 1 1 1]
+Classification probabilities:
+ [[0.02247336 0.97752664]
+ [0.51484798 0.48515202]
+ [0.22732894 0.77267106]
+ [0.8325097  0.1674903 ]
+ [0.97662433 0.02337567]
+ [0.96091364 0.03908636]
+ [0.27231771 0.72768229]
+ [0.09138561 0.90861439]
+ [0.0856342  0.9143658 ]
+ [0.01795407 0.98204593]]
+</pre></div>
+</div>
+</div>
 </div>
 <p>We can notice that the classification results are mostly positive, which means that the majority of the samples taken from the CARTORADIO data can be decided as repulsive configurations which is consistent with our starting hypothesis. For the configurations whose results were as non-repulsive, we can say that this is due to one of the two following reasons:</p>
 <ul class="simple">
