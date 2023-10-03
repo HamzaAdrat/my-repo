@@ -1,5 +1,5 @@
 ---
-title: "Point process discrimination according to repulsion"
+title: "Point Process Discrimination According to Repulsion"
 # subtitle: "Example based on the myst system"
 author: "Hamza ADRAT and Laurent DECREUSEFOND"
 jupytext:
@@ -14,7 +14,7 @@ kernelspec:
   name: python3
 ---
 
-# Point process discrimination according to repulsion
+# Point Process Discrimination According to Repulsion
 
 # Abstract
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
@@ -350,6 +350,118 @@ for col in ginibre_data_2.columns[:-1]:
     
 b_ginibre_1.head()
 ```
+Now that the data is gathered, we will train the Logistic Regression model using the baseline model, i.e. all the hyperparameters' values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters). Other classification models (Random Forest, Support Vector Machine and XGBoost) have been tested but did not yield more significant results than the chosen classifier. We split each data to a train data and test data in order to see the model's accuracy before testing it on the cartoradio data.
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.linear_model import LogisticRegression
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, classification_report, roc_curve, roc_auc_score
+
+# Useful function for evaluating our model:
+
+def model_Evaluate(model, x_tt, y_tt):
+    y_pred = model.predict(x_tt)
+    print(classification_report(y_tt, y_pred))
+    
+    cf_matrix = confusion_matrix(y_tt, y_pred)
+    categories  = ['Negative','Positive']
+    group_names = ['True Neg','False Pos', 'False Neg','True Pos']
+    group_percentages = ['{0:.2%}'.format(value) for value in cf_matrix.flatten() / np.sum(cf_matrix)]
+
+    labels = [f'{v1}\n{v2}' for v1, v2 in zip(group_names,group_percentages)]
+    labels = np.asarray(labels).reshape(2,2)
+    
+    logit_roc_auc = roc_auc_score(y_tt, model.predict(x_tt))
+    fpr, tpr, thresholds = roc_curve(y_tt, model.predict_proba(x_tt)[:,1])
+    
+    fig = plt.figure(figsize=(12, 5))
+    # Adds subplot on position 1
+    ax = fig.add_subplot(121)
+    sns.heatmap(cf_matrix, annot = labels, cmap = 'Blues',fmt = '', xticklabels = categories, yticklabels = categories)
+    ax.set_title("Confusion Matrix", fontdict = font)
+    ax.set(xlabel='Predicted values', ylabel='Actual values')
+
+    # Adds subplot on position 2
+    ax = fig.add_subplot(122)
+    ax.plot(fpr, tpr, label='area = %0.2f' % logit_roc_auc)
+    ax.plot([0, 1], [0, 1],'r--', label='Standard')
+    ax.set_xlim([-0.02, 1.02])
+    ax.set_ylim([0.0, 1.05])
+    
+    thresholds_rounded = [round(num, 1) for num in thresholds]
+    for threshold in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]:
+        if threshold in thresholds_rounded:
+            index = thresholds_rounded.index(threshold)
+            ax.annotate(threshold, (fpr[index], tpr[index]))
+
+    ax.set_title('Receiver Operating Characteristic (ROC)')
+    ax.set(xlabel='False Positive Rate (1-specificity)', ylabel='True Positive Rate (sensitivity)')
+    ax.legend(loc="lower right")
+    ax.grid()
+    plt.show()
+
+```
+Here are the results of the classification using each data:
+- $0.7$-Ginibre Vs Poisson using the central cell:
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+beta_X1 = b_ginibre_1[['S1', 'P1', 'R1']].values
+beta_y1 = b_ginibre_1['process'].values
+beta_X1_train, beta_X1_test, beta_y1_train, beta_y1_test = train_test_split(beta_X1, beta_y1, test_size=0.3, shuffle=True, random_state=7)
+
+beta_LR1 = make_pipeline(StandardScaler(), LogisticRegression())
+beta_LR1.fit(beta_X1_train, beta_y1_train)
+model_Evaluate(beta_LR1, beta_X1_test, beta_y1_test)
+```
+- Ginibre Vs Poisson using the central cell:
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+X1 = ginibre_1[['S1', 'P1', 'R1']].values
+y1 = ginibre_1['process'].values
+X1_train, X1_test, y1_train, y1_test = train_test_split(X1, y1, test_size=0.3, shuffle=True, random_state=7)
+
+LR1 = make_pipeline(StandardScaler(), LogisticRegression())
+LR1.fit(X1_train, y1_train)
+model_Evaluate(LR1, X1_test, y1_test)
+```
+- $0.7$-Ginibre Vs Poisson using the five central cells:
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+beta_X2 = b_ginibre_2[['S1', 'P1', 'R1', 'S2', 'P2', 'R2', 'S3', 'P3', 'R3', 'S4', 'P4', 'R4', 'S5', 'P5', 'R5']].values
+beta_y2 = b_ginibre_2['process'].values
+beta_X2_train, beta_X2_test, beta_y2_train, beta_y2_test = train_test_split(beta_X2, beta_y2, test_size=0.3, shuffle=True, random_state=7)
+
+beta_LR2 = make_pipeline(StandardScaler(), LogisticRegression())
+beta_LR2.fit(beta_X2_train, beta_y2_train)
+model_Evaluate(beta_LR2, beta_X2_test, beta_y2_test)
+```
+- Ginibre Vs Poisson using the five central cells:
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+X2 = ginibre_2[['S1', 'P1', 'R1', 'S2', 'P2', 'R2', 'S3', 'P3', 'R3', 'S4', 'P4', 'R4', 'S5', 'P5', 'R5']].values
+y2 = ginibre_2['process'].values
+X2_train, X2_test, y2_train, y2_test = train_test_split(X2, y2, test_size=0.3, shuffle=True, random_state=7)
+
+LR2 = make_pipeline(StandardScaler(), LogisticRegression())
+LR2.fit(X2_train, y2_train)
+model_Evaluate(LR2, X2_test, y2_test)
+```
+
+
 
 ## Classification models
 

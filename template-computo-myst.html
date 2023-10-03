@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Point process discrimination according to repulsion &#8212; My sample book</title>
+    <title>Point Process Discrimination According to Repulsion &#8212; My sample book</title>
   
   
   
@@ -162,7 +162,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Point process discrimination according to repulsion
+                    Point Process Discrimination According to Repulsion
                 </a>
             </li>
         </ul>
@@ -301,7 +301,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Point process discrimination according to repulsion</h1>
+    <h1>Point Process Discrimination According to Repulsion</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -311,7 +311,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Point process discrimination according to repulsion</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Point Process Discrimination According to Repulsion</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract">Abstract</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">Preliminaries</a></li>
@@ -347,7 +347,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="point-process-discrimination-according-to-repulsion">
-<h1>Point process discrimination according to repulsion<a class="headerlink" href="#point-process-discrimination-according-to-repulsion" title="Permalink to this heading">#</a></h1>
+<h1>Point Process Discrimination According to Repulsion<a class="headerlink" href="#point-process-discrimination-according-to-repulsion" title="Permalink to this heading">#</a></h1>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="abstract">
 <h1>Abstract<a class="headerlink" href="#abstract" title="Permalink to this heading">#</a></h1>
@@ -825,6 +825,210 @@ Compiling functions ...
 </table>
 </div></div></div>
 </div>
+<p>Now that the data is gathered, we will train the Logistic Regression model using the baseline model, i.e. all the hyperparameters’ values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters). Other classification models (Random Forest, Support Vector Machine and XGBoost) have been tested but did not yield more significant results than the chosen classifier. We split each data to a train data and test data in order to see the model’s accuracy before testing it on the cartoradio data.</p>
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+
+<span class="c1"># Useful function for evaluating our model:</span>
+
+<span class="k">def</span> <span class="nf">model_Evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_tt</span><span class="p">,</span> <span class="n">y_tt</span><span class="p">):</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_tt</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+    
+    <span class="n">cf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">categories</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Negative&#39;</span><span class="p">,</span><span class="s1">&#39;Positive&#39;</span><span class="p">]</span>
+    <span class="n">group_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;True Neg&#39;</span><span class="p">,</span><span class="s1">&#39;False Pos&#39;</span><span class="p">,</span> <span class="s1">&#39;False Neg&#39;</span><span class="p">,</span><span class="s1">&#39;True Pos&#39;</span><span class="p">]</span>
+    <span class="n">group_percentages</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0:.2%}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cf_matrix</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cf_matrix</span><span class="p">)]</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">v1</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">v2</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">group_names</span><span class="p">,</span><span class="n">group_percentages</span><span class="p">)]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="n">logit_roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_tt</span><span class="p">))</span>
+    <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_tt</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_tt</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="c1"># Adds subplot on position 1</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cf_matrix</span><span class="p">,</span> <span class="n">annot</span> <span class="o">=</span> <span class="n">labels</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Blues&#39;</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xticklabels</span> <span class="o">=</span> <span class="n">categories</span><span class="p">,</span> <span class="n">yticklabels</span> <span class="o">=</span> <span class="n">categories</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix&quot;</span><span class="p">,</span> <span class="n">fontdict</span> <span class="o">=</span> <span class="n">font</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Predicted values&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Actual values&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Adds subplot on position 2</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;area = </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">logit_roc_auc</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Standard&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">])</span>
+    
+    <span class="n">thresholds_rounded</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">thresholds_rounded</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">thresholds_rounded</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span> <span class="p">(</span><span class="n">fpr</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">tpr</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Receiver Operating Characteristic (ROC)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;False Positive Rate (1-specificity)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;True Positive Rate (sensitivity)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Here are the results of the classification using each data:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre Vs Poisson using the central cell:</p></li>
+</ul>
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_X1</span> <span class="o">=</span> <span class="n">b_ginibre_1</span><span class="p">[[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;R1&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">beta_y1</span> <span class="o">=</span> <span class="n">b_ginibre_1</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">beta_X1_train</span><span class="p">,</span> <span class="n">beta_X1_test</span><span class="p">,</span> <span class="n">beta_y1_train</span><span class="p">,</span> <span class="n">beta_y1_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">beta_X1</span><span class="p">,</span> <span class="n">beta_y1</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">beta_LR1</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">beta_LR1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">beta_X1_train</span><span class="p">,</span> <span class="n">beta_y1_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">beta_LR1</span><span class="p">,</span> <span class="n">beta_X1_test</span><span class="p">,</span> <span class="n">beta_y1_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           0       0.62      0.59      0.60       728
+           1       0.63      0.66      0.64       772
+
+    accuracy                           0.62      1500
+   macro avg       0.62      0.62      0.62      1500
+weighted avg       0.62      0.62      0.62      1500
+</pre></div>
+</div>
+<img alt="_images/042085c9f56dc14cd2a593460a6ea81d06264784493560fbd9e3ef633df8f54b.png" src="_images/042085c9f56dc14cd2a593460a6ea81d06264784493560fbd9e3ef633df8f54b.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>Ginibre Vs Poisson using the central cell:</p></li>
+</ul>
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X1</span> <span class="o">=</span> <span class="n">ginibre_1</span><span class="p">[[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;R1&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">ginibre_1</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X1_train</span><span class="p">,</span> <span class="n">X1_test</span><span class="p">,</span> <span class="n">y1_train</span><span class="p">,</span> <span class="n">y1_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">LR1</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">LR1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X1_train</span><span class="p">,</span> <span class="n">y1_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">LR1</span><span class="p">,</span> <span class="n">X1_test</span><span class="p">,</span> <span class="n">y1_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           0       0.72      0.62      0.67       728
+           1       0.68      0.77      0.73       772
+
+    accuracy                           0.70      1500
+   macro avg       0.70      0.70      0.70      1500
+weighted avg       0.70      0.70      0.70      1500
+</pre></div>
+</div>
+<img alt="_images/2d8dcb8c9c660b532563d6e8e1137d4ebd66549f198e61977419ad6a47a32031.png" src="_images/2d8dcb8c9c660b532563d6e8e1137d4ebd66549f198e61977419ad6a47a32031.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre Vs Poisson using the five central cells:</p></li>
+</ul>
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_X2</span> <span class="o">=</span> <span class="n">b_ginibre_2</span><span class="p">[[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;R1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;R2&#39;</span><span class="p">,</span> <span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;R3&#39;</span><span class="p">,</span> <span class="s1">&#39;S4&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;R4&#39;</span><span class="p">,</span> <span class="s1">&#39;S5&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;R5&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">beta_y2</span> <span class="o">=</span> <span class="n">b_ginibre_2</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">beta_X2_train</span><span class="p">,</span> <span class="n">beta_X2_test</span><span class="p">,</span> <span class="n">beta_y2_train</span><span class="p">,</span> <span class="n">beta_y2_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">beta_X2</span><span class="p">,</span> <span class="n">beta_y2</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">beta_LR2</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">beta_LR2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">beta_X2_train</span><span class="p">,</span> <span class="n">beta_y2_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">beta_LR2</span><span class="p">,</span> <span class="n">beta_X2_test</span><span class="p">,</span> <span class="n">beta_y2_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           0       0.74      0.68      0.71       728
+           1       0.72      0.77      0.74       772
+
+    accuracy                           0.73      1500
+   macro avg       0.73      0.73      0.73      1500
+weighted avg       0.73      0.73      0.73      1500
+</pre></div>
+</div>
+<img alt="_images/992d23a5cd22cab767bd27d981d65add5cc35003f5d33e0160f2e7abe382ec23.png" src="_images/992d23a5cd22cab767bd27d981d65add5cc35003f5d33e0160f2e7abe382ec23.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>Ginibre Vs Poisson using the five central cells:</p></li>
+</ul>
+<div class="cell tag_show-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2</span> <span class="o">=</span> <span class="n">ginibre_2</span><span class="p">[[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;R1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;R2&#39;</span><span class="p">,</span> <span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;R3&#39;</span><span class="p">,</span> <span class="s1">&#39;S4&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;R4&#39;</span><span class="p">,</span> <span class="s1">&#39;S5&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;R5&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">ginibre_2</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X2_train</span><span class="p">,</span> <span class="n">X2_test</span><span class="p">,</span> <span class="n">y2_train</span><span class="p">,</span> <span class="n">y2_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">LR2</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">LR2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X2_train</span><span class="p">,</span> <span class="n">y2_train</span><span class="p">)</span>
+<span class="n">model_Evaluate</span><span class="p">(</span><span class="n">LR2</span><span class="p">,</span> <span class="n">X2_test</span><span class="p">,</span> <span class="n">y2_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           0       0.87      0.81      0.84       728
+           1       0.83      0.88      0.86       772
+
+    accuracy                           0.85      1500
+   macro avg       0.85      0.85      0.85      1500
+weighted avg       0.85      0.85      0.85      1500
+</pre></div>
+</div>
+<img alt="_images/d8667274aae2de5cbb228c75e94f2e526a7f2a4dd037dd5efd814fc1395c40bd.png" src="_images/d8667274aae2de5cbb228c75e94f2e526a7f2a4dd037dd5efd814fc1395c40bd.png" />
+</div>
+</div>
 </section>
 <section id="classification-models">
 <h2>Classification models<a class="headerlink" href="#classification-models" title="Permalink to this heading">#</a></h2>
@@ -901,7 +1105,7 @@ Compiling functions ...
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">56</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">56</span>
 <span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="n">model_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;V1&#39;</span><span class="p">,</span> <span class="s1">&#39;V2&#39;</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">,</span> <span class="s1">&#39;V4&#39;</span><span class="p">,</span> <span class="s1">&#39;V5&#39;</span><span class="p">,</span> <span class="s1">&#39;V6&#39;</span><span class="p">,</span> <span class="s1">&#39;V7&#39;</span><span class="p">,</span> <span class="s1">&#39;V8&#39;</span><span class="p">,</span> <span class="s1">&#39;V9&#39;</span><span class="p">,</span> <span class="s1">&#39;V10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV5&#39;</span><span class="p">,</span> <span class="s1">&#39;MV10&#39;</span><span class="p">,</span> <span class="s1">&#39;MV15&#39;</span><span class="p">,</span> <span class="s1">&#39;MV20&#39;</span><span class="p">,</span>
 <span class="g g-Whitespace">     </span><span class="mi">55</span>              <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">,</span> <span class="s1">&#39;P4&#39;</span><span class="p">,</span> <span class="s1">&#39;P5&#39;</span><span class="p">,</span> <span class="s1">&#39;P6&#39;</span><span class="p">,</span> <span class="s1">&#39;P7&#39;</span><span class="p">,</span> <span class="s1">&#39;P8&#39;</span><span class="p">,</span> <span class="s1">&#39;P9&#39;</span><span class="p">,</span> <span class="s1">&#39;P10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP5&#39;</span><span class="p">,</span> <span class="s1">&#39;MP10&#39;</span><span class="p">,</span> <span class="s1">&#39;MP15&#39;</span><span class="p">,</span> <span class="s1">&#39;MP20&#39;</span><span class="p">]</span>
@@ -1275,7 +1479,7 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Point process discrimination according to repulsion</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Point Process Discrimination According to Repulsion</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract">Abstract</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">Preliminaries</a></li>
