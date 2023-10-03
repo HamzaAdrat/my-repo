@@ -14,8 +14,6 @@ kernelspec:
   name: python3
 ---
 
-# Point process discrimination according to repulsion
-
 # Abstract
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
 
@@ -320,12 +318,12 @@ beta_ginibre_data_2 = pd.read_csv('beta_ginibre_5cells.csv', sep=',')
 ginibre_data_2 = pd.read_csv('ginibre_5cells.csv', sep=',')
 ```
 
-Here is an example of the data created of configurations of $0.7$-Ginibre and poisson processes with $5$ cells:
+Here is an example of the data created of configurations of $0.7$-Ginibre and poisson processes with one cell:
 
 ```{code-cell} ipython3
 :tags: [show-output, show-input]
 
-beta_ginibre_data_2.head(6)
+beta_ginibre_data_1.head()
 ```
 
 # Conclusion
