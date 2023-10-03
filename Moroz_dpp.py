@@ -19,7 +19,7 @@ from scipy import optimize as _optimize
 
 from random import randrange, choice
 import matplotlib.pyplot as plt
-# from scipy.spatial import Delaunay
+from scipy.spatial import Delaunay
 
 import tempfile
 import itertools
@@ -343,7 +343,7 @@ def sample(R, N = None, kernel=kernels['ginibre'], precision=2**-53, error=False
     
 # Main script if called from command line
 
-'''
+
 if __name__ == '__main__':
     if args.profile:
         import line_profiler as lp
@@ -363,4 +363,3 @@ if __name__ == '__main__':
 
     # else:
         # qt_sample(args.R, args.N, kernels[args.kernel], args.precision, args.size, args.time, args.error, args.quiet)
-'''
