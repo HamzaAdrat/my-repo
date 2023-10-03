@@ -491,14 +491,48 @@ cartoradio['R4'] = list(4*np.pi*cartoradio.A4/(cartoradio.P4)**2)
 cartoradio['R5'] = list(4*np.pi*cartoradio.A5/(cartoradio.P5)**2)
 
 cartoradio.rename(columns={'A1': 'S1', 'A2': 'S2', 'A3':'S3', 'A4':'S4', 'A5':'S5'}, inplace=True)
+cartoradio = cartoradio[['S1', 'P1', 'R1', 'S2', 'P2', 'R2', 'S3', 'P3', 'R3', 'S4', 'P4', 'R4', 'S5', 'P5', 'R5']]
 
 cartoradio_scaled = cartoradio.copy()
 for col in cartoradio.columns[:-1]:
     cartoradio_scaled[col] = (cartoradio_scaled[col] - cartoradio_scaled[col].mean()) / cartoradio_scaled[col].std()
 
+cartoradio_scaled_1 = cartoradio_scaled[['S1', 'P1', 'R1']]
 cartoradio_scaled.head()
 ```
+Here are the results of the tests on the cartoradio data using each model already trained, showing the classification value and its probability for each observation.
 
+- $0.7$-Ginibre Vs Poisson using the central cell:
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+print('Classification results:', beta_LR1.predict(np.array(cartoradio_scaled_1)))
+print('Classification probabilities:\n', beta_LR1.predict_proba(np.array(cartoradio_scaled_1)))
+```
+
+- Ginibre Vs Poisson using the central cell:
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+print('Classification results:', LR1.predict(np.array(cartoradio_scaled_1)))
+print('Classification probabilities:\n', LR1.predict_proba(np.array(cartoradio_scaled_1)))
+```
+
+- $0.7$-Ginibre Vs Poisson using the five central cell:
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+print('Classification results:', beta_LR2.predict(np.array(cartoradio_scaled)))
+print('Classification probabilities:\n', beta_LR2.predict_proba(np.array(cartoradio_scaled)))
+```
+
+- Ginibre Vs Poisson using the five central cell:
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+print('Classification results:', LR2.predict(np.array(cartoradio_scaled)))
+print('Classification probabilities:\n', LR2.predict_proba(np.array(cartoradio_scaled)))
+```
 
 We can notice that the classification results are mostly positive, which means that the majority of the samples taken from the CARTORADIO data can be decided as repulsive configurations which is consistent with our starting hypothesis. For the configurations whose results were as non-repulsive, we can say that this is due to one of the two following reasons:
 - As long as we are dealing with real data, these two samples may be a non-repulsive ones and the results are actually coherent.
