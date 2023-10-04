@@ -41,7 +41,7 @@ However, for the application we have in mind, which is to decide for one single 
 
 Furthermore, the repulsion in the Ginibre class of point processes can be also modulated by making a $\beta$-thinning (to weaken the repulsion) and then a $\sqrt{\beta}$-dilation (to keep the same intensity of points per surface unit) to obtain what is called a $\beta$-Ginibre. For $\beta=1$, we have the original Ginibre process and when $\beta$ goes to $0$, it tends in law to a Poisson process (see {cite}`DecreusefondAsymptoticssuperpositionpoint2015`) so that we have a full scale of point processes with intermediate repulsion between $0$ and $1$. We show that our logistic regression algorithm can still accurately discriminate between Poisson and $\beta$-repulsive point processes for $\beta$ up to $0.7$.
 
-The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel.
+The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel. Then two approaches are employed, one based on statistics and the other on machine learning, to classify the processes and compare their efficiencies and outcomes. Finally, tests are conducted on the A data.
 
 # Preliminaries
 We consider finite point processes on a bounded window $E$. The law of a such a point process $N$ can be  characterized by its correlation functions (for
@@ -107,7 +107,7 @@ On the left, Voronoi cells associated to a realization of a Ginibre process. On 
 
 As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.
 
-# Classification of CARTORADIO data
+# Classification of Cartoradio data
 The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km$^2$). Hence there is no need to  construct models for these regions.  On the contrary, in big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is  where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure {numref}`paris-orange-fig`.
 
 When it comes to assess the type of point process we should consider in this situation, we cannot consider the city as a whole: the geography (notably the Seine river in Paris, the parks, etc.), the non uniformity of demands (the traffic is heavier aroung railway stations or touristic sites,  for instance) which entails a higher density of antennas,  ruin any kind of invariance a statistician  could hope for. That means, we should restrict our expectations to local models of  the size of a district or a bit more. Since interference, which are the main annoyance to be dealt with, are a local phenomenon, working on a partial part of the whole domain is sufficient to predict the behavior and dimension a wireless network.
@@ -385,7 +385,7 @@ def model_Evaluate(model, x_tt, y_tt):
     ax = fig.add_subplot(121)
     sns.heatmap(cf_matrix, annot = labels, cmap = 'Blues',fmt = '', xticklabels = categories, yticklabels = categories)
     ax.set_title("Confusion Matrix", fontdict = font)
-    ax.set(xlabel='Predicted values', ylabel='Actual values')
+    ax.set(xlabel='Predicted values', ylabel='Actual values', fontdict = font)
 
     # Adds subplot on position 2
     ax = fig.add_subplot(122)
@@ -400,8 +400,8 @@ def model_Evaluate(model, x_tt, y_tt):
             index = thresholds_rounded.index(threshold)
             ax.annotate(threshold, (fpr[index], tpr[index]))
 
-    ax.set_title('Receiver Operating Characteristic (ROC)')
-    ax.set(xlabel='False Positive Rate (1-specificity)', ylabel='True Positive Rate (sensitivity)')
+    ax.set_title('Receiver Operating Characteristic (ROC)', fontdict = font)
+    ax.set(xlabel='False Positive Rate (1-specificity)', ylabel='True Positive Rate (sensitivity)', fontdict = font)
     ax.legend(loc="lower right")
     ax.grid()
     plt.show()
@@ -460,6 +460,7 @@ LR2 = make_pipeline(StandardScaler(), LogisticRegression())
 LR2.fit(X2_train, y2_train)
 model_Evaluate(LR2, X2_test, y2_test)
 ```
+We can notice that our model's accuracy when using the central cell is approximately $70\%$ for the Ginibre and Poisson processes classification. However, when considering the first five central cells, we achieve an accuracy of $85 \%$, a result consistent with our statistical approach. This is because with the five cells, the model has access to more information about the nature of the sample, increasing the likelihood of successful sample classification by taking into account the surface areas and perimeters of the first five central cells.
 
 ## Cartoradio data Tests
 
@@ -517,6 +518,7 @@ print('Classification probabilities:\n', beta_LR1.predict_proba(np.array(cartora
 print('Classification results:', LR1.predict(np.array(cartoradio_scaled_1)))
 print('Classification probabilities:\n', LR1.predict_proba(np.array(cartoradio_scaled_1)))
 ```
+It can be noted that the classification results using only the central cell are not significant enough. This is largely due to the low accuracy of the model used with the central cell, which is normal since the data does not contain enough variables for the model's training.
 
 - $0.7$-Ginibre Vs Poisson using the five central cell:
 
@@ -534,15 +536,15 @@ print('Classification results:', LR2.predict(np.array(cartoradio_scaled)))
 print('Classification probabilities:\n', LR2.predict_proba(np.array(cartoradio_scaled)))
 ```
 
-We can notice that the classification results are mostly positive, which means that the majority of the samples taken from the CARTORADIO data can be decided as repulsive configurations which is consistent with our starting hypothesis. For the configurations whose results were as non-repulsive, we can say that this is due to one of the two following reasons:
-- As long as we are dealing with real data, these two samples may be a non-repulsive ones and the results are actually coherent.
-- It is sure that the accuracy of our models is very high, but we may have some classification errors, which means that even if the configuration is repulsive, the model decides that it is not.
+In contrast, the results found using the five central cells are much better, the majority of configurations are classified as repulsive. Regarding the configurations classified as non-repulsive by our model, we can say that this comes down to one of the following two reasons:
+- As long as we are dealing with real data, these samples may be a non-repulsive ones and the results are actually coherent.
+- It is sure that the accuracy of our models is high, but we may have some classification errors, which means that even if the configuration is repulsive, the model decides that it is not.
 
 # Conclusion
 
-In this paper it has been shown numerically (based on the theoretical results in {cite}`goldman_palm_2010`) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification models described earlier.
+In this paper it has been shown numerically (based on the theoretical results in {cite}`goldman_palm_2010`) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification model described earlier.
 
-Once the models are trained and tested on the data created, they are tested after that on real data, which are the positions of a mobile phone base stations in PARIS. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained models.
+Once the model is trained and tested on the data created, it is tested after that on real data, which are the positions of a mobile phone base stations in Paris. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained model, especially the one classifying Ginibre and poisson processes using the first five central cells.
 
 # Bibliography
 
