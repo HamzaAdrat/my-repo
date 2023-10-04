@@ -22,7 +22,7 @@ In numerous applications, cloud of points do seem to exhibit *repulsion* in the 
 # Introduction
 In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see {cite}`BaccelliStochasticGeometryWireless2008`). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see {cite}`ANFR`, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see {numref}`paris-orange-fig` (left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see {numref}`paris-orange-fig`, right picture).
 
-```{figure} /paris-orange.png
+```{figure} figures/paris-orange.png
 ---
 name: paris-orange-fig
 ---
@@ -98,7 +98,7 @@ where $W$ is a positive random variable.
 
 This theorem shows that near the germs of the cells a more important part of the area is captured in the Ginibre–Voronoi tessellation than in the Poisson–Voronoi tessellation. This is an indication that the Voronoi cells of the Ginibre point process are more circular than those given by the Poisson process. This can be corroborated by simulation as shows the Figure {numref}`voronoi-fig`
 
-```{figure} /Voronoi.png
+```{figure} figures/Voronoi.png
 ---
 name: voronoi-fig
 ---
@@ -259,7 +259,7 @@ The simulation algorithm provides a method for computing the quantity $\mathbb{P
 
 Figure {numref}`simulation-fig` shows the results of the simulations, where we compare the confidence intervals of the poisson process with the Ginibre process and the $0.7$-Ginibre process, using first the central cell and then the five central cells.
 
-```{figure} /simulation.png
+```{figure} figures/simulation.png
 ---
 name: simulation-fig
 ---
@@ -471,7 +471,7 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 
 To cope with this problem, we  extract from each configuration a representative sample similar to the type of training data so that the tests make sense. {numref}`cartoradio-fig` (left) shows a sample extracted from a given configuration.
 
-```{figure} /cartoradio.png
+```{figure} figures/cartoradio.png
 ---
 name: cartoradio-fig
 ---
