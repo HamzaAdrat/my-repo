@@ -385,7 +385,7 @@ def model_Evaluate(model, x_tt, y_tt):
     ax = fig.add_subplot(121)
     sns.heatmap(cf_matrix, annot = labels, cmap = 'Blues',fmt = '', xticklabels = categories, yticklabels = categories)
     ax.set_title("Confusion Matrix", fontdict = font)
-    ax.set(xlabel='Predicted values', ylabel='Actual values', fontdict = font)
+    ax.set(xlabel='Predicted values', ylabel='Actual values')
 
     # Adds subplot on position 2
     ax = fig.add_subplot(122)
@@ -401,7 +401,7 @@ def model_Evaluate(model, x_tt, y_tt):
             ax.annotate(threshold, (fpr[index], tpr[index]))
 
     ax.set_title('Receiver Operating Characteristic (ROC)', fontdict = font)
-    ax.set(xlabel='False Positive Rate (1-specificity)', ylabel='True Positive Rate (sensitivity)', fontdict = font)
+    ax.set(xlabel='False Positive Rate (1-specificity)', ylabel='True Positive Rate (sensitivity)')
     ax.legend(loc="lower right")
     ax.grid()
     plt.show()
