@@ -313,11 +313,11 @@ As the generation of data requires considerable execution time, we will prepare 
 ```{code-cell} ipython3
 :tags: [hide-output, show-input]
 
-beta_ginibre_data_1 = pd.read_csv('beta_ginibre_1cell.csv', sep=',')
-ginibre_data_1 = pd.read_csv('ginibre_1cell.csv', sep=',')
+beta_ginibre_data_1 = pd.read_csv('data/beta_ginibre_1cell.csv', sep=',')
+ginibre_data_1 = pd.read_csv('data/ginibre_1cell.csv', sep=',')
 
-beta_ginibre_data_2 = pd.read_csv('beta_ginibre_5cells.csv', sep=',')
-ginibre_data_2 = pd.read_csv('ginibre_5cells.csv', sep=',')
+beta_ginibre_data_2 = pd.read_csv('data/beta_ginibre_5cells.csv', sep=',')
+ginibre_data_2 = pd.read_csv('data/ginibre_5cells.csv', sep=',')
 ```
 
 Here is an example of the data created of configurations of $0.7$-Ginibre and poisson processes with one cell:
@@ -484,7 +484,7 @@ In the following, we read the cartoradio data directly from the "cartoradio_data
 ```{code-cell} ipython3
 :tags: [show-output, hide-input]
 
-cartoradio = pd.read_csv('cartoradio_data.csv', sep=',')
+cartoradio = pd.read_csv('data/cartoradio_data.csv', sep=',')
 cartoradio['R1'] = list(4*np.pi*cartoradio.A1/(cartoradio.P1)**2)
 cartoradio['R2'] = list(4*np.pi*cartoradio.A2/(cartoradio.P2)**2)
 cartoradio['R3'] = list(4*np.pi*cartoradio.A3/(cartoradio.P3)**2)
