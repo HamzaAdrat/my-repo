@@ -26,8 +26,8 @@ In the performance analysis of cellular systems, the locations of antennas (or b
 name: paris-orange-fig
 ---
 Left: Antennas in Paris. Right: Antennas in one frequency  band only.
-
 ```
+
 In previous papers, point processes with repulsion have been used to model such systems {cite}`Deng2014`, {cite}`Miyoshi2016`, {cite}`Gomez2015` for no reason but a mere resemblance between the pictures like the right picture in {numref}`paris-orange-fig` and those obtained by simulating a point process with repulsion. The question is then to decide, given one sample of positions of base stations in a bounded domain, whether it is more likely to be modeled by a point process with repulsion or by a *neutral* point process, i.e. where the locations could be considered as coming from independent drawings of some identically distributed random variables. As we only have a single realization,  we cannot use frequency methods. Since the observation window is finite, we cannot either resort to estimates based on stationarity or ergodicity and  we must take care from the side effects.
 
 The rationale behind our work comes from {cite}`goldman_palm_2010`. It is shown there that the Voronoi cells of the Ginibre point process (a particular point
@@ -127,9 +127,9 @@ font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 11,}
 ```
 
 ## Statistical approach
-Given a circular domain with $N$ points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will first calculate, for Poisson processes as well as for Ginibres and $\beta$-Ginibres processes, the probability that the ratio $R = \frac{4 \pi S}{P^2}$ of the central cell is less than or equal to $r$, for values of $r$ ranging from $0$ to $1$. And then we will apply the same approach using the mean ratio of the five central cells. Finally, we will calculate $95$% confidence intervals for each of these processes.
+Given a circular domain with $N$ points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will first calculate, for Poisson processes as well as for Ginibre and $\beta$-Ginibre processes, the probability that the ratio $R = \frac{4 \pi S}{P^2}$ of the central cell is less than or equal to $r$, for values of $r$ ranging from $0$ to $1$. And then we  apply the same approach using the mean ratio of the five central cells. Finally, we will calculate $95$% confidence intervals for each of these processes.
 
-The following code illustrates the generation of various point samples and the calculation of ratios by defining the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes. The Ginibre and $\beta$-Ginibre processes are generated using the "sample" function given in the python code of {cite}`MR4279876`.
+The following code illustrates the generation of various point samples and the calculation of the surface to squared perimeter ratios given the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes. The Ginibre and $\beta$-Ginibre processes are generated using the "sample" function given in the python code of {cite}`MR4279876`.
 
 ```{code-cell} ipython3
 :tags: [show-output, hide-input]
@@ -254,7 +254,7 @@ def ratio_poisson(N, cells):
 %run -i Moroz_dpp.py
 ```
 
-The simulation algorithm provides a method for computing the quantity $\mathbb{P} \left( \frac{4 \pi S}{P^2} \le r \right)$ as a function of $r$ for the Ginibres processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the varibale $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously and the functions defined in the previous python code.
+The simulation algorithm provides a method for computing the quantity $\mathbb{P} \left( \frac{4 \pi S}{P^2} \le r \right)$ as a function of $r$ for the Ginibre processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the variable $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously and the functions defined in the previous python code.
 
 Figure {numref}`simulation-fig` shows the results of the simulations, where we compare the confidence intervals of the poisson process with the Ginibre process and the $0.7$-Ginibre process, using first the central cell and then the five central cells.
 
@@ -264,13 +264,13 @@ name: simulation-fig
 ---
 Simulation results using the central cell (up) and the five central cells (down).
 ```
-The limitation of the statistical approach using only the central cell is the presence of some overlap between the confidence intervals of the Poisson process and the $0.7$-Ginibre process. Consequently, in specific cases, it may not be possible to determine the true nature of some processes based on the previous statistical test. However, we can notice that using the five central cells, there is no overlap among the various curves. This is a result of averaging the ratios of the first five central cells instead of restricting the analysis to the first cell alone, a decision that provides more insights about the circular behavior of the cells for each process.
+The limitation of the statistical approach using only the central cell is made visible by the presence of some overlap between the confidence intervals of the Poisson process and that of the $0.7$-Ginibre process. Consequently, in specific cases, it may not be possible to determine the true nature of some processes based on this statistical test. On the other hand, if we average the ratio of the five most central cells (the cells whose centers are the closest to the origin), there is no longer an overlap among the various curves. 
 
-This approach shows that the chosen ratio variable represents a good repulsion criterion. On the other hand, our objective is to decide for a single map which model is the most pertinent, that is why we cannot use this approach and we will use a Machine Learning approach instead.
+This approach shows that the chosen ratio variable represents a good repulsion criterion. On the other hand, our objective is to decide for a single map which model is the most pertinent, and that cannot be done by a frequentist approach. This is what motivated us to use a ML method. 
 
 
 ## Machine Learning approach
-In this approach, we will use the same circular domain with $N$ points as in the statistical approach. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a Ginibre point process of intensity $1$ with $N$ points occupies roughly a disk with this radius. We begin by generating the data of the Ginibre process, the $0.7$-Ginibre process and the poisson process on which we will train the classification model, which is Logistic Regression Classifier. Using only the central cell (respectively the five central cells), the initial variables in our database consist of the surface and perimeter of the central cell (respectively surfaces and perimeters of the five central cells) of each generated sample, along with a binary variable that takes the value $1$ if the process is repulsive and $0$ otherwise. Subsequently, we add the ratio variable $\frac{4 \pi S}{P^2}$ of the central cell (respectively the five ratios of the five central celss) to provide the classification model with additional information on which to base its predictions.
+In this approach, we will use the same circular domain with $N$ points as in the statistical approach. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a Ginibre point process of intensity $1$ with $N$ points occupies roughly a disk with this radius. We begin by generating the data of the Ginibre process, the $0.7$-Ginibre process and the poisson process on which we will train the classification model, which is a Logistic Regression Classifier. Using only the central cell (respectively the five most  central cells), the initial variables in our database consist of the surface and perimeter of the central cell (respectively surfaces and perimeters of the five central cells) of each generated sample, along with a binary variable that takes the value $1$ if the process is repulsive and $0$ otherwise. Subsequently, we add the ratio variable $\frac{4 \pi S}{P^2}$ of the central cell (respectively the five ratios of the five central celss) to provide the classification model with additional information on which to base its predictions.
 
 ```{code-cell} ipython3
 :tags: [show-output, hide-input]
