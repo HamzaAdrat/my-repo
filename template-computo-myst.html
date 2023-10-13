@@ -318,6 +318,9 @@ document.write(`
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of Cartoradio data</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-approach">Machine Learning approach</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-1">Algorithm 1</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cartoradio-data-tests">Cartoradio data Tests</a></li>
 </ul>
 </li>
@@ -587,6 +590,36 @@ Compiling functions ...
 <section id="machine-learning-approach">
 <h2>Machine Learning approach<a class="headerlink" href="#machine-learning-approach" title="Permalink to this heading">#</a></h2>
 <p>In this approach, we will use the same circular domain with <span class="math notranslate nohighlight">\(N\)</span> points as in the statistical approach. Since the repulsion is not sensitive to scaling, we normalize the radius to <span class="math notranslate nohighlight">\(R=\sqrt{N}\)</span>. This is due to the fact that a cloud drawn from a Ginibre point process of intensity <span class="math notranslate nohighlight">\(1\)</span> with <span class="math notranslate nohighlight">\(N\)</span> points occupies roughly a disk with this radius. We begin by generating the data of the Ginibre process, the <span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre process and the poisson process on which we will train the classification model, which is a Logistic Regression Classifier. Using only the central cell (respectively the five most  central cells), the initial variables in our database consist of the surface and perimeter of the central cell (respectively surfaces and perimeters of the five central cells) of each generated sample, along with a binary variable that takes the value <span class="math notranslate nohighlight">\(1\)</span> if the process is repulsive and <span class="math notranslate nohighlight">\(0\)</span> otherwise. Subsequently, we add the ratio variable <span class="math notranslate nohighlight">\(\frac{4 \pi S}{P^2}\)</span> of the central cell (respectively the five ratios of the five central cells) to provide the classification model with additional information on which to base its predictions.</p>
+<hr class="docutils" />
+<p>header-includes:</p>
+<ul class="simple">
+<li><p>\usepackage[ruled,vlined,linesnumbered]{algorithm2e}</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="algorithm-1">
+<h1>Algorithm 1<a class="headerlink" href="#algorithm-1" title="Permalink to this heading">#</a></h1>
+<p>Just a sample algorithmn
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\SetAlgoLined
+\KwResult{Write here the result}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{Write here the input}
+\Output{Write here the output}
+\BlankLine
+\While{While condition}{
+instructions;
+\eIf{condition}{
+instructions1;
+instructions2;
+}{
+instructions3;
+}
+}
+\caption{While loop with If/Else condition}
+\end{algorithm}</p>
 <div class="cell tag_show-output tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1019,7 +1052,6 @@ weighted avg       0.85      0.85      0.85      1500
 </div>
 </div>
 <p>We can notice that our model’s accuracy when using the central cell is approximately <span class="math notranslate nohighlight">\(70\%\)</span> for the Ginibre and Poisson processes classification. However, when considering the first five central cells, we achieve an accuracy of <span class="math notranslate nohighlight">\(85 \%\)</span>, a result consistent with our statistical approach. This is because with the five cells, the model has access to more information about the nature of the sample, increasing the likelihood of successful sample classification by taking into account the surface areas and perimeters of the first five central cells.</p>
-</section>
 <section id="cartoradio-data-tests">
 <h2>Cartoradio data Tests<a class="headerlink" href="#cartoradio-data-tests" title="Permalink to this heading">#</a></h2>
 <p>Cartoradio data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification model already used, whether the configuration do present some repulsion.</p>
@@ -1451,6 +1483,9 @@ Classification probabilities:
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of Cartoradio data</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-approach">Machine Learning approach</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-1">Algorithm 1</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cartoradio-data-tests">Cartoradio data Tests</a></li>
 </ul>
 </li>
