@@ -129,7 +129,7 @@ font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 11,}
 ## Statistical approach
 Given a circular domain with $N$ points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will first calculate, for Poisson processes as well as for Ginibre and $\beta$-Ginibre processes, the probability that the ratio $R = \frac{4 \pi S}{P^2}$ of the central cell is less than or equal to $r$, for values of $r$ ranging from $0$ to $1$. And then we  apply the same approach using the mean ratio of the five central cells. Finally, we will calculate $95$% confidence intervals for each of these processes.
 
-The following code illustrates the generation of various point samples and the calculation of the surface to squared perimeter ratios given the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes. The Ginibre and $\beta$-Ginibre processes are generated using the "sample" function given in the python code of {cite}`MR4279876`.
+The following code illustrates the generation of various point samples and the calculation of the surface to squared perimeter ratios given the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes. The Ginibre and $\beta$-Ginibre processes are generated using the "sample" function given in the Python code of {cite}`MR4279876`.
 
 ```{code-cell} ipython3
 :tags: [show-output, hide-input]
@@ -254,7 +254,39 @@ def ratio_poisson(N, cells):
 %run -i Moroz_dpp.py
 ```
 
-The simulation algorithm provides a method for computing the quantity $\mathbb{P} \left( \frac{4 \pi S}{P^2} \le r \right)$ as a function of $r$ for the Ginibre processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the variable $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated python code, the latter is based on the algorithm described previously and the functions defined in the previous python code.
+The simulation algorithm provides a method for computing the quantity $\mathbb{P} \left( \frac{4 \pi S}{P^2} \le r \right)$ as a function of $r$ for the Ginibre processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points $N$, the number of experiences for the simulation $N_{exp}$ and the range of the variable $r$ as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated Python code, the latter is based on the algorithm described in the following Python code using the functions defined previously.
+
+```{code-cell} ipython3
+:tags: [show-output, hide-input]
+
+def simulation(N, N_exp, list_r):
+    W_chap_ginibre, W_chap_poisson, W_chap_g7 = [], [], []
+    l_ginibre, l_poisson, l_g7 = [], [], []
+    
+    for i in range(N_exp):
+        l_ginibre.append(ratio_ginibre(N))
+        l_poisson.append(ratio_poisson(N))
+        l_g7.append(ratio_beta_ginibre(N, 0.7))
+    
+    for r in list_r:
+        W_chap_ginibre.append((np.array(l_ginibre) <= r)*1)
+        W_chap_poisson.append((np.array(l_poisson) <= r)*1)
+        W_chap_g7.append((np.array(l_g7) <= r)*1)
+        
+    p_chap_ginibre = (np.array(W_chap_ginibre)).mean(axis=1)
+    p_chap_poisson = (np.array(W_chap_poisson)).mean(axis=1)
+    p_chap_g7 = (np.array(W_chap_g7)).mean(axis=1)
+    
+    sigma_chap_ginibre = (1.96)*np.sqrt(p_chap_ginibre*(1-p_chap_ginibre))/(np.sqrt(N_exp))
+    sigma_chap_poisson = (1.96)*np.sqrt(p_chap_poisson*(1-p_chap_poisson))/(np.sqrt(N_exp))
+    sigma_chap_g7 = (1.96)*np.sqrt(p_chap_g7*(1-p_chap_g7))/(np.sqrt(N_exp))
+    
+    IC_ginibre_max, IC_ginibre_min = p_chap_ginibre + sigma_chap_ginibre, p_chap_ginibre + (-1)*sigma_chap_ginibre
+    IC_poisson_max, IC_poisson_min = p_chap_poisson + sigma_chap_poisson, p_chap_poisson + (-1)*sigma_chap_poisson
+    IC_g7_max, IC_g7_min = p_chap_g7 + sigma_chap_g7, p_chap_g7 + (-1)*sigma_chap_g7
+    
+    return [list_r, IC_ginibre_min, IC_ginibre_max, IC_poisson_min, IC_poisson_max, IC_g7_min, IC_g7_max]
+```
 
 Figure {numref}`simulation-fig` shows the results of the simulations, where we compare the confidence intervals of the poisson process with the Ginibre process and the $0.7$-Ginibre process, using first the central cell and then the five central cells.
 
