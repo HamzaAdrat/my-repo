@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Abstract &#8212; My sample book</title>
+    <title>Point Process Discrimination According to Repulsion &#8212; My sample book</title>
   
   
   
@@ -172,7 +172,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Abstract
+                    Point Process Discrimination According to Repulsion
                 </a>
             </li>
         </ul>
@@ -313,7 +313,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Abstract</h1>
+    <h1>Point Process Discrimination According to Repulsion</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -323,19 +323,18 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Abstract</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">Preliminaries</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of Cartoradio data</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-approach">Machine Learning approach</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cartoradio-data-tests">Cartoradio data Tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract">Abstract</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">Preliminaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of Cartoradio data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-approach">Machine Learning approach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cartoradio-data-tests">Cartoradio data Tests</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">Bibliography</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">Bibliography</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -346,12 +345,14 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="abstract">
-<h1>Abstract<a class="headerlink" href="#abstract" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="point-process-discrimination-according-to-repulsion">
+<h1>Point Process Discrimination According to Repulsion<a class="headerlink" href="#point-process-discrimination-according-to-repulsion" title="Permalink to this heading">#</a></h1>
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this heading">#</a></h2>
 <p>In numerous applications, cloud of points do seem to exhibit <em>repulsion</em> in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see <span id="id1">[<a class="reference internal" href="#id25" title="F. Baccelli and B. Błaszczyszyn. Stochastic Geometry and Wireless Networks: Volume I Theory. Foundations and Trends® in Networking, 3(3–4):249–449, 2008. doi:10.1561/1300000006.">1</a>]</span>). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see <span id="id2">[<a class="reference internal" href="#id24" title="ANFR. Https://www.cartoradio.fr. URL: https://www.cartoradio.fr.">2</a>]</span>, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a> (left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>, right picture).</p>
 <figure class="align-default" id="paris-orange-fig">
 <img alt="_images/paris-orange.png" src="_images/paris-orange.png" />
@@ -368,8 +369,8 @@ the result of <span id="id8">[<a class="reference internal" href="#id28" title="
 <p>Furthermore, the repulsion in the Ginibre class of point processes can be also modulated by making a <span class="math notranslate nohighlight">\(\beta\)</span>-thinning (to weaken the repulsion) and then a <span class="math notranslate nohighlight">\(\sqrt{\beta}\)</span>-dilation (to keep the same intensity of points per surface unit) to obtain what is called a <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre. For <span class="math notranslate nohighlight">\(\beta=1\)</span>, we have the original Ginibre process and when <span class="math notranslate nohighlight">\(\beta\)</span> goes to <span class="math notranslate nohighlight">\(0\)</span>, it tends in law to a Poisson process (see <span id="id11">[<a class="reference internal" href="#id38" title="L. Decreusefond and A. Vasseur. Asymptotics of superposition of point processes. In Geometry of Science Information. Palaiseau, October 2015.">9</a>]</span>) so that we have a full scale of point processes with intermediate repulsion between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>. We show that our logistic regression algorithm can still accurately discriminate between Poisson and <span class="math notranslate nohighlight">\(\beta\)</span>-repulsive point processes for <span class="math notranslate nohighlight">\(\beta\)</span> up to <span class="math notranslate nohighlight">\(0.7\)</span>.</p>
 <p>The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel. Then two approaches are employed, one based on statistics and the other on machine learning, to classify the processes and compare their efficiencies and outcomes. Finally, tests are conducted on the Cartoradio data.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="preliminaries">
-<h1>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this heading">#</a></h1>
+<section id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this heading">#</a></h2>
 <p>We consider finite point processes on a bounded window <span class="math notranslate nohighlight">\(E\)</span>. The law of a such a point process <span class="math notranslate nohighlight">\(N\)</span> can be  characterized by its correlation functions (for
 details we refer to <span id="id12">[<a class="reference internal" href="#id34" title="D. J. Daley and D. Vere-Jones. An introduction to the theory of point processes. Vol. I. Probability and its Applications (New York). Springer-Verlag, New York, second edition, 2003. ISBN 0-387-95541-0. Elementary theory and methods.">10</a>]</span>[Chapter 5]). These are symmetric functions <span class="math notranslate nohighlight">\((\rho_{k},k\ge 1)\)</span> such that for any bounded function <span class="math notranslate nohighlight">\(f\)</span>, we can write:</p>
 <div class="math notranslate nohighlight">
@@ -416,8 +417,8 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </figure>
 <p>As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="classification-of-cartoradio-data">
-<h1>Classification of Cartoradio data<a class="headerlink" href="#classification-of-cartoradio-data" title="Permalink to this heading">#</a></h1>
+<section id="classification-of-cartoradio-data">
+<h2>Classification of Cartoradio data<a class="headerlink" href="#classification-of-cartoradio-data" title="Permalink to this heading">#</a></h2>
 <p>The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km<span class="math notranslate nohighlight">\(^2\)</span>). Hence there is no need to  construct models for these regions.  On the contrary, in big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is  where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure <a class="reference internal" href="#paris-orange-fig"><span class="std std-numref">Fig. 1</span></a>.</p>
 <p>When it comes to assess the type of point process we should consider in this situation, we cannot consider the city as a whole: the geography (notably the Seine river in Paris, the parks, etc.), the non uniformity of demands (the traffic is heavier aroung railway stations or touristic sites, for instance) which entails a higher density of antennas, ruin any kind of invariance a statistician could hope for. For instance, the lack of homogeneity prevents the use of traditional repulsion criteria, such as pair correlation. That means, we should restrict our expectations to local models of  the size of a district or a bit more. Since interference, which are the main annoyance to be dealt with, are a local phenomenon, working on a partial part of the whole domain is sufficient to predict the behavior and dimension a wireless network.</p>
 <p>In the following sections, we will use Python code that assumes that the following packages have been loaded:</p>
@@ -442,7 +443,7 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </details>
 </div>
 <section id="statistical-approach">
-<h2>Statistical approach<a class="headerlink" href="#statistical-approach" title="Permalink to this heading">#</a></h2>
+<h3>Statistical approach<a class="headerlink" href="#statistical-approach" title="Permalink to this heading">#</a></h3>
 <p>Given a circular domain with <span class="math notranslate nohighlight">\(N\)</span> points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will first calculate, for Poisson processes as well as for Ginibre and <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre processes, the probability that the ratio <span class="math notranslate nohighlight">\(R = \frac{4 \pi S}{P^2}\)</span> of the central cell is less than or equal to <span class="math notranslate nohighlight">\(r\)</span>, for values of <span class="math notranslate nohighlight">\(r\)</span> ranging from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(1\)</span>. And then we  apply the same approach using the mean ratio of the five central cells. Finally, we will calculate <span class="math notranslate nohighlight">\(95\)</span>% confidence intervals for each of these processes.</p>
 <p>The following code illustrates the generation of various point samples and the calculation of the surface to squared perimeter ratios given the number of points <span class="math notranslate nohighlight">\(N\)</span> and the parameter <span class="math notranslate nohighlight">\(\beta\)</span> for <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre processes. The Ginibre and <span class="math notranslate nohighlight">\(\beta\)</span>-Ginibre processes are generated using the “sample” function given in the Python code of <span id="id19">[<a class="reference internal" href="#id36" title="Laurent Decreusefond and Guillaume Moroz. Optimal transport between determinantal point processes and application to fast simulation. Mod. Stoch. Theory Appl., 8(2):209–237, 2021.">8</a>]</span>.</p>
 <div class="cell tag_show-output tag_hide-input docutils container">
@@ -632,7 +633,7 @@ Compiling functions ...
 <p>This approach shows that the chosen ratio variable represents a good repulsion criterion. On the other hand, our objective is to decide for a single map which model is the most pertinent, and that cannot be done by a frequentist approach. This is what motivated us to use a ML method.</p>
 </section>
 <section id="machine-learning-approach">
-<h2>Machine Learning approach<a class="headerlink" href="#machine-learning-approach" title="Permalink to this heading">#</a></h2>
+<h3>Machine Learning approach<a class="headerlink" href="#machine-learning-approach" title="Permalink to this heading">#</a></h3>
 <p>In this approach, we will use the same circular domain with <span class="math notranslate nohighlight">\(N\)</span> points as in the statistical approach. Since the repulsion is not sensitive to scaling, we normalize the radius to <span class="math notranslate nohighlight">\(R=\sqrt{N}\)</span>. This is due to the fact that a cloud drawn from a Ginibre point process of intensity <span class="math notranslate nohighlight">\(1\)</span> with <span class="math notranslate nohighlight">\(N\)</span> points occupies roughly a disk with this radius. We begin by generating the data of the Ginibre process, the <span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre process and the poisson process on which we will train the classification model, which is a Logistic Regression Classifier. Using only the central cell (respectively the five most  central cells), the initial variables in our database consist of the surface and perimeter of the central cell (respectively surfaces and perimeters of the five central cells) of each generated sample, along with a binary variable that takes the value <span class="math notranslate nohighlight">\(1\)</span> if the process is repulsive and <span class="math notranslate nohighlight">\(0\)</span> otherwise. Subsequently, we add the ratio variable <span class="math notranslate nohighlight">\(\frac{4 \pi S}{P^2}\)</span> of the central cell (respectively the five ratios of the five central cells) to provide the classification model with additional information on which to base its predictions. The output of the classifier is a composite score based on some statistics of the point process, tuned to discriminate between a Poisson process and a repulsive point process.</p>
 <div class="cell tag_show-output tag_hide-input docutils container">
 <details class="hide above-input">
@@ -1068,7 +1069,7 @@ weighted avg       0.85      0.85      0.85      1500
 <p>We can notice that our model’s accuracy when using the central cell is approximately <span class="math notranslate nohighlight">\(70\%\)</span> for the Ginibre and Poisson processes classification. However, when considering the first five central cells, we achieve an accuracy of <span class="math notranslate nohighlight">\(85 \%\)</span>, a result consistent with our statistical approach. This is because with the five cells, the model has access to more information about the nature of the sample, increasing the likelihood of successful sample classification by taking into account the surface areas and perimeters of the first five central cells.</p>
 </section>
 <section id="cartoradio-data-tests">
-<h2>Cartoradio data Tests<a class="headerlink" href="#cartoradio-data-tests" title="Permalink to this heading">#</a></h2>
+<h3>Cartoradio data Tests<a class="headerlink" href="#cartoradio-data-tests" title="Permalink to this heading">#</a></h3>
 <p>Cartoradio data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification model already used, whether the configuration do present some repulsion.</p>
 <p>The initial data (positions of the antennas) cover a large area of the city of Paris (see <a class="reference internal" href="#cartoradio-fig"><span class="std std-numref">Fig. 4</span></a>(right))
 With a real dataset,  we often encounter the problem of heterogeneity between the different parts of the configurations since they depend on the topology  of the space in which the antennas are placed.</p>
@@ -1379,13 +1380,13 @@ Classification probabilities:
 </ul>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="conclusion">
-<h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h1>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
 <p>In this paper it has been shown numerically (based on the theoretical results in <span id="id20">[<a class="reference internal" href="#id28" title="André Goldman. The Palm measure and the Voronoi tessellation for the Ginibre process. The Annals of Applied Probability, 20(1):90–128, February 2010. arXiv:math/0610243, doi:10.1214/09-AAP620.">6</a>]</span>) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification model described earlier.</p>
 <p>Once the model is trained and tested on the data created, it is tested after that on real data, which are the positions of a mobile phone base stations in Paris. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained model, especially the one classifying Ginibre and poisson processes using the first five central cells.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="bibliography">
-<h1>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this heading">#</a></h1>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this heading">#</a></h2>
 <div class="docutils container" id="id21">
 <div class="citation" id="id25" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1445,6 +1446,7 @@ Classification probabilities:
 </div>
 </div>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1492,19 +1494,18 @@ Classification probabilities:
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Abstract</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">Preliminaries</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of Cartoradio data</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-approach">Machine Learning approach</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cartoradio-data-tests">Cartoradio data Tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract">Abstract</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">Preliminaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-cartoradio-data">Classification of Cartoradio data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-approach">Statistical approach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-approach">Machine Learning approach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cartoradio-data-tests">Cartoradio data Tests</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">Bibliography</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">Bibliography</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

@@ -13,11 +13,12 @@ kernelspec:
   language: python
   name: python3
 ---
+# Point Process Discrimination According to Repulsion
 
-# Abstract
+## Abstract
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
 
-# Introduction
+## Introduction
 In the performance analysis of cellular systems, the locations of antennas (or base stations) play a major role (see {cite}`BaccelliStochasticGeometryWireless2008`). It is usually admitted that they can be modeled by a Poisson process. But the data which can be gathered from the Web site of the French National Agency of Radio Frequencies, Cartoradio, see {cite}`ANFR`, tend to prove that this may not be the case. More precisely, if we look at the global picture of all antennas in Paris, we see features reminiscent of a Poisson process (local clusters for instance), see {numref}`paris-orange-fig` (left). However, if we look closer and finer, by specifying a region and a frequency band, we see that the antennas locations do seem to exhibit some repulsion (see {numref}`paris-orange-fig`, right picture).
 
 ```{figure} figures/paris-orange.png
@@ -41,7 +42,7 @@ Furthermore, the repulsion in the Ginibre class of point processes can be also m
 
 The paper is organized as follows. We first remind what is a Ginibre point process and the property of its Voronoi cells which motivates the sequel. Then two approaches are employed, one based on statistics and the other on machine learning, to classify the processes and compare their efficiencies and outcomes. Finally, tests are conducted on the Cartoradio data.
 
-# Preliminaries
+## Preliminaries
 We consider finite point processes on a bounded window $E$. The law of a such a point process $N$ can be  characterized by its correlation functions (for
 details we refer to {cite}`Daley2003`[Chapter 5]). These are symmetric functions $(\rho_{k},k\ge 1)$ such that for any bounded function $f$, we can write:
 
@@ -105,7 +106,7 @@ On the left, Voronoi cells associated to a realization of a Ginibre process. On 
 
 As we know that circles saturate the isoperimetric inequality, it is sensible to consider classification algorithms based on area and squared perimeter of Voronoi cells. In order to avoid side effects, we concentrate on the innermost cells of the observation window.
 
-# Classification of Cartoradio data
+## Classification of Cartoradio data
 The Cartoradio web site contains the locations (in GPS coordinates) and other informations about all the antennas (or base stations) in metropolitan France for any operator, any frequency band and all generation of wireless systems (2G to 5G). The capacity of an antenna depends on its power and on the traffic demand it has to serve.  Outside metropolitan areas, the antennas are relatively scarce and located along the main roads to guarantee a large surface coverage (around 30 km$^2$). Hence there is no need to  construct models for these regions.  On the contrary, in big towns, the density of base stations is much higher to handle the traffic demand: An antenna covers around half a squared kilometer. This is  where the dimensioning problem do appear. One should have a sufficient number of antennas per unit of surface to transport all the traffic, on the other hand, base stations operating in a given frequency band cannot be to close to mitigate interference. This explains the right picture of Figure {numref}`paris-orange-fig`.
 
 When it comes to assess the type of point process we should consider in this situation, we cannot consider the city as a whole: the geography (notably the Seine river in Paris, the parks, etc.), the non uniformity of demands (the traffic is heavier aroung railway stations or touristic sites, for instance) which entails a higher density of antennas, ruin any kind of invariance a statistician could hope for. For instance, the lack of homogeneity prevents the use of traditional repulsion criteria, such as pair correlation. That means, we should restrict our expectations to local models of  the size of a district or a bit more. Since interference, which are the main annoyance to be dealt with, are a local phenomenon, working on a partial part of the whole domain is sufficient to predict the behavior and dimension a wireless network.
@@ -125,7 +126,7 @@ import seaborn as sns
 font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 11,}
 ```
 
-## Statistical approach
+### Statistical approach
 Given a circular domain with $N$ points, we want to decide whether the points exhibit repulsion or not. To do so, we will begin with a statistical approach, where we will first calculate, for Poisson processes as well as for Ginibre and $\beta$-Ginibre processes, the probability that the ratio $R = \frac{4 \pi S}{P^2}$ of the central cell is less than or equal to $r$, for values of $r$ ranging from $0$ to $1$. And then we  apply the same approach using the mean ratio of the five central cells. Finally, we will calculate $95$% confidence intervals for each of these processes.
 
 The following code illustrates the generation of various point samples and the calculation of the surface to squared perimeter ratios given the number of points $N$ and the parameter $\beta$ for $\beta$-Ginibre processes. The Ginibre and $\beta$-Ginibre processes are generated using the "sample" function given in the Python code of {cite}`MR4279876`.
@@ -300,7 +301,7 @@ The limitation of the statistical approach using only the central cell is made v
 This approach shows that the chosen ratio variable represents a good repulsion criterion. On the other hand, our objective is to decide for a single map which model is the most pertinent, and that cannot be done by a frequentist approach. This is what motivated us to use a ML method. 
 
 
-## Machine Learning approach
+### Machine Learning approach
 In this approach, we will use the same circular domain with $N$ points as in the statistical approach. Since the repulsion is not sensitive to scaling, we normalize the radius to $R=\sqrt{N}$. This is due to the fact that a cloud drawn from a Ginibre point process of intensity $1$ with $N$ points occupies roughly a disk with this radius. We begin by generating the data of the Ginibre process, the $0.7$-Ginibre process and the poisson process on which we will train the classification model, which is a Logistic Regression Classifier. Using only the central cell (respectively the five most  central cells), the initial variables in our database consist of the surface and perimeter of the central cell (respectively surfaces and perimeters of the five central cells) of each generated sample, along with a binary variable that takes the value $1$ if the process is repulsive and $0$ otherwise. Subsequently, we add the ratio variable $\frac{4 \pi S}{P^2}$ of the central cell (respectively the five ratios of the five central cells) to provide the classification model with additional information on which to base its predictions. The output of the classifier is a composite score based on some statistics of the point process, tuned to discriminate between a Poisson process and a repulsive point process.
 
 ```{code-cell} ipython3
@@ -492,7 +493,7 @@ model_Evaluate(LR2, X2_test, y2_test)
 ```
 We can notice that our model's accuracy when using the central cell is approximately $70\%$ for the Ginibre and Poisson processes classification. However, when considering the first five central cells, we achieve an accuracy of $85 \%$, a result consistent with our statistical approach. This is because with the five cells, the model has access to more information about the nature of the sample, increasing the likelihood of successful sample classification by taking into account the surface areas and perimeters of the first five central cells.
 
-## Cartoradio data Tests
+### Cartoradio data Tests
 
 Cartoradio data is a set of configurations of some mobile phone base stations in Paris. The goal is to decide from the classification model already used, whether the configuration do present some repulsion.
 
@@ -570,13 +571,13 @@ In contrast, the results found using the five central cells are much better, the
 - As long as we are dealing with real data, these samples may be a non-repulsive ones and the results are actually coherent.
 - It is sure that the accuracy of our models is high, but we may have some classification errors, which means that even if the configuration is repulsive, the model decides that it is not.
 
-# Conclusion
+## Conclusion
 
 In this paper it has been shown numerically (based on the theoretical results in {cite}`goldman_palm_2010`) that Voronoi cells represent an effective means for determining the nature of repulsion of a configuration (repulsive or not), and this by creating a database of various configurations and extracting the areas and perimeters of the Voronoi cells in order to use them as input to the classification model described earlier.
 
 Once the model is trained and tested on the data created, it is tested after that on real data, which are the positions of a mobile phone base stations in Paris. Visually, we can easily say that these configurations are repulsive, which we have confirmed for the majority of these configurations by testing them by the previously trained model, especially the one classifying Ginibre and poisson processes using the first five central cells.
 
-# Bibliography
+## Bibliography
 
 ```{bibliography}
 :style: unsrt
