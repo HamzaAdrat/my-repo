@@ -13,7 +13,6 @@ kernelspec:
   language: python
   name: python3
 ---
-# Point Process Discrimination According to Repulsion
 
 # Abstract
 In numerous applications, cloud of points do seem to exhibit *repulsion* in the intuitive sense that there is no local cluster as in a Poisson process. Motivated by data coming from cellular networks, we devise a classification algorithm based on the form of the Voronoi cells. We show that, in the particular set of data we are given, we can retrieve some repulsiveness between antennas, which was expected for engineering reasons.
