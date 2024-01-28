@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Template for a Computo submission based on Jupyter-book &#8212; My sample book</title>
   
@@ -29,39 +28,43 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="_static/sphinx-thebe.js?v=afe5de03"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'README';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -160,7 +163,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -338,12 +352,12 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="template-for-a-computo-submission-based-on-jupyter-book">
-<h1>Template for a Computo submission based on Jupyter-book<a class="headerlink" href="#template-for-a-computo-submission-based-on-jupyter-book" title="Permalink to this heading">#</a></h1>
+<h1>Template for a Computo submission based on Jupyter-book<a class="headerlink" href="#template-for-a-computo-submission-based-on-jupyter-book" title="Link to this heading">#</a></h1>
 <p><a class="reference external" href="https://computorg.github.io/template-computo-myst/"><img alt="build output" src="https://github.com/computorg/template-computo-myst/workflows/build/badge.svg" /></a></p>
 <p>Documentation and sample of a Myst (Jupyter-book) submission for the Computo journal.</p>
 <p>Shows how to automatically setup and build the HTML and PDF outputs, ready to submit to our peer-review platform.</p>
 <section id="process-overview">
-<h2>Process overview<a class="headerlink" href="#process-overview" title="Permalink to this heading">#</a></h2>
+<h2>Process overview<a class="headerlink" href="#process-overview" title="Link to this heading">#</a></h2>
 <p>Submissions to Computo require both scientific content (typically equations, codes and figures) and a proof that this content is reproducible. This is achieved via the standard notebook systems available for R, Python and Julia (Jupyter-book and Rmarkdown), coupled with the binder build system.</p>
 <p>A Computo submission is thus a git(hub) repository like this one typically containing</p>
 <ul class="simple">
@@ -354,9 +368,9 @@ document.write(`
 <p><img alt="Computo author process" src="https://computo.sfds.asso.fr/assets/img/computo_process_authors.png" /></p>
 </section>
 <section id="step-by-step-procedure">
-<h2>Step-by-step procedure<a class="headerlink" href="#step-by-step-procedure" title="Permalink to this heading">#</a></h2>
+<h2>Step-by-step procedure<a class="headerlink" href="#step-by-step-procedure" title="Link to this heading">#</a></h2>
 <section id="step-0-setup-a-github-repository">
-<h3>Step 0: setup a github repository<a class="headerlink" href="#step-0-setup-a-github-repository" title="Permalink to this heading">#</a></h3>
+<h3>Step 0: setup a github repository<a class="headerlink" href="#step-0-setup-a-github-repository" title="Link to this heading">#</a></h3>
 <p>Clone/copy this repo to use it as a starter for your own contributions.</p>
 <p><strong>Note</strong>: <em>You can rename the .Rmd and .bib files at your convenience, but we suggest you to keep the name of the config files unchanged, unless you know what you are doing.</em></p>
 <p>Typical git manipulations involve the following commands (change <code class="docutils literal notranslate"><span class="pre">my_github_account</span></code> and <code class="docutils literal notranslate"><span class="pre">my_article_for_computo</span></code>): by doing so, you will keep changes from the computo template if need (optional)</p>
@@ -368,12 +382,12 @@ git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </s
 </div>
 </section>
 <section id="step-1-write-your-contribution">
-<h3>Step 1. write your contribution<a class="headerlink" href="#step-1-write-your-contribution" title="Permalink to this heading">#</a></h3>
+<h3>Step 1. write your contribution<a class="headerlink" href="#step-1-write-your-contribution" title="Link to this heading">#</a></h3>
 <p>Write your notebook as usual, as demonstrated in the <code class="docutils literal notranslate"><span class="pre">template-computo-myst.Rmd</span></code> sample. Edit <code class="docutils literal notranslate"><span class="pre">_config.yml</span></code> appropriately.</p>
 <p><strong>Note</strong>: <em>Make sure that you are able to build your manuscript as a regular notebook on your system before proceeding to the next step.</em></p>
 </section>
 <section id="step-2-configure-your-binder-environement">
-<h3>Step 2: configure your binder environement<a class="headerlink" href="#step-2-configure-your-binder-environement" title="Permalink to this heading">#</a></h3>
+<h3>Step 2: configure your binder environement<a class="headerlink" href="#step-2-configure-your-binder-environement" title="Link to this heading">#</a></h3>
 <p>The file <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> tells binder how to setup the machine used to build your notebook with a conda environment. It must be configured to have all the dependencies required to run you notebook (R, Python, packages/feedstocks and system dependencies).</p>
 <p>The default uses conda-forge and includes a couple of popular R packages, with a recent version of <code class="docutils literal notranslate"><span class="pre">R</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">computo</span>
@@ -389,7 +403,7 @@ git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </s
 <p>The available feedstocks (Python modules) for conda-forge are listed here: <a class="reference external" href="https://conda-forge.org/feedstock-outputs/index.html">https://conda-forge.org/feedstock-outputs/index.html</a>.</p>
 </section>
 <section id="step-3-proof-reproducibility">
-<h3>Step 3: proof reproducibility<a class="headerlink" href="#step-3-proof-reproducibility" title="Permalink to this heading">#</a></h3>
+<h3>Step 3: proof reproducibility<a class="headerlink" href="#step-3-proof-reproducibility" title="Link to this heading">#</a></h3>
 <p>It is now time to put everything together and check that your work is indeed reproducible!</p>
 <p>To this end, you need to rely on a github action, whose default is found here: <a class="reference external" href="https://github.com/computorg/template-computo-Rmarkdown/blob/main/.github/workflows/build.yml">.github/workflows/build.yml</a></p>
 <p>This action will</p>
@@ -401,7 +415,7 @@ git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </s
 </ul>
 </section>
 <section id="step-4-submit">
-<h3>Step 4. submit<a class="headerlink" href="#step-4-submit" title="Permalink to this heading">#</a></h3>
+<h3>Step 4. submit<a class="headerlink" href="#step-4-submit" title="Link to this heading">#</a></h3>
 <p>Once step 3 is successful, you should end up with an HTML version published as a gh-page. A PDF file can be obtained by clicking the “Export to PDF” button, which just calls the printing function of your browser (using Chrome should facilitate the rendering of your PDF). This PDF version can be submitted to the <a class="reference external" href="https://computo.scholasticahq.com/">Computo submission platform</a>:</p>
 <div id="scholastica-submission-button" style="margin-top: 10px; margin-bottom: 10px;"><a href="https://computo.scholasticahq.com/for-authors" style="outline: none; border: none;"><img style="outline: none; border: none;" src="https://s3.amazonaws.com/docs.scholastica/law-review-submission-button/submit_via_scholastica.png" alt="Submit to Computo"></a></div>
 </section>
@@ -487,7 +501,7 @@ By The Jupyter Book Community
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
     
   </p>
