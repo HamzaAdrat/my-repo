@@ -431,7 +431,7 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <span class="collapsed">Show code cell source</span>
 <span class="expanded">Hide code cell source</span>
 </summary>
-<div class="cell_input docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span>
@@ -440,6 +440,107 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;serif&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span>  <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,}</span>
+</pre></div>
+</div>
+</div>
+</details>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">scipy.stats</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">bernoulli</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">computo</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">pandas</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">22</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="k">del</span> <span class="n">hard_dependencies</span><span class="p">,</span> <span class="n">dependency</span><span class="p">,</span> <span class="n">missing_dependencies</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="c1"># numpy compat</span>
+<span class="ne">---&gt; </span><span class="mi">22</span> <span class="kn">from</span> <span class="nn">pandas.compat</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="n">np_version_under1p18</span> <span class="k">as</span> <span class="n">_np_version_under1p18</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span>     <span class="n">is_numpy_dev</span> <span class="k">as</span> <span class="n">_is_numpy_dev</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span>     <span class="kn">from</span> <span class="nn">pandas._libs</span> <span class="kn">import</span> <span class="n">hashtable</span> <span class="k">as</span> <span class="n">_hashtable</span><span class="p">,</span> <span class="n">lib</span> <span class="k">as</span> <span class="n">_lib</span><span class="p">,</span> <span class="n">tslib</span> <span class="k">as</span> <span class="n">_tslib</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">computo</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">pandas</span><span class="o">/</span><span class="n">compat</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">15</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="n">F</span>
+<span class="ne">---&gt; </span><span class="mi">15</span> <span class="kn">from</span> <span class="nn">pandas.compat.numpy</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">is_numpy_dev</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">np_array_datetime64_compat</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">np_datetime64_compat</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">np_version_under1p18</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="n">np_version_under1p19</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="n">np_version_under1p20</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="kn">from</span> <span class="nn">pandas.compat.pyarrow</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span>     <span class="n">pa_version_under1p0</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="n">pa_version_under2p0</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="n">pa_version_under3p0</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span>     <span class="n">pa_version_under4p0</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">30</span> <span class="n">PY38</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">computo</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">pandas</span><span class="o">/</span><span class="n">compat</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">7</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">re</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="kn">from</span> <span class="nn">pandas.util.version</span> <span class="kn">import</span> <span class="n">Version</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="c1"># numpy versioning</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">_np_version</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">__version__</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">computo</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">pandas</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">pandas.util._decorators</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">Appender</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">Substitution</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">cache_readonly</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span> <span class="nn">pandas.core.util.hashing</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">hash_array</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">hash_pandas_object</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">computo</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">pandas</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="n">_decorators</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">14</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">Any</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">Callable</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">Mapping</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">cast</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="ne">---&gt; </span><span class="mi">14</span> <span class="kn">from</span> <span class="nn">pandas._libs.properties</span> <span class="kn">import</span> <span class="n">cache_readonly</span>  <span class="c1"># noqa</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="n">F</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="k">def</span> <span class="nf">deprecate</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="n">alternative</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">F</span><span class="p">],</span> <span class="n">F</span><span class="p">]:</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">computo</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">pandas</span><span class="o">/</span><span class="n">_libs</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">13</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="s2">&quot;NaT&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="s2">&quot;NaTType&quot;</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="s2">&quot;Interval&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="p">]</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="kn">from</span> <span class="nn">pandas._libs.interval</span> <span class="kn">import</span> <span class="n">Interval</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="kn">from</span> <span class="nn">pandas._libs.tslibs</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="n">NaT</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">NaTType</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="n">iNaT</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/pandas/_libs/interval.pyx:1,</span> in <span class="ni">init pandas._libs.interval</span><span class="nt">()</span>
+
+<span class="ne">ValueError</span>: numpy.dtype size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject
 </pre></div>
 </div>
 </div>
@@ -578,12 +679,6 @@ When <span class="math notranslate nohighlight">\(r \to 0,\)</span></p>
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Importing libraries ...
-Compiling functions ...
-</pre></div>
-</div>
-</div>
 </div>
 <p>The simulation algorithm provides a method for computing the quantity <span class="math notranslate nohighlight">\(\mathbb{P} \left( \frac{4 \pi S}{P^2} \le r \right)\)</span> as a function of <span class="math notranslate nohighlight">\(r\)</span> for the Ginibre processes (the same algorithm is applied to other processes as well). The Algorithm takes as input the number of points <span class="math notranslate nohighlight">\(N\)</span>, the number of experiences for the simulation <span class="math notranslate nohighlight">\(N_{exp}\)</span> and the range of the variable <span class="math notranslate nohighlight">\(r\)</span> as a list of values. Since the simulations require a lot of time to run, we are not going to attach the associated Python code, the latter is based on the algorithm described in the following Python code using the functions defined previously.</p>
 <div class="cell tag_show-output tag_hide-input docutils container">
@@ -706,70 +801,6 @@ Compiling functions ...
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>S1</th>
-      <th>P1</th>
-      <th>R1</th>
-      <th>process</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>3.282609</td>
-      <td>6.851499</td>
-      <td>0.878735</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3.229371</td>
-      <td>7.052515</td>
-      <td>0.815905</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>5.542461</td>
-      <td>9.335383</td>
-      <td>0.799187</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>3.409986</td>
-      <td>8.318448</td>
-      <td>0.619267</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>4.336329</td>
-      <td>8.748695</td>
-      <td>0.711944</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <p>Before starting the model’s training using the data generated, we will scale the data in order to avoir the concern of overfitting. Here is an example of the scaling of the previous data:</p>
 <div class="cell tag_show-output tag_hide-input docutils container">
@@ -800,70 +831,6 @@ Compiling functions ...
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>S1</th>
-      <th>P1</th>
-      <th>R1</th>
-      <th>process</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>-0.290349</td>
-      <td>-0.584119</td>
-      <td>1.447490</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.326183</td>
-      <td>-0.439422</td>
-      <td>0.661112</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1.230698</td>
-      <td>1.203856</td>
-      <td>0.451857</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-0.204615</td>
-      <td>0.471835</td>
-      <td>-1.800031</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.418882</td>
-      <td>0.781540</td>
-      <td>-0.640083</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <p>Now that the data is gathered, we will train the Logistic Regression model using the baseline model, i.e. all the hyperparameters’ values are taken as defaults, (a grid search can be used later in order to select the optimal hyperparameters). Other classification models (Random Forest, Support Vector Machine and XGBoost) have been tested but did not yield more significant results than the chosen classifier. We split each data to a train data and test data in order to see the model’s accuracy before testing it on the cartoradio data.</p>
 <div class="cell tag_show-output tag_hide-input docutils container">
@@ -950,19 +917,6 @@ Compiling functions ...
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.62      0.59      0.60       728
-           1       0.63      0.66      0.64       772
-
-    accuracy                           0.62      1500
-   macro avg       0.62      0.62      0.62      1500
-weighted avg       0.62      0.62      0.62      1500
-</pre></div>
-</div>
-<img alt="_images/c6a50211ce638140e1b10ca70412b68bcc4ae0dd6133171f195ff0b389947ac4.png" src="_images/c6a50211ce638140e1b10ca70412b68bcc4ae0dd6133171f195ff0b389947ac4.png" />
-</div>
 </div>
 <ul class="simple">
 <li><p>Ginibre Vs Poisson using the central cell:</p></li>
@@ -985,19 +939,6 @@ weighted avg       0.62      0.62      0.62      1500
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.72      0.62      0.67       728
-           1       0.68      0.77      0.73       772
-
-    accuracy                           0.70      1500
-   macro avg       0.70      0.70      0.70      1500
-weighted avg       0.70      0.70      0.70      1500
-</pre></div>
-</div>
-<img alt="_images/b717f1ad1861ea6a4ed61023c1a999ca7f7a95c771ef78c8f63fedde4d966134.png" src="_images/b717f1ad1861ea6a4ed61023c1a999ca7f7a95c771ef78c8f63fedde4d966134.png" />
-</div>
 </div>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(0.7\)</span>-Ginibre Vs Poisson using the five central cells:</p></li>
@@ -1020,19 +961,6 @@ weighted avg       0.70      0.70      0.70      1500
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.74      0.68      0.71       728
-           1       0.72      0.77      0.74       772
-
-    accuracy                           0.73      1500
-   macro avg       0.73      0.72      0.72      1500
-weighted avg       0.73      0.73      0.73      1500
-</pre></div>
-</div>
-<img alt="_images/c98b0f70e8025d1c063198283c329f8a75d0898af23520c837ca1743e195d171.png" src="_images/c98b0f70e8025d1c063198283c329f8a75d0898af23520c837ca1743e195d171.png" />
-</div>
 </div>
 <ul class="simple">
 <li><p>Ginibre Vs Poisson using the five central cells:</p></li>
@@ -1055,19 +983,6 @@ weighted avg       0.73      0.73      0.73      1500
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
-
-           0       0.87      0.81      0.84       728
-           1       0.83      0.88      0.86       772
-
-    accuracy                           0.85      1500
-   macro avg       0.85      0.85      0.85      1500
-weighted avg       0.85      0.85      0.85      1500
-</pre></div>
-</div>
-<img alt="_images/a39d0d708c418b67eeee61e0b6154450523f8a220ff507b3b180c2a08a6eea20.png" src="_images/a39d0d708c418b67eeee61e0b6154450523f8a220ff507b3b180c2a08a6eea20.png" />
-</div>
 </div>
 <p>We can notice that our model’s accuracy when using the central cell is approximately <span class="math notranslate nohighlight">\(70\%\)</span> for the Ginibre and Poisson processes classification. However, when considering the first five central cells, we achieve an accuracy of <span class="math notranslate nohighlight">\(85 \%\)</span>, a result consistent with our statistical approach. This is because with the five cells, the model has access to more information about the nature of the sample, increasing the likelihood of successful sample classification by taking into account the surface areas and perimeters of the first five central cells.</p>
 </section>
@@ -1111,136 +1026,6 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>S1</th>
-      <th>P1</th>
-      <th>R1</th>
-      <th>S2</th>
-      <th>P2</th>
-      <th>R2</th>
-      <th>S3</th>
-      <th>P3</th>
-      <th>R3</th>
-      <th>S4</th>
-      <th>P4</th>
-      <th>R4</th>
-      <th>S5</th>
-      <th>P5</th>
-      <th>R5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.666867</td>
-      <td>0.552371</td>
-      <td>0.771643</td>
-      <td>-1.320617</td>
-      <td>-0.826125</td>
-      <td>-0.776361</td>
-      <td>-0.096326</td>
-      <td>-0.168613</td>
-      <td>0.404993</td>
-      <td>-0.669259</td>
-      <td>-0.213674</td>
-      <td>-1.681895</td>
-      <td>-0.308449</td>
-      <td>0.204442</td>
-      <td>0.710274</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.671167</td>
-      <td>-0.539183</td>
-      <td>-0.749317</td>
-      <td>0.190101</td>
-      <td>0.256283</td>
-      <td>-0.237297</td>
-      <td>0.631242</td>
-      <td>0.372228</td>
-      <td>1.268942</td>
-      <td>-1.348825</td>
-      <td>-1.325250</td>
-      <td>-1.007578</td>
-      <td>0.554746</td>
-      <td>0.445616</td>
-      <td>0.792127</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>-0.217555</td>
-      <td>-0.375224</td>
-      <td>0.929404</td>
-      <td>0.020793</td>
-      <td>-0.495321</td>
-      <td>1.305963</td>
-      <td>-1.264007</td>
-      <td>-1.425377</td>
-      <td>-0.384128</td>
-      <td>0.778718</td>
-      <td>0.508199</td>
-      <td>1.288062</td>
-      <td>-0.540157</td>
-      <td>-0.839995</td>
-      <td>0.838547</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.022384</td>
-      <td>0.160723</td>
-      <td>-0.473342</td>
-      <td>0.718430</td>
-      <td>0.472801</td>
-      <td>0.225675</td>
-      <td>-0.191550</td>
-      <td>-0.088225</td>
-      <td>-0.237366</td>
-      <td>0.982122</td>
-      <td>0.780987</td>
-      <td>1.037943</td>
-      <td>-0.600881</td>
-      <td>-1.105307</td>
-      <td>0.877342</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2.098913</td>
-      <td>1.686911</td>
-      <td>1.622808</td>
-      <td>1.381928</td>
-      <td>1.424882</td>
-      <td>-0.729521</td>
-      <td>1.978979</td>
-      <td>1.785494</td>
-      <td>0.952267</td>
-      <td>-0.502795</td>
-      <td>-0.128419</td>
-      <td>-1.289489</td>
-      <td>-1.050843</td>
-      <td>-1.077248</td>
-      <td>0.791146</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <p>Here are the results of the tests on the cartoradio data using each model already trained, showing the classification value and its probability for each observation.</p>
 <ul class="simple">
@@ -1259,22 +1044,6 @@ With a real dataset,  we often encounter the problem of heterogeneity between th
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classification results: [0 0 1 0 0 0 0 1 1 1]
-Classification probabilities:
- [[0.50901223 0.49098777]
- [0.50682086 0.49317914]
- [0.32929348 0.67070652]
- [0.5688858  0.4311142 ]
- [0.70307381 0.29692619]
- [0.82600168 0.17399832]
- [0.59522974 0.40477026]
- [0.48553916 0.51446084]
- [0.26526311 0.73473689]
- [0.32029901 0.67970099]]
-</pre></div>
-</div>
-</div>
 </div>
 <ul class="simple">
 <li><p>Ginibre Vs Poisson using the central cell:</p></li>
@@ -1292,22 +1061,6 @@ Classification probabilities:
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classification results: [0 0 1 0 0 0 0 1 1 1]
-Classification probabilities:
- [[0.53920106 0.46079894]
- [0.51723198 0.48276802]
- [0.21819289 0.78180711]
- [0.63278587 0.36721413]
- [0.86607864 0.13392136]
- [0.94845955 0.05154045]
- [0.6786939  0.3213061 ]
- [0.47850291 0.52149709]
- [0.13669341 0.86330659]
- [0.20399197 0.79600803]]
-</pre></div>
-</div>
-</div>
 </div>
 <p>It can be noted that the classification results using only the central cell are not significant enough. This is largely due to the low accuracy of the model used with the central cell, which is normal since the data does not contain enough variables for the model’s training.</p>
 <ul class="simple">
@@ -1326,22 +1079,6 @@ Classification probabilities:
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classification results: [1 0 1 0 0 0 1 1 1 1]
-Classification probabilities:
- [[0.09769033 0.90230967]
- [0.52006646 0.47993354]
- [0.26792874 0.73207126]
- [0.64697624 0.35302376]
- [0.78613725 0.21386275]
- [0.8428339  0.1571661 ]
- [0.26825798 0.73174202]
- [0.23098875 0.76901125]
- [0.17152636 0.82847364]
- [0.07711947 0.92288053]]
-</pre></div>
-</div>
-</div>
 </div>
 <ul class="simple">
 <li><p>Ginibre Vs Poisson using the five central cell:</p></li>
@@ -1359,22 +1096,6 @@ Classification probabilities:
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classification results: [1 0 1 0 0 0 1 1 1 1]
-Classification probabilities:
- [[0.02251152 0.97748848]
- [0.51505581 0.48494419]
- [0.22926168 0.77073832]
- [0.83308711 0.16691289]
- [0.97698632 0.02301368]
- [0.96058932 0.03941068]
- [0.28009441 0.71990559]
- [0.09008345 0.90991655]
- [0.08552465 0.91447535]
- [0.01824254 0.98175746]]
-</pre></div>
-</div>
-</div>
 </div>
 <p>In contrast, the results found using the five central cells are much better, the majority of configurations are classified as repulsive. Regarding the configurations classified as non-repulsive by our model, we can say that this comes down to one of the following two reasons:</p>
 <ul class="simple">

@@ -1,0 +1,120 @@
+Traceback (most recent call last):
+  File "/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/usr/share/miniconda3/envs/computo/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+import pandas as pd
+import scipy.stats
+from scipy.stats import bernoulli
+from scipy.spatial import Voronoi, ConvexHull
+import matplotlib.pyplot as plt
+import seaborn as sns
+font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 11,}
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mValueError[0m                                Traceback (most recent call last)
+Cell [0;32mIn[1], line 2[0m
+[1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[0;32m----> 2[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mscipy[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstats[39;00m
+[1;32m      4[0m [38;5;28;01mfrom[39;00m [38;5;21;01mscipy[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstats[39;00m [38;5;28;01mimport[39;00m bernoulli
+
+File [0;32m/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/pandas/__init__.py:22[0m
+[1;32m     19[0m [38;5;28;01mdel[39;00m hard_dependencies, dependency, missing_dependencies
+[1;32m     21[0m [38;5;66;03m# numpy compat[39;00m
+[0;32m---> 22[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcompat[39;00m [38;5;28;01mimport[39;00m (
+[1;32m     23[0m     np_version_under1p18 [38;5;28;01mas[39;00m _np_version_under1p18,
+[1;32m     24[0m     is_numpy_dev [38;5;28;01mas[39;00m _is_numpy_dev,
+[1;32m     25[0m )
+[1;32m     27[0m [38;5;28;01mtry[39;00m:
+[1;32m     28[0m     [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01m_libs[39;00m [38;5;28;01mimport[39;00m hashtable [38;5;28;01mas[39;00m _hashtable, lib [38;5;28;01mas[39;00m _lib, tslib [38;5;28;01mas[39;00m _tslib
+
+File [0;32m/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/pandas/compat/__init__.py:15[0m
+[1;32m     12[0m [38;5;28;01mimport[39;00m [38;5;21;01mwarnings[39;00m
+[1;32m     14[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01m_typing[39;00m [38;5;28;01mimport[39;00m F
+[0;32m---> 15[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcompat[39;00m[38;5;21;01m.[39;00m[38;5;21;01mnumpy[39;00m [38;5;28;01mimport[39;00m (
+[1;32m     16[0m     is_numpy_dev,
+[1;32m     17[0m     np_array_datetime64_compat,
+[1;32m     18[0m     np_datetime64_compat,
+[1;32m     19[0m     np_version_under1p18,
+[1;32m     20[0m     np_version_under1p19,
+[1;32m     21[0m     np_version_under1p20,
+[1;32m     22[0m )
+[1;32m     23[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcompat[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyarrow[39;00m [38;5;28;01mimport[39;00m (
+[1;32m     24[0m     pa_version_under1p0,
+[1;32m     25[0m     pa_version_under2p0,
+[1;32m     26[0m     pa_version_under3p0,
+[1;32m     27[0m     pa_version_under4p0,
+[1;32m     28[0m )
+[1;32m     30[0m PY38 [38;5;241m=[39m sys[38;5;241m.[39mversion_info [38;5;241m>[39m[38;5;241m=[39m ([38;5;241m3[39m, [38;5;241m8[39m)
+
+File [0;32m/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/pandas/compat/numpy/__init__.py:7[0m
+[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mre[39;00m
+[1;32m      5[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[0;32m----> 7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01mutil[39;00m[38;5;21;01m.[39;00m[38;5;21;01mversion[39;00m [38;5;28;01mimport[39;00m Version
+[1;32m      9[0m [38;5;66;03m# numpy versioning[39;00m
+[1;32m     10[0m _np_version [38;5;241m=[39m np[38;5;241m.[39m__version__
+
+File [0;32m/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/pandas/util/__init__.py:1[0m
+[0;32m----> 1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01mutil[39;00m[38;5;21;01m.[39;00m[38;5;21;01m_decorators[39;00m [38;5;28;01mimport[39;00m (  [38;5;66;03m# noqa[39;00m
+[1;32m      2[0m     Appender,
+[1;32m      3[0m     Substitution,
+[1;32m      4[0m     cache_readonly,
+[1;32m      5[0m )
+[1;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcore[39;00m[38;5;21;01m.[39;00m[38;5;21;01mutil[39;00m[38;5;21;01m.[39;00m[38;5;21;01mhashing[39;00m [38;5;28;01mimport[39;00m (  [38;5;66;03m# noqa[39;00m
+[1;32m      8[0m     hash_array,
+[1;32m      9[0m     hash_pandas_object,
+[1;32m     10[0m )
+[1;32m     13[0m [38;5;28;01mdef[39;00m [38;5;21m__getattr__[39m(name):
+
+File [0;32m/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/pandas/util/_decorators.py:14[0m
+[1;32m      6[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtyping[39;00m [38;5;28;01mimport[39;00m (
+[1;32m      7[0m     Any,
+[1;32m      8[0m     Callable,
+[1;32m      9[0m     Mapping,
+[1;32m     10[0m     cast,
+[1;32m     11[0m )
+[1;32m     12[0m [38;5;28;01mimport[39;00m [38;5;21;01mwarnings[39;00m
+[0;32m---> 14[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01m_libs[39;00m[38;5;21;01m.[39;00m[38;5;21;01mproperties[39;00m [38;5;28;01mimport[39;00m cache_readonly  [38;5;66;03m# noqa[39;00m
+[1;32m     15[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01m_typing[39;00m [38;5;28;01mimport[39;00m F
+[1;32m     18[0m [38;5;28;01mdef[39;00m [38;5;21mdeprecate[39m(
+[1;32m     19[0m     name: [38;5;28mstr[39m,
+[1;32m     20[0m     alternative: Callable[[38;5;241m.[39m[38;5;241m.[39m[38;5;241m.[39m, Any],
+[0;32m   (...)[0m
+[1;32m     25[0m     msg: [38;5;28mstr[39m [38;5;241m|[39m [38;5;28;01mNone[39;00m [38;5;241m=[39m [38;5;28;01mNone[39;00m,
+[1;32m     26[0m ) [38;5;241m-[39m[38;5;241m>[39m Callable[[F], F]:
+
+File [0;32m/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/pandas/_libs/__init__.py:13[0m
+[1;32m      1[0m __all__ [38;5;241m=[39m [
+[1;32m      2[0m     [38;5;124m"[39m[38;5;124mNaT[39m[38;5;124m"[39m,
+[1;32m      3[0m     [38;5;124m"[39m[38;5;124mNaTType[39m[38;5;124m"[39m,
+[0;32m   (...)[0m
+[1;32m      9[0m     [38;5;124m"[39m[38;5;124mInterval[39m[38;5;124m"[39m,
+[1;32m     10[0m ]
+[0;32m---> 13[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01m_libs[39;00m[38;5;21;01m.[39;00m[38;5;21;01minterval[39;00m [38;5;28;01mimport[39;00m Interval
+[1;32m     14[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01m_libs[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtslibs[39;00m [38;5;28;01mimport[39;00m (
+[1;32m     15[0m     NaT,
+[1;32m     16[0m     NaTType,
+[0;32m   (...)[0m
+[1;32m     21[0m     iNaT,
+[1;32m     22[0m )
+
+File [0;32m/usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/pandas/_libs/interval.pyx:1[0m, in [0;36minit pandas._libs.interval[0;34m()[0m
+
+[0;31mValueError[0m: numpy.dtype size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject
+
